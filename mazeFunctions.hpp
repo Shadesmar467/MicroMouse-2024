@@ -10,6 +10,17 @@
 #include "definitions.hpp"
 #include "log.hpp"
 
+void initialWalls() {
+    for (int x = 0; x < 16; x++) {
+        for (int y = 0; y < 16; y++) {
+                API::setWall(0, y, 'w'); 
+                API::setWall(15, y, 'e'); 
+                API::setWall(x, 0, 's');
+                API::setWall(x, 15, 'n');
+        }
+    }
+}
+
 void scanWalls(Maze* mazePtr, Mouse* mousePtr) { 
 // ^^need a pointer to affect the og mouse and maze, instead of making a copy
     const int rightMasks[] = {EAST_MASK, SOUTH_MASK, WEST_MASK, NORTH_MASK};
@@ -25,6 +36,8 @@ void scanWalls(Maze* mazePtr, Mouse* mousePtr) {
     if (API::wallLeft()) {
         mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= leftMasks[mousePtr->mouseDir];
     }
+
+    //at this point, the mouses current cell now contains a binary number that tells us which walls exist
 }
 
 void updateSim (Maze* mazePtr, Mouse* mousePtr) {
@@ -100,5 +113,7 @@ void setGoalPos (Mouse* mouse, Maze* maze){
             maze->goalPos.y = closestY;
             API::setColor(maze->goalPos.x, maze->goalPos.y, 'O');
 }
+
+
 
 #endif

@@ -4,6 +4,9 @@
     // direction
     char dir_chars[4] = {'n', 'e', 's', 'w'};
 
+    //direction bitmask, specifically for neighbor cell functions
+    int dir_mask[4] = {0b1000, 0b0100, 0b0010, 0b0001};
+
     struct Coord {
         int x;
         int y;
@@ -23,6 +26,16 @@
         WEST_MASK  = 0b0001
     };
 
+    typedef struct {
+        Coord pos;
+        Direction dir;
+    } Cell;
+
+    typedef struct {
+        int size;
+        Cell* cells; //array of cells
+    } CellList;
+
     struct Mouse {
         Coord mousePos;
         Direction mouseDir = NORTH;
@@ -33,6 +46,12 @@
        int cellWalls[16][16];
        int distances[16][16];
     } Maze;
+
+    typedef struct {
+        Cell cellList[255];
+        int head = 0;
+        int tail = 0;
+    } Queue;
 
 
 #endif
