@@ -4,7 +4,7 @@
     // direction
     char dir_chars[4] = {'n', 'e', 's', 'w'};
 
-    //direction bitmask, specifically for neighbor cell functions
+    //direction bitmask, specifically for floodfill?
     int dir_mask[4] = {0b1000, 0b0100, 0b0010, 0b0001};
 
     struct Coord {
@@ -48,7 +48,7 @@
     } Maze;
 
     typedef struct {
-        Cell cellList[255];
+        Cell kew[255];
         int head = 0;
         int tail = 0;
     } Queue;

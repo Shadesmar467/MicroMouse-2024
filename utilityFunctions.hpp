@@ -12,7 +12,7 @@
 
 void initQ(Queue* q) {
     for (int x = 0; x < 255; x++) {
-            q->cellList[x] = {0};
+            q->kew[x] = {0};
     }
 }
 
@@ -21,8 +21,8 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     CellList* list = (CellList*)malloc(sizeof(CellList));
     //this is a cell list named list allocating memory for all cells in the list
 
-    int dirX[] = {-1, 1, 0, 0};
-    int dirY[] = {0, 0, -1, 1};
+    int dirX[] = {0, -1, 0, 1};
+    int dirY[] = {-1, 0, 1, 0};
     int count = 0;  
 
     //the following if statement is for calculating size of the allocated memory
@@ -42,19 +42,21 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
         int newX = c.x + dirX[i];
         int newY = c.y + dirY[i];
 
-        if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries
-            list->cells[list->size].pos.x = newX;
-            list->cells[list->size].pos.y = newY;
-            list->size++;
+        //checking if the coordinate is blocked or not
+        if (mazePtr->cellWalls[newX][newY] | dir_mask[i] == 0) {
+            if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries
+                list->cells[list->size].pos.x = newX;
+                list->cells[list->size].pos.y = newY; //then finally add to the queue
+                list->size++; //increment queue size
+            }
         }
     }
 
     return list;
 }
 
-Cell getBestCell() {
-    //will need to use dir_mask to check walls i think
-    //not dependent on mouse direction
+Cell getBestCell(Maze* mazePtr, CellList* sel, Cell* current) {
+    
 }
 
 #endif
