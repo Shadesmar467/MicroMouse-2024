@@ -14,13 +14,15 @@
 #include "log.hpp"
 
 void floodFill (Maze* mazePtr){
-    //(makes manhattan distances redundant lol)
     Queue q;
     q.head = 0;
     q.tail = 0;
     Cell a;
     char distConvert[2];
-    int testWhile = 10;
+    char testx[20];
+    char testy[20];
+    char dout[20];
+    char num[20];
 
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) { 
@@ -28,8 +30,7 @@ void floodFill (Maze* mazePtr){
                 //initialize goal cell distances to 0
                 mazePtr->distances[x][y] = 0;
                 //print distance to screen
-                sprintf(distConvert, "%d", mazePtr->distances[x][y]);
-                API::setText(x, y, distConvert);
+                
                 //add goal cells to the queue first
                 a.pos.x = x;
                 a.pos.y = y;
@@ -38,33 +39,52 @@ void floodFill (Maze* mazePtr){
             } else {
                 //initialize all other cells to max distance (255)
                 mazePtr->distances[x][y] = MAX_COST;
-                sprintf(distConvert, "%d", mazePtr->distances[x][y]);
-                API::setText(x, y, distConvert);
             }
+            sprintf(distConvert, "%d", mazePtr->distances[x][y]);
+            API::setText(x, y, distConvert);
         }
     }
-
-    while (q.tail - q.head > 0) {
-        Cell cur_pos = q.kew[q.head];
+    int instruction = 0;
+    while (q.head < q.tail) {
+        Cell cur_cell = q.kew[q.head];
         q.head++;
-        int newCost = (mazePtr->distances[cur_pos.pos.x][cur_pos.pos.y]) + 1;
-        CellList* neighborCells = getNeighborCells(mazePtr, cur_pos.pos);
+        CellList* neighborList = getNeighborCells(mazePtr, cur_cell.pos);
+        int new_cost = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;
 
-        for (int i = 0; i < sizeof(neighborCells->cells); i++) {
-            Cell cur_cell = neighborCells->cells[i];
-            int cur_cell_distance = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y];
-            int cur_pos_distance = mazePtr->distances[cur_pos.pos.x][cur_pos.pos.y];
+        sprintf(testx, "%d", cur_cell.pos.x);
+        sprintf(testy, "%d", cur_cell.pos.y);
+        sprintf(dout, "%d", new_cost);
+        log("current cell x and y, distance: ");
+        log(testx);
+        log(testy);
+        log("cost: ");
+        log(dout);
 
-            if (cur_cell_distance > newCost) {
-                cur_cell_distance = newCost;
-                sprintf(distConvert, "%d", cur_cell_distance);
-                API::setText(cur_cell.pos.x, cur_cell.pos.y, distConvert);
-                q.kew[q.tail] = cur_cell;
-                q.tail++;
+        for (int i = 0; i < neighborList->size; i++) {
+            instruction++;
+            Cell cur_neighbor = neighborList->cells[i];
+            int cur_neighbor_cost = mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y];
+            sprintf(testx, "%d", cur_neighbor.pos.x);
+            sprintf(testy, "%d", cur_neighbor.pos.y);
+            sprintf(dout, "%d", cur_neighbor_cost);
+            sprintf(num, "%d", q.tail);
+            log("x and y, new cost, iteration: ");
+            log(testx);
+            log(testy);
+            log(dout);
+            log(num);
+            if (cur_neighbor_cost > new_cost){
+                q.kew[q.tail] = cur_neighbor;
+                if (q.tail < 255){
+                    q.tail++;
+                }
+                mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y] = new_cost;
+                sprintf(distConvert, "%d", new_cost);
+                API::setText(cur_neighbor.pos.x, cur_neighbor.pos.y, distConvert);
             }
         }
-        testWhile--;
     }
+    
 }
 
 #endif
