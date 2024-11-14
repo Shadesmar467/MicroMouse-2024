@@ -12,10 +12,10 @@
 #include "mouseFunctions.hpp"
 //maze processing
 #include "mazeFunctions.hpp"
-//floodfill
-#include "floodFill.hpp"
 //utility functions
 #include "utilityFunctions.hpp"
+//floodfill
+#include "floodFill.hpp"
 
 int main(int argc, char* argv[]) {
     Mouse myMouse = {0};
@@ -27,8 +27,6 @@ int main(int argc, char* argv[]) {
 
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
-    scanWalls(&myMaze, &myMouse);
-    updateSim(&myMaze, &myMouse);
 
     while (true) {
         if (!API::wallLeft()) {
@@ -46,6 +44,7 @@ int main(int argc, char* argv[]) {
         setGoalPos(&myMouse, &myMaze);
         scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
+        //floodFill(&myMaze);
         
     }
 }

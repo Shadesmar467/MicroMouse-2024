@@ -43,15 +43,16 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
         int newY = c.y + dirY[i];
 
         //checking if the coordinate is blocked or not
-        if (mazePtr->cellWalls[newX][newY] | dir_mask[i] == 0) {
-            if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries
-                list->cells[list->size].pos.x = newX;
-                list->cells[list->size].pos.y = newY; //then finally add to the queue
-                list->size++; //increment queue size
+        if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries (need to test if this works)
+            if ((mazePtr->cellWalls[newX][newY] & dir_mask[i]) == 1) {
+            continue;
             }
+            log("among us"); //why is this running 255 times
+            list->cells[list->size].pos.x = newX;
+            list->cells[list->size].pos.y = newY; //then finally add to the cell list
+            list->size++; //increment cell list size
         }
     }
-
     return list;
 }
 
