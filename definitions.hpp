@@ -38,7 +38,7 @@
 
     struct Mouse {
         Coord mousePos;
-        Direction mouseDir = NORTH;
+        Direction mouseDir;
     };
 
     typedef struct {

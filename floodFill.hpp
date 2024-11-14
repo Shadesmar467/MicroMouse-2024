@@ -51,28 +51,11 @@ void floodFill (Maze* mazePtr){
         CellList* neighborList = getNeighborCells(mazePtr, cur_cell.pos);
         int new_cost = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;
 
-        /*sprintf(testx, "%d", cur_cell.pos.x);
-        sprintf(testy, "%d", cur_cell.pos.y);
-        sprintf(dout, "%d", new_cost);
-        log("current cell x and y: ");
-        log(testx);
-        log(testy);
-        log("new cost: ");
-        log(dout);*/
-
         for (int i = 0; i < neighborList->size; i++) {
             instruction++;
             Cell cur_neighbor = neighborList->cells[i];
             int cur_neighbor_cost = mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y];
-           /*sprintf(testx, "%d", cur_neighbor.pos.x);
-            sprintf(testy, "%d", cur_neighbor.pos.y);
-            sprintf(dout, "%d", cur_neighbor_cost);
-            sprintf(num, "%d", q.tail);
-            log("x and y, old cost, q.tail: ");
-            log(testx);
-            log(testy);
-            log(dout);
-            log(num);*/
+
             if (cur_neighbor_cost > new_cost){
                 q.kew[q.tail] = cur_neighbor;
                 if (q.tail < 255){

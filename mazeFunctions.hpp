@@ -10,9 +10,18 @@
 #include "definitions.hpp"
 #include "log.hpp"
 
-void initialWalls() {
+void initializeEverything(Maze* myMaze, Mouse* myMouse) {
+    
+    myMouse->mousePos = {0,0};
+    myMouse->mouseDir = NORTH;
+    
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
+
+            myMaze->cellWalls[x][y] = 0;
+            myMaze->distances[x][y] = 255;
+            myMaze->goalPos = {7,8};
+
                 API::setWall(0, y, 'w'); 
                 API::setWall(15, y, 'e'); 
                 API::setWall(x, 0, 's');
@@ -56,37 +65,6 @@ void updateSim (Maze* mazePtr, Mouse* mousePtr) {
             if (mazePtr->cellWalls[x][y] & WEST_MASK) {
                 API::setWall(x, y, 'w');
             }
-        }
-    }
-}
-
-int calcManDist (int x2, int x1, int y2, int y1) {
-    return abs(x2-x1) - abs(y2-y1);
-}
-
-void setManDist(Maze* maze){
-
-    int closestX;
-    int closestY;
-    int x;
-    int y;
-
-    for (x=0; x < 16; x++) {
-        for (y=0; y < 16; y++) {
-            if (x >= 8 && y >= 8){
-                closestX = 8;
-                closestY = 8;
-            } else if (x < 8 && y >= 8) {
-                closestX = 7;
-                closestY = 8;
-            } else if (x < 8 && y < 8) {
-                closestX = 7;
-                closestY = 7;
-            } else if (x >= 8 && y < 8) {
-                closestX = 8;
-                closestY = 7;
-            }
-            maze->distances[x][y] = calcManDist(closestX, x, closestY, y);
         }
     }
 }
