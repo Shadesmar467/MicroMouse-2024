@@ -48,7 +48,7 @@
     } Maze;
 
     typedef struct {
-        Cell kew[255];
+        Cell kew[260];
         int head = 0;
         int tail = 0;
     } Queue;
