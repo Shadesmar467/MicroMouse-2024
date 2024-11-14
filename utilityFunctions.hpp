@@ -59,8 +59,25 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     return list;
 }
 
-Cell getBestCell(Maze* mazePtr, CellList* sel, Cell* current) {
-    
+Coord getBestCell(Maze* mazePtr, Coord current_cell) {
+    Coord best_cell;
+    int dirX[] = {0, -1, 0, 1};
+    int dirY[] = {-1, 0, 1, 0};
+
+
+
+    for (int i = 0; i < 4; i++) {
+        int newX = current_cell.x + dirX[i];
+        int newY = current_cell.y + dirY[i];
+
+        int test_cell_cost = mazePtr->distances[newX][newY];
+        int desired_cell_cost = mazePtr->distances[current_cell.x][current_cell.y] - 1;
+        if (test_cell_cost == desired_cell_cost){
+            best_cell.x = newX;
+            best_cell.y = newY;
+        }
+    }
+    return best_cell;
 }
 
 #endif
