@@ -28,7 +28,8 @@ int main(int argc, char* argv[]) {
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
 
-    while (true) {
+
+   while (true) {
         if (!API::wallLeft()) {
             API::turnLeft();
             myMouse.mouseDir = mTurnLeft(&myMouse);
@@ -44,7 +45,7 @@ int main(int argc, char* argv[]) {
         setGoalPos(&myMouse, &myMaze);
         scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
-        //floodFill(&myMaze);
+        floodFill(&myMaze);
         
     }
 }

@@ -20,6 +20,7 @@ void floodFill (Maze* mazePtr){
     q.tail = 0;
     Cell a;
     char distConvert[2];
+    int testWhile = 10;
 
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) { 
@@ -29,7 +30,7 @@ void floodFill (Maze* mazePtr){
                 //print distance to screen
                 sprintf(distConvert, "%d", mazePtr->distances[x][y]);
                 API::setText(x, y, distConvert);
-                //add goal coords to the queue first
+                //add goal cells to the queue first
                 a.pos.x = x;
                 a.pos.y = y;
                 q.kew[q.tail] = a;
@@ -46,18 +47,23 @@ void floodFill (Maze* mazePtr){
     while (q.tail - q.head > 0) {
         Cell cur_pos = q.kew[q.head];
         q.head++;
-        int newCost = mazePtr->distances[cur_pos.pos.x][cur_pos.pos.y];
+        int newCost = (mazePtr->distances[cur_pos.pos.x][cur_pos.pos.y]) + 1;
         CellList* neighborCells = getNeighborCells(mazePtr, cur_pos.pos);
 
         for (int i = 0; i < sizeof(neighborCells->cells); i++) {
-            if (mazePtr->distances[neighborCells->cells[i].pos.x][neighborCells->cells[i].pos.y] > newCost) {
-                mazePtr->distances[neighborCells->cells[i].pos.x][neighborCells->cells[i].pos.y] = newCost;
-                sprintf(distConvert, "%d", mazePtr->distances[neighborCells->cells[i].pos.x][neighborCells->cells[i].pos.y]);
-                API::setText(cur_pos.pos.x, cur_pos.pos.y, distConvert);
-                q.kew[q.tail] = neighborCells->cells[i];
+            Cell cur_cell = neighborCells->cells[i];
+            int cur_cell_distance = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y];
+            int cur_pos_distance = mazePtr->distances[cur_pos.pos.x][cur_pos.pos.y];
+
+            if (cur_cell_distance > newCost) {
+                cur_cell_distance = newCost;
+                sprintf(distConvert, "%d", cur_cell_distance);
+                API::setText(cur_cell.pos.x, cur_cell.pos.y, distConvert);
+                q.kew[q.tail] = cur_cell;
                 q.tail++;
             }
         }
+        testWhile--;
     }
 }
 
