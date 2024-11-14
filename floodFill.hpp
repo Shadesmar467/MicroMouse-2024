@@ -54,10 +54,10 @@ void floodFill (Maze* mazePtr){
         sprintf(testx, "%d", cur_cell.pos.x);
         sprintf(testy, "%d", cur_cell.pos.y);
         sprintf(dout, "%d", new_cost);
-        log("current cell x and y, distance: ");
+        log("current cell x and y: ");
         log(testx);
         log(testy);
-        log("cost: ");
+        log("new cost: ");
         log(dout);
 
         for (int i = 0; i < neighborList->size; i++) {
@@ -68,7 +68,7 @@ void floodFill (Maze* mazePtr){
             sprintf(testy, "%d", cur_neighbor.pos.y);
             sprintf(dout, "%d", cur_neighbor_cost);
             sprintf(num, "%d", q.tail);
-            log("x and y, new cost, iteration: ");
+            log("x and y, old cost, q.tail: ");
             log(testx);
             log(testy);
             log(dout);
