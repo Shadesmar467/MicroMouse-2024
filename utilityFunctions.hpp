@@ -59,25 +59,46 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     return list;
 }
 
-Coord getBestCell(Maze* mazePtr, Coord current_cell) {
-    Coord best_cell;
-    int dirX[] = {0, -1, 0, 1};
-    int dirY[] = {-1, 0, 1, 0};
+Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
+    Coord best_cell_coord;  // return object with coords of best cell
+    Coord current_coord = mousePtr->mousePos;   // current coords of mouse
+    CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // calculate neighbors not blocked by walls
+
+    char curCellx[20];
+    char curCelly[20];
+    char testx[20];
+    char testy[20];
 
 
+    for (int i = 0; i < neighbors->size; i++) {
+        Coord test_cell_coord = neighbors->cells[i].pos;
 
-    for (int i = 0; i < 4; i++) {
-        int newX = current_cell.x + dirX[i];
-        int newY = current_cell.y + dirY[i];
+        sprintf(testx, "%d", test_cell_coord.x);
+        sprintf(testy, "%d", test_cell_coord.y);
+        log("testcell options: ");
+        log(testx);
+        log(testy);
 
-        int test_cell_cost = mazePtr->distances[newX][newY];
-        int desired_cell_cost = mazePtr->distances[current_cell.x][current_cell.y] - 1;
+
+        int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
+        int desired_cell_cost = mazePtr->distances[current_coord.x][current_coord.y] - 1;
+
         if (test_cell_cost == desired_cell_cost){
-            best_cell.x = newX;
-            best_cell.y = newY;
+            best_cell_coord = test_cell_coord;
         }
     }
-    return best_cell;
+    sprintf(curCellx, "%d", current_coord.x);
+    sprintf(curCelly, "%d", current_coord.y);
+    sprintf(testx, "%d", best_cell_coord.x);
+    sprintf(testy, "%d", best_cell_coord.y);
+    log("currently: ");
+    log(curCellx);
+    log(curCelly);
+    log("x and y of best cell: ");
+    log(testx);
+    log(testy);
+    
+    return best_cell_coord;
 }
 
 #endif

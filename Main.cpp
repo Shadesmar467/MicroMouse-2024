@@ -27,6 +27,8 @@ int main(int argc, char* argv[]) {
 
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
+    scanWalls(&myMaze, &myMouse);
+    updateSim(&myMaze, &myMouse);
 
 
    while (true) {
@@ -46,6 +48,7 @@ int main(int argc, char* argv[]) {
         scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
         floodFill(&myMaze);
+        getBestCell(&myMaze, &myMouse);
         
     }
 }
