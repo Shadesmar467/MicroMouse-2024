@@ -21,8 +21,8 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     CellList* list = (CellList*)malloc(sizeof(CellList));
     //this is a cell list named list allocating memory for all cells in the list
 
-    int dirX[] = {0, -1, 0, 1};
-    int dirY[] = {-1, 0, 1, 0};
+    int dirX[] = {0, 1, 0, -1};
+    int dirY[] = {1, 0, -1, 0};
     int count = 0;  
     char test[20];
 
@@ -45,12 +45,13 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
 
         //checking if the coordinate is blocked or not
         if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries (need to test if this works)
-            if ((mazePtr->cellWalls[newX][newY] & dir_mask[i])) {
-            continue;
+            if (!(mazePtr->cellWalls[c.x][c.y] & dir_mask[i])) {  // if new cell is blocked by a wall
+                list->cells[list->size].pos.x = newX;
+                list->cells[list->size].pos.y = newY; //then finally add to the cell list
+                list->size++; //increment cell list size
+
+                //std::cerr << "valid cell: (" << newX << "," << newY << ")";
             }
-            list->cells[list->size].pos.x = newX;
-            list->cells[list->size].pos.y = newY; //then finally add to the cell list
-            list->size++; //increment cell list size
         }
     }
     return list;
@@ -61,23 +62,21 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
     Coord current_coord = mousePtr->mousePos;   // current coords of mouse
     CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // calculate neighbors not blocked by walls
 
-    char curCellx[20];
-    char curCelly[20];
-    char testx[20];
-    char testy[20];
+    //std::cerr << "current: (" << current_coord.x << "," << current_coord.y << ")" << std::endl;
+
 
 
     for (int i = 0; i < neighbors->size; i++) {
         Coord test_cell_coord = neighbors->cells[i].pos;
-      
         int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
         int desired_cell_cost = mazePtr->distances[current_coord.x][current_coord.y] - 1;
+
+        //std::cerr << "valid cell: (" << test_cell_coord.x << "," << test_cell_coord.y << ")" << std::endl;
 
         if (test_cell_cost == desired_cell_cost){
             best_cell_coord = test_cell_coord;
         }
     }
-  
     return best_cell_coord;
 }
 
