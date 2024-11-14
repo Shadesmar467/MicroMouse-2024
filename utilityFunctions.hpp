@@ -53,8 +53,6 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
                 list->cells[list->size].pos.y = newY; //then finally add to the cell list
                 list->size++; //increment cell list size
             }
-            
-            
         }
     }
     return list;
@@ -74,14 +72,14 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
     for (int i = 0; i < neighbors->size; i++) {
         Coord test_cell_coord = neighbors->cells[i].pos;
 
-        sprintf(testx, "%d", test_cell_coord.x);
+        /*sprintf(testx, "%d", test_cell_coord.x);
         sprintf(testy, "%d", test_cell_coord.y);
         sprintf(curCellx, "%d", mazePtr->cellWalls[current_coord.x][current_coord.y]);
         log("current cellWall");
         log(curCellx);
         log("testcell options: ");
         log(testx);
-        log(testy);
+        log(testy);*/
 
 
         int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
@@ -91,7 +89,7 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
             best_cell_coord = test_cell_coord;
         }
     }
-    sprintf(curCellx, "%d", current_coord.x);
+    /*sprintf(curCellx, "%d", current_coord.x);
     sprintf(curCelly, "%d", current_coord.y);
     sprintf(testx, "%d", best_cell_coord.x);
     sprintf(testy, "%d", best_cell_coord.y);
@@ -100,7 +98,7 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
     log(curCelly);
     log("x and y of best cell: ");
     log(testx);
-    log(testy);
+    log(testy);*/
     
     return best_cell_coord;
 }
