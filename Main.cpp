@@ -18,12 +18,10 @@
 #include "floodFill.hpp"
 
 int main(int argc, char* argv[]) {
-    Mouse myMouse = {0};
-    Maze myMaze = {0};
+    Mouse myMouse;
+    Maze myMaze;
 
-    //initializing manhattan distances, cell walls, and goal pos
-    setManDist(&myMaze);
-    initialWalls();
+    initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
 
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
@@ -31,14 +29,20 @@ int main(int argc, char* argv[]) {
     updateSim(&myMaze, &myMouse);
 
    while (true) {
-        updateMousePos(&myMouse);
+        std::cerr << "current mouse position coords: (" << myMouse.mousePos.x << "," << myMouse.mousePos.y << ")";
         setGoalPos(&myMouse, &myMaze);
+        floodFill(&myMaze);
         scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
-        floodFill(&myMaze);
+
+        Coord bestCell = getBestCell(&myMaze, &myMouse);
         move(&myMaze, &myMouse, bestCell);
 
-        getBestCell(&myMaze, &myMouse);
+        updateMousePos(&myMouse);
+
         
+        if ((myMouse.mousePos.x == 7 || myMouse.mousePos.x == 8) && (myMouse.mousePos.y == 7 || myMouse.mousePos.x == 8)) {
+            break;
+        }
     }
 }
