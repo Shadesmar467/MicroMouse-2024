@@ -24,7 +24,7 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     int dirX[] = {0, -1, 0, 1};
     int dirY[] = {-1, 0, 1, 0};
     int count = 0;  
-    char test[1];
+    char test[20];
 
     //the following if statement is for calculating size of the allocated memory
     if ((c.x == 15 || c.x == 0) && (c.y == 0 || c.y == 15)) {
@@ -43,13 +43,14 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
         int newX = c.x + dirX[i];
         int newY = c.y + dirY[i];
 
+        //sprintf(test, "%d", mazePtr->cellWalls[newX][newY]);
+        //log(test);
+
         //checking if the coordinate is blocked or not
         if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries (need to test if this works)
             if ((mazePtr->cellWalls[newX][newY] & dir_mask[i])) {
             continue;
             }
-            //sprintf(test, "%d", i);
-            //log(test); //why is this running 255 times
             list->cells[list->size].pos.x = newX;
             list->cells[list->size].pos.y = newY; //then finally add to the cell list
             list->size++; //increment cell list size

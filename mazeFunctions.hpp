@@ -43,22 +43,21 @@ void scanWalls(Maze* mazePtr, Mouse* mousePtr) {
 void updateSim (Maze* mazePtr, Mouse* mousePtr) {
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
-            if (mazePtr->cellWalls[y][x] & NORTH_MASK) {
+            if (mazePtr->cellWalls[x][y] & NORTH_MASK) {
                 // API set walls for some direction
-                API::setWall(mousePtr->mousePos.x, mousePtr->mousePos.y, 'n');
+                API::setWall(x, y, 'n');
             }
-            if (mazePtr->cellWalls[y][x] & EAST_MASK){
-                API::setWall(mousePtr->mousePos.x, mousePtr->mousePos.y, 'e');
+            if (mazePtr->cellWalls[x][y] & EAST_MASK){
+                API::setWall(x, y, 'e');
             }
-            if (mazePtr->cellWalls[y][x] & SOUTH_MASK) {
-                API::setWall(mousePtr->mousePos.x, mousePtr->mousePos.y, 's');
+            if (mazePtr->cellWalls[x][y] & SOUTH_MASK) {
+                API::setWall(x, y, 's');
             }
-            if (mazePtr->cellWalls[y][x] & WEST_MASK) {
-                API::setWall(mousePtr->mousePos.x, mousePtr->mousePos.y, 'w');
+            if (mazePtr->cellWalls[x][y] & WEST_MASK) {
+                API::setWall(x, y, 'w');
             }
         }
     }
-    mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] = 0;
 }
 
 int calcManDist (int x2, int x1, int y2, int y1) {
