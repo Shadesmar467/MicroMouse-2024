@@ -21,8 +21,8 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     CellList* list = (CellList*)malloc(sizeof(CellList));
     //this is a cell list named list allocating memory for all cells in the list
 
-    int dirX[] = {0, -1, 0, 1};
-    int dirY[] = {-1, 0, 1, 0};
+    int dirX[] = {0, 1, 0, -1};
+    int dirY[] = {1, 0, -1, 0};
     int count = 0;  
     char test[20];
 
@@ -48,12 +48,13 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
 
         //checking if the coordinate is blocked or not
         if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries (need to test if this works)
-            if ((mazePtr->cellWalls[newX][newY] & dir_mask[i])) {
-            continue;
+            if (!(mazePtr->cellWalls[c.x][c.y] & dir_mask[i])) {  // if new cell is blocked by a wall
+                list->cells[list->size].pos.x = newX;
+                list->cells[list->size].pos.y = newY; //then finally add to the cell list
+                list->size++; //increment cell list size
             }
-            list->cells[list->size].pos.x = newX;
-            list->cells[list->size].pos.y = newY; //then finally add to the cell list
-            list->size++; //increment cell list size
+            
+            
         }
     }
     return list;
@@ -75,6 +76,9 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
 
         sprintf(testx, "%d", test_cell_coord.x);
         sprintf(testy, "%d", test_cell_coord.y);
+        sprintf(curCellx, "%d", mazePtr->cellWalls[current_coord.x][current_coord.y]);
+        log("current cellWall");
+        log(curCellx);
         log("testcell options: ");
         log(testx);
         log(testy);
