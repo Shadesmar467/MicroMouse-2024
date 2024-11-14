@@ -28,24 +28,14 @@ int main(int argc, char* argv[]) {
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
 
-
    while (true) {
-        if (!API::wallLeft()) {
-            API::turnLeft();
-            myMouse.mouseDir = mTurnLeft(&myMouse);
-            directionCheck(&myMouse);
-        }
-        while (API::wallFront()) {
-            API::turnRight();
-            myMouse.mouseDir = mTurnRight(&myMouse);
-            directionCheck(&myMouse);
-        }
-        API::moveForward();
         updateMousePos(&myMouse);
         setGoalPos(&myMouse, &myMaze);
         scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
         floodFill(&myMaze);
+        move(&myMaze, &myMouse, bestCell);
+
         
     }
 }
