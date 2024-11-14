@@ -69,7 +69,7 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
 
     for (int i = 0; i < neighbors->size; i++) {
         Coord test_cell_coord = neighbors->cells[i].pos;
-
+      
         int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
         int desired_cell_cost = mazePtr->distances[current_coord.x][current_coord.y] - 1;
 
@@ -77,7 +77,7 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
             best_cell_coord = test_cell_coord;
         }
     }
-    
+  
     return best_cell_coord;
 }
 

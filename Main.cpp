@@ -34,12 +34,11 @@ int main(int argc, char* argv[]) {
         floodFill(&myMaze);
         scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
-
+     
         Coord bestCell = getBestCell(&myMaze, &myMouse);
         move(&myMaze, &myMouse, bestCell);
 
         updateMousePos(&myMouse);
-
         
         if ((myMouse.mousePos.x == 7 || myMouse.mousePos.x == 8) && (myMouse.mousePos.y == 7 || myMouse.mousePos.x == 8)) {
             break;
