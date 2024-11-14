@@ -47,14 +47,6 @@ void floodFill (Maze* mazePtr){
         q.head++;
         CellList* neighborList = getNeighborCells(mazePtr, cur_cell.pos);   // get neighboring cells that arent blocked by walls
         int new_cost = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;  // cost of neighboring cells is current cell cost + 1
-        //std::cerr << "currentcell + cost: (" << cur_cell.pos.x << ", " << cur_cell.pos.y << ") " << new_cost - 1 << std::endl;
-        //std::cerr << "new cost: " << new_cost << std::endl; 
-
-        for (int j = 0; j < neighborList->size; j++) {
-            Cell testy = neighborList->cells[j];
-            std::cerr << "neighbors" << std::endl;
-            std::cerr << testy.pos.x << "," << testy.pos.y << std::endl;
-        }
 
         for (int i = 0; i < neighborList->size; i++) {
             Cell cur_neighbor = neighborList->cells[i];

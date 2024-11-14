@@ -58,20 +58,19 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
 }
 
 Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
+
     Coord best_cell_coord;  // return object with coords of best cell
     Coord current_coord = mousePtr->mousePos;   // current coords of mouse
     CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // calculate neighbors not blocked by walls
 
-    //std::cerr << "current: (" << current_coord.x << "," << current_coord.y << ")" << std::endl;
-
-
+    std::cerr << "current: (" << current_coord.x << "," << current_coord.y << ")" << std::endl;
 
     for (int i = 0; i < neighbors->size; i++) {
         Coord test_cell_coord = neighbors->cells[i].pos;
         int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
         int desired_cell_cost = mazePtr->distances[current_coord.x][current_coord.y] - 1;
 
-        //std::cerr << "valid cell: (" << test_cell_coord.x << "," << test_cell_coord.y << ")" << std::endl;
+        std::cerr << "valid cell: (" << test_cell_coord.x << "," << test_cell_coord.y << ")" << std::endl;
 
         if (test_cell_cost == desired_cell_cost){
             best_cell_coord = test_cell_coord;
