@@ -30,7 +30,6 @@ int main(int argc, char* argv[]) {
     scanWalls(&myMaze, &myMouse);
     updateSim(&myMaze, &myMouse);
 
-
    while (true) {
         if (!API::wallLeft()) {
             API::turnLeft();
