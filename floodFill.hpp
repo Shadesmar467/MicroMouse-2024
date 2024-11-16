@@ -42,7 +42,7 @@ void floodFill (Maze* mazePtr){
     }
 
     // floodfill loop
-    while (q.head < q.tail) {
+    for (int j = 0; j < 10; j++) {
         Cell cur_cell = q.kew[q.head];  // pop first item from queue
         q.head++;
         CellList* neighborList = getNeighborCells(mazePtr, cur_cell.pos);   // get neighboring cells that arent blocked by walls

@@ -16,6 +16,18 @@ void initQ(Queue* q) {
     }
 }
 
+void initTestMaze(Maze* mazePtr, Mouse* mousePtr) {
+    Coord c;
+    for (int x = 5; x < 11; x++){
+        for (int y = 5; y < 11; y++){
+            mousePtr->mousePos.x = x;
+            mousePtr->mousePos.y = y;
+            scanWalls(mazePtr, mousePtr);
+        }
+    }
+    
+}
+
 CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get back neighbors
     
     CellList* list = (CellList*)malloc(sizeof(CellList));
@@ -50,7 +62,7 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
                 list->cells[list->size].pos.y = newY; //then finally add to the cell list
                 list->size++; //increment cell list size
 
-                //std::cerr << "valid cell: (" << newX << "," << newY << ")";
+                std::cerr << "valid cell: (" << newX << "," << newY << ")";
             }
         }
     }

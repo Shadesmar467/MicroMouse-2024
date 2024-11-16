@@ -29,10 +29,14 @@ int main(int argc, char* argv[]) {
     updateSim(&myMaze, &myMouse);
 
    while (true) {
-        std::cerr << "current mouse position coords: (" << myMouse.mousePos.x << "," << myMouse.mousePos.y << ")";
-        setGoalPos(&myMouse, &myMaze);
+        initTestMaze(&myMaze, &myMouse);
+        updateSim(&myMaze, &myMouse);
+        //setGoalPos(&myMouse, &myMaze);
         floodFill(&myMaze);
-        scanWalls(&myMaze, &myMouse);
+        
+        
+        
+        /*scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
      
         Coord bestCell = getBestCell(&myMaze, &myMouse);
@@ -42,6 +46,6 @@ int main(int argc, char* argv[]) {
         
         if ((myMouse.mousePos.x == 7 || myMouse.mousePos.x == 8) && (myMouse.mousePos.y == 7 || myMouse.mousePos.x == 8)) {
             break;
-        }
+        }*/
     }
 }
