@@ -22,30 +22,29 @@ int main(int argc, char* argv[]) {
     Maze myMaze;
 
     initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
+    //initTestMaze(&myMaze, &myMouse);
+    updateSim(&myMaze, &myMouse);
 
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
-    scanWalls(&myMaze, &myMouse);
-    updateSim(&myMaze, &myMouse);
 
-   while (true) {
-        initTestMaze(&myMaze, &myMouse);
+    while (true) {
+        setGoalPos(&myMouse, &myMaze);
+        scanWalls(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
-        //setGoalPos(&myMouse, &myMaze);
         floodFill(&myMaze);
-        
-        
-        
-        /*scanWalls(&myMaze, &myMouse);
-        updateSim(&myMaze, &myMouse);
-     
-        Coord bestCell = getBestCell(&myMaze, &myMouse);
-        move(&myMaze, &myMouse, bestCell);
 
+        Coord bestCell = getBestCell(&myMaze, &myMouse);
+
+        move(&myMaze, &myMouse, bestCell);
         updateMousePos(&myMouse);
-        
-        if ((myMouse.mousePos.x == 7 || myMouse.mousePos.x == 8) && (myMouse.mousePos.y == 7 || myMouse.mousePos.x == 8)) {
+        updateSim(&myMaze, &myMouse);
+
+        if ((myMouse.mousePos.x == 7 || myMouse.mousePos.x == 8) && (myMouse.mousePos.y == 7 || myMouse.mousePos.y == 8)) {
+            std::cerr << "it is finished" << std::endl;
             break;
-        }*/
+        }
     }
+
+    return 0;
 }

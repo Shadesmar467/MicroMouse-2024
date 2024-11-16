@@ -6,12 +6,14 @@
 #include <string>
 #include <stdio.h>
 
+
 #include "definitions.hpp"
 #include "mouseFunctions.hpp"
 #include "mazeFunctions.hpp"
 #include "testFunctions.hpp"
 #include "utilityFunctions.hpp"
 #include "log.hpp"
+
 
 void floodFill (Maze* mazePtr){
     Queue q;
@@ -42,17 +44,18 @@ void floodFill (Maze* mazePtr){
     }
 
     // floodfill loop
-    for (int j = 0; j < 10; j++) {
+    while (q.head < q.tail) {
+    //for(int j = 0; j < 80; j++){
         Cell cur_cell = q.kew[q.head];  // pop first item from queue
         q.head++;
         CellList* neighborList = getNeighborCells(mazePtr, cur_cell.pos);   // get neighboring cells that arent blocked by walls
         int new_cost = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;  // cost of neighboring cells is current cell cost + 1
+        //std::cerr << "                                current cell x,y" << cur_cell.pos.x << "," << cur_cell.pos.y << std::endl;
+        //API::setColor(cur_cell.pos.x, cur_cell.pos.y, 'b');
 
         for (int i = 0; i < neighborList->size; i++) {
             Cell cur_neighbor = neighborList->cells[i];
             int cur_neighbor_cost = mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y];
-
-            //std::cerr << "current position coords: (" << cur_neighbor.pos.x << "," << cur_neighbor.pos.y << ")" <<std::endl;
 
             if (cur_neighbor_cost > new_cost){
                 q.kew[q.tail] = cur_neighbor;
@@ -60,10 +63,10 @@ void floodFill (Maze* mazePtr){
                 mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y] = new_cost;
                 sprintf(distConvert, "%d", new_cost);
                 API::setText(cur_neighbor.pos.x, cur_neighbor.pos.y, distConvert);
+                //std::cerr << "current neighbor coords: (" << cur_neighbor.pos.x << "," << cur_neighbor.pos.y << ")" <<std::endl;
             }
         }
     }
-    
 }
 
 #endif
