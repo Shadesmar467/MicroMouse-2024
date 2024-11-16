@@ -6,6 +6,7 @@
 
     //direction bitmask for floodfill
     int dir_mask[4] = {0b1000, 0b0100, 0b0010, 0b0001};
+    int ndir_mask[4] = {0b0010, 0b0001, 0b1000, 0b0100};
 
     struct Coord {
         int x;
@@ -48,7 +49,7 @@
     } Maze;
 
     typedef struct {
-        Cell kew[300];
+        Cell kew[256];
         int head = 0;
         int tail = 0;
     } Queue;
