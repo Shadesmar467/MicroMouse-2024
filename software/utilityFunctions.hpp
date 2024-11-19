@@ -24,17 +24,14 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     int dirX[] = {0, 1, 0, -1};
     int dirY[] = {1, 0, -1, 0};
 
-    int count = 0;  
+    int count = 4;  
     char test[20];
 
     //the following if statement is for calculating size of the allocated memory
-    if ((c.x == 15 || c.x == 0) && (c.y == 0 || c.y == 15)) {
-        count = 2;
-    } else if (c.x == 15 || c.x == 0 || c.y == 0 || c.y == 15) {
-        count = 3;
-    } else {
-        count = 4;
-    }
+    if (c.x == 15 || 0)
+        count--;
+    if (c.y == 15 || 0)
+        count--;
 
     list->cells = (Cell*)malloc(count * sizeof(Cell));
     list->size = 0;
@@ -67,18 +64,16 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
     Coord current_coord = mousePtr->mousePos;   // current coords of mouse
     CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // calculate neighbors not blocked by walls
 
-    std::cerr << "current: (" << current_coord.x << "," << current_coord.y << ")" << std::endl;
     int desired_cell_cost = mazePtr->distances[current_coord.x][current_coord.y] - 1;
-    std::cerr <<"cost:" << desired_cell_cost << std::endl;
+    std::cerr << "current: (" << current_coord.x << "," << current_coord.y << ")" << std::endl;
 
-    for (int i = 0; i < neighbors->size; i++) {
+    for (int i = 0; i < neighbors->size; i++) {     // iterate through the neighbors
         Coord test_cell_coord = neighbors->cells[i].pos;
         int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
-        
 
         std::cerr << "valid cell: (" << test_cell_coord.x << "," << test_cell_coord.y << ")" << " cost:" << test_cell_cost << std::endl;
 
-        if (test_cell_cost == desired_cell_cost){
+        if (test_cell_cost == desired_cell_cost){   // if the cost is 1 less than the current one
             best_cell_coord = test_cell_coord;
         }
     }
