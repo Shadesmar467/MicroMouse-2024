@@ -17,7 +17,6 @@ void initQ(Queue* q) {
 }
 
 CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get back neighbors
-
     int dirX[] = {0, 1, 0, -1};     // used to find pos of neighbor cells
     int dirY[] = {1, 0, -1, 0};
 
@@ -42,7 +41,6 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
             }
         }
     }
-
     return list;
 }
 
