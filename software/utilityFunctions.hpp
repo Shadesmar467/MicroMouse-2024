@@ -17,11 +17,26 @@ void initQ(Queue* q) {
 }
 
 CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get back neighbors
-    int dirX[] = {0, 1, 0, -1};     // used to find pos of neighbor cells
+    
+    CellList* list = (CellList*)malloc(sizeof(CellList));
+    //this is a cell list named list allocating memory for all cells in the list
+
+    int dirX[] = {0, 1, 0, -1};
     int dirY[] = {1, 0, -1, 0};
 
-    CellList* list = (CellList*)malloc(sizeof(CellList));     //this is a cell list named list allocating memory for all cells in the list
-    list->cells = (Cell*)malloc(list->size * sizeof(Cell));
+    int count = 0;  
+    char test[20];
+
+    //the following if statement is for calculating size of the allocated memory
+    if ((c.x == 15 || c.x == 0) && (c.y == 0 || c.y == 15)) {
+        count = 2;
+    } else if (c.x == 15 || c.x == 0 || c.y == 0 || c.y == 15) {
+        count = 3;
+    } else {
+        count = 4;
+    }
+
+    list->cells = (Cell*)malloc(count * sizeof(Cell));
     list->size = 0;
 
     //now i need to calculate the new coordinates of each cell and store the cell in the array
@@ -29,15 +44,17 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
         int newX = c.x + dirX[i];
         int newY = c.y + dirY[i];
 
-        // dir_mask checks order of 'nesw', ndir_mask checks order of 'swne' to match orientation of adjacent cell
-        bool currWall = (mazePtr->cellWalls[c.x][c.y] & dir_mask[i]);     // true if current cell has a wall between current and neighbor cell
-        bool neighborWall = (mazePtr->cellWalls[newX][newY] & ndir_mask[i]);       // true if neighbor cell has a wall current and neighbor cell
+        bool currWall = (mazePtr->cellWalls[c.x][c.y] & dir_mask[i]);     // whether current cell has a wall blocking
+        bool neighborWall = (mazePtr->cellWalls[newX][newY] & ndir_mask[i]);       // whether neighbor cell has a wall blocking
 
-        if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries
-            if (!currWall && !neighborWall){  // if new cell is not blocked by a wall
+        //checking if the coordinate is blocked or not
+        if (newX >= 0 && newX < 16 && newY >= 0 && newY < 16) { //if cell is in the maze boundaries (need to test if this works)
+            if (!currWall && !neighborWall){  // if new cell is blocked by a wall
                 list->cells[list->size].pos.x = newX;
                 list->cells[list->size].pos.y = newY; //then finally add to the cell list
                 list->size++; //increment cell list size
+
+                //std::cerr << "valid cell: (" << newX << "," << newY << ")" << std::endl;
             }
         }
     }
