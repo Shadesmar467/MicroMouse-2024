@@ -26,11 +26,11 @@ void floodFill (Maze* mazePtr){
     // floodfill setup
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) { 
-            if ((x == 8 || x == 7) && (y == 8 || y == 7)) {     //initialize goal cell distances to 0
+            if ((x == 8 || x == 7) && (y == 8 || y == 7)) {     //initialize goal cells
                 
-                mazePtr->distances[x][y] = 0;   //print distance to screen
+                mazePtr->distances[x][y] = 0;   //set distances to 0
 
-                a.pos.x = x;                    //add goal cells to the queue first
+                a.pos.x = x;                    //add goal cells to the queue
                 a.pos.y = y;
                 q.kew[q.tail] = a;
                 q.tail++;
@@ -45,25 +45,21 @@ void floodFill (Maze* mazePtr){
 
     // floodfill loop
     while (q.head < q.tail) {
-    //for(int j = 0; j < 80; j++){
         Cell cur_cell = q.kew[q.head];  // pop first item from queue
         q.head++;
         CellList* neighborList = getNeighborCells(mazePtr, cur_cell.pos);   // get neighboring cells that arent blocked by walls
-        int new_cost = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;  // cost of neighboring cells is current cell cost + 1
-        //std::cerr << "                                current cell x,y" << cur_cell.pos.x << "," << cur_cell.pos.y << std::endl;
-        //API::setColor(cur_cell.pos.x, cur_cell.pos.y, 'b');
+        int new_cost = mazePtr->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;  // cost of neighboring cells will be current cell cost + 1
 
-        for (int i = 0; i < neighborList->size; i++) {
+        for (int i = 0; i < neighborList->size; i++) {  // setting neighbors cost and pushing to queue
             Cell cur_neighbor = neighborList->cells[i];
             int cur_neighbor_cost = mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y];
 
-            if (cur_neighbor_cost > new_cost){
+            if (cur_neighbor_cost > new_cost){  // only set to new cost if old cost was greater
                 q.kew[q.tail] = cur_neighbor;
                 q.tail++;
                 mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y] = new_cost;
                 sprintf(distConvert, "%d", new_cost);
                 API::setText(cur_neighbor.pos.x, cur_neighbor.pos.y, distConvert);
-                //std::cerr << "current neighbor coords: (" << cur_neighbor.pos.x << "," << cur_neighbor.pos.y << ")" <<std::endl;
             }
         }
     }
