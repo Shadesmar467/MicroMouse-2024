@@ -31381,13 +31381,25 @@
 		(uuid "fd9983f3-c31c-4aae-8058-182eeb72d760")
 	)
 	(gr_text "Muad' Dib Desert Mice"
-		(at 249.4 132.3 90)
+		(at 243.6 132.4 90)
 		(layer "B.SilkS")
 		(uuid "7905e555-4043-4480-8c13-32fc64c43d9a")
 		(effects
 			(font
 				(size 1.5 1.5)
 				(thickness 0.3)
+			)
+			(justify left bottom mirror)
+		)
+	)
+	(gr_text "Adam Wu\nJeremiah Yong\nJayce Spurgiasz"
+		(at 249.3 132.7 90)
+		(layer "B.SilkS")
+		(uuid "a18b15bd-f32c-4e3a-a50c-141838355643")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
 			)
 			(justify left bottom mirror)
 		)
