@@ -52,7 +52,6 @@ void updateSim (Maze* mazePtr, Mouse* mousePtr) {
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
             if (mazePtr->cellWalls[x][y] & NORTH_MASK) {
-                // API set walls for some direction
                 API::setWall(x, y, 'n');
             }
             if (mazePtr->cellWalls[x][y] & EAST_MASK){
