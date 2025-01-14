@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <stdbool.h>
 
 #include "stdlib.h"
 
@@ -79,6 +80,73 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
             best_cell_coord = test_cell_coord;
     }
     return best_cell_coord;
+}
+
+int countOnes(unsigned int n) {
+    int count = 0;
+    while (n) {
+        count += n & 1;
+        n = n >> 1;
+    } 
+    return count;
+}
+
+
+void deadEndID(Maze* mazePtr, Mouse* mousePtr, bool* in) {
+    Coord curPos = mousePtr->mousePos;
+    int curCellWall = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y]; 
+
+    //checking for a dead end
+    if ((mousePtr->mouseDir == SOUTH && curCellWall == 0b1101) ||
+        (mousePtr->mouseDir == NORTH && curCellWall == 0b0111) ||
+        (mousePtr->mouseDir == EAST && curCellWall == 0b1011) ||
+        (mousePtr->mouseDir == WEST && curCellWall == 0b1110)) {
+        API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'Y');
+        *in = true;
+    }
+}
+
+void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr, bool* in) {
+
+    Coord curPos = mousePtr->mousePos;
+    int curCellWall = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y]; 
+
+    //if dead end is true we know we are returning from a dead end
+    //and if there is only one wall in the cell...
+    if ((countOnes(curCellWall) <= 1) && (*in == true)) {
+
+        //set a wall behind the mouse in the current cell
+        if (mousePtr->mouseDir == SOUTH) {
+            API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'R');
+            curCellWall |= NORTH_MASK;
+            API::setWall(curPos.x, curPos.y, 's');
+            *in = false;
+        }
+        if (mousePtr->mouseDir == NORTH) {
+            API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'R');
+            curCellWall |= SOUTH_MASK;
+            API::setWall(curPos.x, curPos.y, 'n');
+            *in = false;
+        } 
+        if (mousePtr->mouseDir == EAST) {
+            API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'R');
+            curCellWall |= WEST_MASK;
+            API::setWall(curPos.x, curPos.y, 'e');
+            *in = false;
+        }
+        if (mousePtr->mouseDir == WEST) {
+            API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'R');
+            curCellWall |= EAST_MASK;
+            API::setWall(curPos.x, curPos.y, 'w');
+            *in = false;
+        }
+    }
+}
+
+void deadEndCheck (Maze* mazePtr, Mouse* mousePtr) {
+    static bool deadEnd;
+    deadEndID(mazePtr, mousePtr, &deadEnd);
+    wallIntersectionTest(mazePtr, mousePtr, &deadEnd);
 }
 
 #endif

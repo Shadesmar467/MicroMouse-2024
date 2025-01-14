@@ -5,6 +5,7 @@
 #include "log.hpp"
 #include "API.h"
 #include "testFunctions.hpp"
+#include "utilityFunctions.hpp"
 
 #include <iostream>
 #include <string>
@@ -28,26 +29,20 @@ void updateMousePos(Mouse* mouse) {
      }
 }
 
-Direction mTurnLeft(Mouse* mouse) {
-    return static_cast<Direction>((mouse->mouseDir + 3) % 4);
-}
-
-Direction mTurnRight(Mouse* mouse) {
-    return static_cast<Direction>((mouse->mouseDir + 1) % 4);
-}
-
-void move(Maze* maze, Mouse* mouse, Coord inC) {
+void move(Maze* maze, Mouse* mouse, Coord* inC) {
+    bool dead; //for wall-checking
     int targetDir;
 
-    if (mouse->mousePos.y - inC.y == 1) {
+    if (mouse->mousePos.y - inC->y == 1) {
         targetDir = SOUTH; // best cell is SOUTH
-    } else if (mouse->mousePos.x - inC.x == 1) {
+    } else if (mouse->mousePos.x - inC->x == 1) {
         targetDir = WEST;  // best cell is WEST
-    } else if (inC.y - mouse->mousePos.y == 1) {
+    } else if (inC->y - mouse->mousePos.y == 1) {
         targetDir = NORTH; // best cell is NORTH
-    } else if (inC.x - mouse->mousePos.x == 1) {
+    } else if (inC->x - mouse->mousePos.x == 1) {
         targetDir = EAST;  // best cell is EAST
     }
+
 
     int turnsNeeded = (targetDir - mouse->mouseDir + 4) % 4;
 
@@ -69,6 +64,9 @@ void move(Maze* maze, Mouse* mouse, Coord inC) {
     mouse->mouseDir = static_cast<Direction>(targetDir);  // Update the mouse direction
     //directionCheck(mouse);
     API::moveForward();
+    
+    
+
 }
 
 #endif

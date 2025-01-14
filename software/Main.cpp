@@ -20,6 +20,7 @@
 int main(int argc, char* argv[]) {
     Mouse myMouse;
     Maze myMaze;
+    bool cooked;
 
     initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
     //initTestMaze(&myMaze, &myMouse);
@@ -36,9 +37,11 @@ int main(int argc, char* argv[]) {
 
         Coord bestCell = getBestCell(&myMaze, &myMouse);
 
-        move(&myMaze, &myMouse, bestCell);
+        move(&myMaze, &myMouse, &bestCell);
+        deadEndCheck(&myMaze, &myMouse);
         updateMousePos(&myMouse);
         updateSim(&myMaze, &myMouse);
+        
 
         if ((myMouse.mousePos.x == 7 || myMouse.mousePos.x == 8) && (myMouse.mousePos.y == 7 || myMouse.mousePos.y == 8)) {
             std::cerr << "it is finished" << std::endl;
