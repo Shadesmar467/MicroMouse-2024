@@ -108,8 +108,7 @@ void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if 
     int curCellWall = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y]; 
 
     //if dead end is true we know we are returning from a dead end
-    //and if there is only one wall in the cell...
-    if (countOnes(curCellWall) <= 1) {
+    if (countOnes(curCellWall) <= 1) { //if mouse is in the intersection
         //set a wall behind the mouse in the current cell
         Coord prevPos = mousePtr->mousePos;
         switch (mousePtr->mouseDir) {
@@ -117,30 +116,43 @@ void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if 
                 prevPos.y -= 1;
                 curCellWall |= SOUTH_MASK;
                 API::setWall(curPos.x, curPos.y, 's');
+                break;
             case EAST:
-                prevPos.x -= 1;
+                prevPos.x += 1;
                 curCellWall |= WEST_MASK;
                 API::setWall(curPos.x, curPos.y, 'w');
+                break;
             case SOUTH:
                 prevPos.y += 1;
                 curCellWall |= NORTH_MASK;
-                API::setWall(curPos.x, curPos.y, 'w');
+                API::setWall(curPos.x, curPos.y, 'n');
+                break;
             case WEST:
-                prevPos.y += 1; 
+                prevPos.x -= 1; 
                 curCellWall |= EAST_MASK;
                 API::setWall(curPos.x, curPos.y, 'e');
+                break;
         }
-        API::setColor(prevPos.x, prevPos.y, 'R');
+
+        API::setColor(curPos.x, curPos.y, 'R');
         mousePtr->isInDeadEnd = false;
     }
 }
 
 void deadEndCheck (Maze* mazePtr, Mouse* mousePtr) {    // blocks off dead ends with a wall so the mouse will not go there again 
-    if (mousePtr->isInDeadEnd){     // if in dead end, check if we are at the end of it
-        wallIntersectionTest(mazePtr, mousePtr);
+    Coord curPos = mousePtr->mousePos;
+    if (!((curPos.x == 0 && curPos.y == 0))) { //check if we are in starting cell
+        if (mousePtr->isInDeadEnd) {     // if in dead end, check if we are at the end of it
+            wallIntersectionTest(mazePtr, mousePtr);
+        }
+        else {
+            deadEndID(mazePtr, mousePtr); // otherwise, check if we're in a dead end
+        }   
+    } else { //impossible for deadend to be in starting cell
+        mousePtr->isInDeadEnd = false;
     }
-    else
-        deadEndID(mazePtr, mousePtr);   // otherwise, check if we're in a dead end
+    
+    
 }
 
 #endif
