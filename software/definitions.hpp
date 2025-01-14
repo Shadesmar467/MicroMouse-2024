@@ -40,6 +40,7 @@
     struct Mouse {
         Coord mousePos;
         Direction mouseDir;
+        bool isInDeadEnd;
     };
 
     typedef struct {

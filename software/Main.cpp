@@ -20,7 +20,6 @@
 int main(int argc, char* argv[]) {
     Mouse myMouse;
     Maze myMaze;
-    bool cooked;
 
     initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
     //initTestMaze(&myMaze, &myMouse);
@@ -32,13 +31,13 @@ int main(int argc, char* argv[]) {
     while (true) {
         setGoalPos(&myMouse, &myMaze);
         scanWalls(&myMaze, &myMouse);
+        deadEndCheck(&myMaze, &myMouse);
         updateSim(&myMaze, &myMouse);
         floodFill(&myMaze);
 
         Coord bestCell = getBestCell(&myMaze, &myMouse);
 
         move(&myMaze, &myMouse, &bestCell);
-        deadEndCheck(&myMaze, &myMouse);
         updateMousePos(&myMouse);
         updateSim(&myMaze, &myMouse);
         
