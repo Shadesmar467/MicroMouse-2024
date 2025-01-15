@@ -1,4 +1,6 @@
-This is Jeremiah Yong and Adam Wu's MicroMouse software. 
+This is Jeremiah Yong and Adam Wu's MicroMouse Github repository.
+
+Software:
 Goal: Develop, test, and run a floodfill and navigation program in C. 
 
 File Summary:
