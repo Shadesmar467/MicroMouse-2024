@@ -134,7 +134,6 @@ void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if 
                 break;
         }
 
-        API::setColor(curPos.x, curPos.y, 'R');
         mousePtr->isInDeadEnd = false;
     }
 }
