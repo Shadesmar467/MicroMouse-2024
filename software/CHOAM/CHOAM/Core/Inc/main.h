@@ -61,6 +61,14 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define BLE_STATE_Pin GPIO_PIN_0
 #define BLE_STATE_GPIO_Port GPIOA
+#define REC_FR_Pin GPIO_PIN_4
+#define REC_FR_GPIO_Port GPIOA
+#define REC_SR_Pin GPIO_PIN_5
+#define REC_SR_GPIO_Port GPIOA
+#define REC_FL_Pin GPIO_PIN_0
+#define REC_FL_GPIO_Port GPIOB
+#define REC_SL_Pin GPIO_PIN_1
+#define REC_SL_GPIO_Port GPIOB
 #define EMIT_SR_Pin GPIO_PIN_10
 #define EMIT_SR_GPIO_Port GPIOB
 #define EMIT_FL_Pin GPIO_PIN_11
@@ -75,10 +83,6 @@ void Error_Handler(void);
 #define MR_BWD_GPIO_Port GPIOB
 #define ML_FWD_Pin GPIO_PIN_8
 #define ML_FWD_GPIO_Port GPIOA
-#define USART1_TX_Pin GPIO_PIN_9
-#define USART1_TX_GPIO_Port GPIOA
-#define USART1_RX_Pin GPIO_PIN_10
-#define USART1_RX_GPIO_Port GPIOA
 #define LED_RED_Pin GPIO_PIN_11
 #define LED_RED_GPIO_Port GPIOA
 #define LED_BLUE_Pin GPIO_PIN_12
@@ -93,6 +97,10 @@ void Error_Handler(void);
 #define BUZZER_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+typedef enum {
+	DIST_FL,
+	DIST_FR,
+} dist_t;
 
 /* USER CODE END Private defines */
 
