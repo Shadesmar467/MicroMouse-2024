@@ -11,7 +11,7 @@ uint16_t measure_dist(dist_t dist){
 	GPIO_TypeDef* receiver_port;
 	uint16_t receiver_pin;
 
-
+	//switch case to change emiter/receiver pair
 	switch(dist) {
 		case DIST_FL:
 			emitter_port = EMIT_FL_GPIO_Port;
