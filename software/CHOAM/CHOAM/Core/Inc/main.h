@@ -19,6 +19,9 @@
 /* USER CODE END Header */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
+
+#pragma once
+
 #ifndef __MAIN_H
 #define __MAIN_H
 

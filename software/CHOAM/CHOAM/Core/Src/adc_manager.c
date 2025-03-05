@@ -1,6 +1,9 @@
 #include "adc_manager.h"
+#include "main.h"
 
-static void ADC1_Select_CH4(void){
+extern ADC_HandleTypeDef hadc1;
+
+void ADC1_Select_CH4(void){
 	ADC_ChannelConfTypeDef sConfig = {0};
 
 	sConfig.Channel = ADC_CHANNEL_4;
@@ -11,7 +14,7 @@ static void ADC1_Select_CH4(void){
 		Error_Handler();
 	}
 }
-static void ADC1_Select_CH5(void){
+void ADC1_Select_CH5(void){
 	ADC_ChannelConfTypeDef sConfig = {0};
 
 	sConfig.Channel = ADC_CHANNEL_5;
@@ -22,7 +25,7 @@ static void ADC1_Select_CH5(void){
 		Error_Handler();
 	}
 }
-static void ADC1_Select_CH8(void){
+void ADC1_Select_CH8(void){
 	ADC_ChannelConfTypeDef sConfig = {0};
 
 	sConfig.Channel = ADC_CHANNEL_8;
@@ -33,7 +36,7 @@ static void ADC1_Select_CH8(void){
 		Error_Handler();
 	}
 }
-static void ADC1_Select_CH9(void){
+void ADC1_Select_CH9(void){
 	ADC_ChannelConfTypeDef sConfig = {0};
 
 	sConfig.Channel = ADC_CHANNEL_9;

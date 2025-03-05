@@ -18,8 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc_manager,h"
+#include "adc_manager.h"
 #include "distance.h"
+#include <stdint.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -113,15 +114,20 @@ int main(void)
   TIM2->CCR4 = 1023;
   TIM2->CCR3 = 1023;
 
+  int i = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  dis_FR = measure_dist(DIST_FR);
-	  dis_FL = measure_dist(DIST_FL);
-	  HAL_Delay(1000);
+	  //dis_FR = measure_dist(DIST_FR);
+	  //dis_FL = measure_dist(DIST_FL);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+	  i++;
+	  HAL_Delay(500);
+	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+	  HAL_Delay(500);
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
 
