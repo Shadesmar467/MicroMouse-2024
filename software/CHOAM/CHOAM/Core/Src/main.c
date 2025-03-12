@@ -18,9 +18,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc_manager.h"
-#include "distance.h"
-#include <stdint.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -62,8 +59,6 @@ static void MX_TIM2_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_TIM4_Init(void);
-
-
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -123,12 +118,11 @@ int main(void)
   {
 	  //dis_FR = measure_dist(DIST_FR);
 	  //dis_FL = measure_dist(DIST_FL);
-	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-	  i++;
-	  HAL_Delay(500);
-	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	  //i++;
 	  HAL_Delay(500);
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
 
   }
@@ -407,6 +401,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, BLE_STATE_Pin|ML_FWD_Pin|LED_RED_Pin|LED_BLUE_Pin
                           |LED_GREEN_Pin, GPIO_PIN_RESET);
 
@@ -414,6 +411,13 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOB, EMIT_SR_Pin|EMIT_FL_Pin|EMIT_SL_Pin|MR_FWD_Pin
                           |ML_BWD_Pin|MR_BWD_Pin|SWO_Pin|EMIT_FR_Pin
                           |BUZZER_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : PC14 */
   GPIO_InitStruct.Pin = GPIO_PIN_14;
