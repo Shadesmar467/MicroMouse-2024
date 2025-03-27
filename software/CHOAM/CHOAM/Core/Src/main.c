@@ -21,6 +21,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "adc_manager.h"
+#include "distance.h"
 
 /* USER CODE END Includes */
 
@@ -50,6 +52,8 @@ TIM_HandleTypeDef htim4;
 /* USER CODE BEGIN PV */
 uint16_t dis_FL;
 uint16_t dis_FR;
+uint16_t dis_SL;
+uint16_t dis_SR;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -109,18 +113,18 @@ int main(void)
   TIM2->CCR4 = 1023;
   TIM2->CCR3 = 1023;
 
-  int i = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  //dis_FR = measure_dist(DIST_FR);
-	  //dis_FL = measure_dist(DIST_FL);
+	  dis_SR = measure_dist(DIST_SR);
+	  dis_FR = measure_dist(DIST_FR);
+	  dis_FL = measure_dist(DIST_FL);
+	  dis_SL = measure_dist(DIST_SL);
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  //i++;
-	  HAL_Delay(500);
+	  HAL_Delay(1000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -391,8 +395,8 @@ static void MX_TIM4_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOC_CLK_ENABLE();
@@ -463,8 +467,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */

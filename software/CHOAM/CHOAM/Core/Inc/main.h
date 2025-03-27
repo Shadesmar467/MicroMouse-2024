@@ -100,6 +100,8 @@ void Error_Handler(void);
 typedef enum {
 	DIST_FL,
 	DIST_FR,
+	DIST_SL,
+	DIST_SR
 } dist_t;
 
 /* USER CODE END Private defines */
