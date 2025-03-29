@@ -109,7 +109,11 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
+  //I think ML is 4 and MR is 3
+  //setting PWM here, (e.g. period = 2047, 50% duty cycle = 1023)
   TIM2->CCR4 = 1023;
   TIM2->CCR3 = 1023;
 
