@@ -61,10 +61,18 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define BLE_STATE_Pin GPIO_PIN_0
 #define BLE_STATE_GPIO_Port GPIOA
+#define MR_PWM_Pin GPIO_PIN_2
+#define MR_PWM_GPIO_Port GPIOA
+#define ML_PWM_Pin GPIO_PIN_3
+#define ML_PWM_GPIO_Port GPIOA
 #define REC_FR_Pin GPIO_PIN_4
 #define REC_FR_GPIO_Port GPIOA
 #define REC_SR_Pin GPIO_PIN_5
 #define REC_SR_GPIO_Port GPIOA
+#define ML_ENC_A_Pin GPIO_PIN_6
+#define ML_ENC_A_GPIO_Port GPIOA
+#define ML_ENC_B_Pin GPIO_PIN_7
+#define ML_ENC_B_GPIO_Port GPIOA
 #define REC_FL_Pin GPIO_PIN_0
 #define REC_FL_GPIO_Port GPIOB
 #define REC_SL_Pin GPIO_PIN_1
@@ -93,6 +101,10 @@ void Error_Handler(void);
 #define SWO_GPIO_Port GPIOB
 #define EMIT_FR_Pin GPIO_PIN_5
 #define EMIT_FR_GPIO_Port GPIOB
+#define MR_ENC_B_Pin GPIO_PIN_6
+#define MR_ENC_B_GPIO_Port GPIOB
+#define MR_ENC_A_Pin GPIO_PIN_7
+#define MR_ENC_A_GPIO_Port GPIOB
 #define BUZZER_Pin GPIO_PIN_8
 #define BUZZER_GPIO_Port GPIOB
 

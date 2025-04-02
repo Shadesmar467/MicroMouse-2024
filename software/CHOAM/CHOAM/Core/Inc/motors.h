@@ -4,17 +4,10 @@
 #include <stdint.h>
 #include "main.h"
 
-void LReverse();
+void SetLMotorDirection();
 
-void LForward();
+void SetRMotorDirection();
 
-void RReverse();
-
-void RForward();
-
-void mDrive();
-
-void mReverse();
 
 
 #endif /* INC_MOTORS_H_ */

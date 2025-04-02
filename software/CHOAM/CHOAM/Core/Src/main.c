@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include "adc_manager.h"
 #include "distance.h"
+#include "motors.h"
 
 /* USER CODE END Includes */
 
@@ -69,6 +70,19 @@ static void MX_TIM4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+uint16_t encL = 0; //counter for left encoder value
+uint16_t encR = 0; //counter for left encoder value
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
+	//left encoder timer
+	if (htim->Instance == TIM3){
+		encL = __HAL_TIM_GET_COUNTER(htim);
+	}
+
+	if (htim->Instance == TIM4) {
+		encR = __HAL_TIM_GET_COUNTER(htim);
+	}
+
+}
 
 /* USER CODE END 0 */
 
@@ -109,13 +123,22 @@ int main(void)
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 
+  //start motors
+  //question: are we in interrupt mode? do we need it? how to do it?
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+
+  //start left encoder
+  HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+  HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
 
   //I think ML is 4 and MR is 3
   //setting PWM here, (e.g. period = 2047, 50% duty cycle = 1023)
   TIM2->CCR4 = 1023;
   TIM2->CCR3 = 1023;
+
+  SetLMotorDirection(1);
+  SetRMotorDirection(1);
 
   /* USER CODE END 2 */
 
@@ -123,10 +146,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  //testing IR sensors
 	  dis_SR = measure_dist(DIST_SR);
 	  dis_FR = measure_dist(DIST_FR);
 	  dis_FL = measure_dist(DIST_FL);
 	  dis_SL = measure_dist(DIST_SL);
+
+	  //testing Motors
+
+	  //blink
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  HAL_Delay(1000);
     /* USER CODE END WHILE */
@@ -317,12 +345,12 @@ static void MX_TIM3_Init(void)
   htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
-  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.EncoderMode = TIM_ENCODERMODE_TI12;
+  sConfig.IC1Polarity = TIM_ICPOLARITY_FALLING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
   sConfig.IC1Filter = 0;
-  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC2Polarity = TIM_ICPOLARITY_FALLING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
   sConfig.IC2Filter = 0;
@@ -367,11 +395,11 @@ static void MX_TIM4_Init(void)
   htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim4.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   sConfig.EncoderMode = TIM_ENCODERMODE_TI1;
-  sConfig.IC1Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC1Polarity = TIM_ICPOLARITY_FALLING;
   sConfig.IC1Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC1Prescaler = TIM_ICPSC_DIV1;
   sConfig.IC1Filter = 0;
-  sConfig.IC2Polarity = TIM_ICPOLARITY_RISING;
+  sConfig.IC2Polarity = TIM_ICPOLARITY_FALLING;
   sConfig.IC2Selection = TIM_ICSELECTION_DIRECTTI;
   sConfig.IC2Prescaler = TIM_ICPSC_DIV1;
   sConfig.IC2Filter = 0;
