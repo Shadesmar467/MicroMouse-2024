@@ -84,8 +84,8 @@ all: main-build
 main-build: CHOAM.elf secondary-outputs
 
 # Tool invocations
-CHOAM.elf CHOAM.map: $(OBJS) $(USER_OBJS) C:\Users\yongj\OneDrive\Desktop\MicroMouse24\MicroMouse-2024\software\CHOAM\CHOAM\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "CHOAM.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\yongj\OneDrive\Desktop\MicroMouse24\MicroMouse-2024\software\CHOAM\CHOAM\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="CHOAM.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+CHOAM.elf CHOAM.map: $(OBJS) $(USER_OBJS) /Users/adamhwu/Desktop/micromouse/MicroMouse-2024/software/CHOAM/CHOAM/STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "CHOAM.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"/Users/adamhwu/Desktop/micromouse/MicroMouse-2024/software/CHOAM/CHOAM/STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="CHOAM.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

@@ -72,16 +72,21 @@ static void MX_TIM4_Init(void);
 /* USER CODE BEGIN 0 */
 uint16_t encL = 0; //counter for left encoder value
 uint16_t encR = 0; //counter for left encoder value
+int16_t leftCounter = 0;
+int16_t rightCounter = 0;
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	//left encoder timer
 	if (htim->Instance == TIM3){
 		encL = __HAL_TIM_GET_COUNTER(htim);
+		leftCounter = (int16_t) encL / -4;
+
 	}
 
 	if (htim->Instance == TIM4) {
 		encR = __HAL_TIM_GET_COUNTER(htim);
+		rightCounter = (int16_t) encR / -4;
 	}
-
 }
 
 /* USER CODE END 0 */
@@ -147,10 +152,13 @@ int main(void)
   while (1)
   {
 	  //testing IR sensors
+
 	  dis_SR = measure_dist(DIST_SR);
 	  dis_FR = measure_dist(DIST_FR);
 	  dis_FL = measure_dist(DIST_FL);
 	  dis_SL = measure_dist(DIST_SL);
+
+
 
 	  //testing Motors
 
@@ -303,7 +311,7 @@ static void MX_TIM2_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 500;
+  sConfigOC.Pulse = 1000;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
