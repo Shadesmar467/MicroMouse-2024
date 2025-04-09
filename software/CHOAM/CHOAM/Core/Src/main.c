@@ -137,13 +137,16 @@ int main(void)
   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
   HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
 
+  HAL_TIM_Base_Start_IT(&htim2);
+
   //I think ML is 4 and MR is 3
   //setting PWM here, (e.g. period = 2047, 50% duty cycle = 1023)
-  TIM2->CCR4 = 1023;
-  TIM2->CCR3 = 1023;
-
   SetLMotorDirection(1);
   SetRMotorDirection(1);
+  TIM2->CCR4 = fabsf(200);
+  TIM2->CCR3 = fabsf(200);
+
+
 
   /* USER CODE END 2 */
 
@@ -286,7 +289,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 1 */
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
+  htim2.Init.Prescaler = 72;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 2047;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -318,7 +321,6 @@ static void MX_TIM2_Init(void)
   {
     Error_Handler();
   }
-  sConfigOC.Pulse = 500;
   if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
@@ -513,7 +515,9 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 
+}
 /* USER CODE END 4 */
 
 /**

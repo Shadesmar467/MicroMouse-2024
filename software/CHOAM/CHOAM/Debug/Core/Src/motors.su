@@ -1,2 +1,2 @@
 ../Core/Src/motors.c:5:6:SetLMotorDirection	16	static
-../Core/Src/motors.c:19:6:SetRMotorDirection	16	static
+../Core/Src/motors.c:26:6:SetRMotorDirection	16	static
