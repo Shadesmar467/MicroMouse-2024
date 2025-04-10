@@ -141,10 +141,10 @@ int main(void)
 
   //I think ML is 4 and MR is 3
   //setting PWM here, (e.g. period = 2047, 50% duty cycle = 1023)
-  SetLMotorDirection(1);
-  SetRMotorDirection(1);
-  TIM2->CCR4 = fabsf(200);
-  TIM2->CCR3 = fabsf(200);
+//  SetLMotorDirection(1);
+//  SetRMotorDirection(1);
+//  TIM2->CCR4 = fabsf(200);
+//  TIM2->CCR3 = fabsf(200);
 
 
 
@@ -156,9 +156,9 @@ int main(void)
   {
 	  //testing IR sensors
 
-	  dis_SR = measure_dist(DIST_SR);
-	  dis_FR = measure_dist(DIST_FR);
-	  dis_FL = measure_dist(DIST_FL);
+//	  dis_SR = measure_dist(DIST_SR);
+//	  dis_FR = measure_dist(DIST_FR);
+//	  dis_FL = measure_dist(DIST_FL);
 	  dis_SL = measure_dist(DIST_SL);
 
 
@@ -167,7 +167,7 @@ int main(void)
 
 	  //blink
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  HAL_Delay(1000);
+	  HAL_Delay(2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -291,7 +291,7 @@ static void MX_TIM2_Init(void)
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 72;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 2047;
+  htim2.Init.Period = 1000;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_ENABLE;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)

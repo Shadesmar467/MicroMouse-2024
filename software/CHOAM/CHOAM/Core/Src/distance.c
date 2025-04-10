@@ -25,7 +25,7 @@ uint16_t measure_dist(dist_t dist){
 			emitter_pin = EMIT_FL_Pin;
 			receiver_port = REC_FL_GPIO_Port;
 			receiver_pin = REC_FL_Pin;
-			ADC1_Select_CH9();
+			ADC1_Select_CH8();
 			break;
 		case DIST_FR:
 			emitter_port = EMIT_FR_GPIO_Port;
@@ -46,7 +46,7 @@ uint16_t measure_dist(dist_t dist){
 			emitter_pin = EMIT_SL_Pin;
 			receiver_port = REC_SL_GPIO_Port;
 			receiver_pin = REC_SL_Pin;
-			ADC1_Select_CH8();
+			ADC1_Select_CH9();
 			break;
 		default:
 			break;

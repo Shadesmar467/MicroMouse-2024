@@ -24,7 +24,7 @@ void SetLMotorDirection(int forward){
 }
 
 void SetRMotorDirection(int forward){
-	if (forward){
+	if (!forward){
 		//MR Backwards LOW
 		HAL_GPIO_WritePin(MR_BWD_GPIO_Port, MR_BWD_Pin, GPIO_PIN_RESET);
 		//MR Forward HIGH
