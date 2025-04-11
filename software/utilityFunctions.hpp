@@ -62,7 +62,7 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     return list;
 }
 
-Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
+Coord getBestGoalCell(Maze* mazePtr, Mouse* mousePtr) {
     Coord best_cell_coord;  // return object
     Coord current_coord = mousePtr->mousePos;
     CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // grab neighbors not blocked by walls
@@ -80,6 +80,36 @@ Coord getBestCell(Maze* mazePtr, Mouse* mousePtr) {
             best_cell_coord = test_cell_coord;
     }
     return best_cell_coord;
+}
+
+Coord getBestStartCell(Maze* mazePtr, Mouse* mousePtr) {
+    Coord best_cell_coord;  // return object
+    Coord current_coord = mousePtr->mousePos;
+    CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // grab neighbors not blocked by walls
+
+    int desired_cell_cost = mazePtr->distances[current_coord.x][current_coord.y] + 1;
+    std::cerr << "current cell: (" << current_coord.x << "," << current_coord.y << ")" << std::endl;
+
+    for (int i = 0; i < neighbors->size; i++) {     // iterate through the neighbors
+        Coord test_cell_coord = neighbors->cells[i].pos;
+        int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
+
+        std::cerr << "valid cell: (" << test_cell_coord.x << "," << test_cell_coord.y << ")" << " cost:" << test_cell_cost << std::endl;
+
+        if (test_cell_cost == desired_cell_cost)   // if the cost is 1 less than the current one
+            best_cell_coord = test_cell_coord;
+    }
+    return best_cell_coord;
+}
+
+Coord chooseRandomCell(Maze* mazePtr, Mouse* mousePtr) {
+    Coord random_cell_coord;  // return object
+    Coord current_coord = mousePtr->mousePos;
+    CellList* neighbors = getNeighborCells(mazePtr, current_coord);     // grab neighbors not blocked by walls
+
+    random_cell_coord = neighbors->cells[0].pos;
+
+    return random_cell_coord;
 }
 
 int countOnes(unsigned int n) { // counts how many ones are in a binary number

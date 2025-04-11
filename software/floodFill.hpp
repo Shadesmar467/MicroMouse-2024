@@ -26,7 +26,7 @@ void floodFill (Maze* mazePtr){
     // floodfill setup
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) { 
-            if ((x == 8 || x == 7) && (y == 8 || y == 7)) {     //initialize goal cells
+            if (x == mazePtr->goalPos.x && y == mazePtr->goalPos.y) {     //initialize goal cells
                 
                 mazePtr->distances[x][y] = 0;   //set distances to 0
 
