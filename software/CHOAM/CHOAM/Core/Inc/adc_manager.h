@@ -12,6 +12,8 @@
 
 #include "main.h"
 
+extern ADC_HandleTypeDef hadc1;
+
 void ADC1_Select_CH4(void);
 void ADC1_Select_CH5(void);
 void ADC1_Select_CH8(void);

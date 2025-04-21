@@ -10,8 +10,6 @@
 #include "main.h"
 #include "adc_manager.h"
 
-extern ADC_HandleTypeDef hadc1;
-
 uint16_t measure_dist(dist_t dist){
 	GPIO_TypeDef* emitter_port;
 	uint16_t emitter_pin;
@@ -53,7 +51,7 @@ uint16_t measure_dist(dist_t dist){
 	}
 
 	HAL_GPIO_WritePin(emitter_port, emitter_pin, GPIO_PIN_SET);
-	HAL_Delay(5);
+//	HAL_Delay(5);
 
 	HAL_ADC_Start(&hadc1);
 	HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);

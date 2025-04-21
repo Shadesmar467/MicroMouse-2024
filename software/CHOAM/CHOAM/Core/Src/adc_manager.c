@@ -1,8 +1,6 @@
 #include "adc_manager.h"
 #include "main.h"
 
-extern ADC_HandleTypeDef hadc1;
-
 void ADC1_Select_CH4(void){
 	ADC_ChannelConfTypeDef sConfig = {0};
 

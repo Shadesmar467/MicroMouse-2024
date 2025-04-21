@@ -156,11 +156,6 @@ int main(void)
   {
 	  //testing IR sensors
 
-//	  dis_SR = measure_dist(DIST_SR);
-//	  dis_FR = measure_dist(DIST_FR);
-//	  dis_FL = measure_dist(DIST_FL);
-	  dis_SL = measure_dist(DIST_SL);
-
 
 
 	  //testing Motors
@@ -516,7 +511,10 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-
+	dis_SR = measure_dist(DIST_SR);
+	dis_FR = measure_dist(DIST_FR);
+	dis_FL = measure_dist(DIST_FL);
+	dis_SL = measure_dist(DIST_SL);
 }
 /* USER CODE END 4 */
 
