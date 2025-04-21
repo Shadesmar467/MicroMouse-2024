@@ -1,0 +1,4 @@
+../Core/Src/adc_manager.c:4:6:ADC1_Select_CH4	2
+../Core/Src/adc_manager.c:15:6:ADC1_Select_CH5	2
+../Core/Src/adc_manager.c:26:6:ADC1_Select_CH8	2
+../Core/Src/adc_manager.c:37:6:ADC1_Select_CH9	2
