@@ -1,0 +1,10 @@
+14:21:40 **** Incremental Build of configuration Debug for project CHOAM ****
+make -j11 all 
+arm-none-eabi-size  CHOAM.elf 
+   text	   data	    bss	    dec	    hex	filename
+  14604	     12	   1852	  16468	   4054	CHOAM.elf
+Finished building: default.size.stdout
+ 
+
+14:21:40 Build Finished. 0 errors, 0 warnings. (took 213ms)
+
