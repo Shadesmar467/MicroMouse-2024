@@ -24,6 +24,9 @@
 #include "adc_manager.h"
 #include "distance.h"
 #include "motors.h"
+#include "values.h"
+#include "movement.h"
+
 
 /* USER CODE END Includes */
 
@@ -70,22 +73,27 @@ static void MX_TIM4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+ int mouseSpeed = addVoltage + biasVoltage;
+
 uint16_t encL = 0; //counter for left encoder value
 uint16_t encR = 0; //counter for left encoder value
 int16_t leftCounter = 0;
 int16_t rightCounter = 0;
+float encLmm, encRmm;
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	//left encoder timer
 	if (htim->Instance == TIM3){
 		encL = __HAL_TIM_GET_COUNTER(htim);
-		leftCounter = (int16_t) encL / -4;
-
+		leftCounter = (int16_t) encL * -1;
+		encLmm = leftCounter / 5.74125;
 	}
 
 	if (htim->Instance == TIM4) {
 		encR = __HAL_TIM_GET_COUNTER(htim);
-		rightCounter = (int16_t) encR / -4;
+		rightCounter = (int16_t) encR * -1;
+		encRmm = rightCounter / 2.90833;
 	}
 }
 
@@ -141,12 +149,10 @@ int main(void)
 
   //I think ML is 4 and MR is 3
   //setting PWM here, (e.g. period = 2047, 50% duty cycle = 1023)
-//  SetLMotorDirection(1);
-//  SetRMotorDirection(1);
-//  TIM2->CCR4 = fabsf(200);
-//  TIM2->CCR3 = fabsf(200);
 
 
+  find_bias();
+//  move_dist(200);
 
   /* USER CODE END 2 */
 
@@ -154,13 +160,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  //testing IR sensors
-
-
-
-	  //testing Motors
-
-	  //blink
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  HAL_Delay(2000);
     /* USER CODE END WHILE */

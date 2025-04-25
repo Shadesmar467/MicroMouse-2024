@@ -1,0 +1,14 @@
+/*
+ * values.h
+ *
+ *  Created on: Apr 24, 2025
+ *      Author: adamhwu
+ */
+
+#ifndef INC_VALUES_H_
+#define INC_VALUES_H_
+
+extern float encLmm, encRmm;
+extern int mouseSpeed, biasVoltage = 150;
+
+#endif /* INC_VALUES_H_ */

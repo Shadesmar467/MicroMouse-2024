@@ -1,0 +1,40 @@
+/*
+ * movement.c
+ *
+ *  Created on: Apr 24, 2025
+ *      Author: adamhwu
+ */
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "main.h"
+#include "motors.h"
+#include "values.h"
+
+int move_dist(float dist) {
+	int direction = (dist > 0) ? 1 : 0;
+	SetLMotorDirection(direction);
+	SetRMotorDirection(direction);
+	TIM2->CCR4 = fabsf(mouseSpeed);
+	TIM2->CCR3 = fabsf(mouseSpeed);
+
+	while (encLmm < dist) {
+		continue;
+	}
+
+	TIM2->CCR3 = fabsf(-50);
+	TIM2->CCR4 = fabsf(-50);
+	delay(100);
+
+	TIM2->CCR3 = fabsf(0);
+	TIM2->CCR4 = fabsf(0);
+
+
+	return 0;
+}
+
+//int find_bias() {
+//	while (encLmm == 0){
+//
+//	}
+//}

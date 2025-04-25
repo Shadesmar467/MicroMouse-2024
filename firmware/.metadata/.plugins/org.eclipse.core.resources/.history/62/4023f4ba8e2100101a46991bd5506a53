@@ -1,0 +1,23 @@
+/*
+ * movement.c
+ *
+ *  Created on: Apr 24, 2025
+ *      Author: adamhwu
+ */
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
+#include "main,h"
+#include "motors.h"
+#include "values.h"
+#include <math.h>
+
+int move_dist(float dist) {
+	int direction = (dist > 0) ? 1 : 0;
+	while (encLmm < dist) {
+		  SetLMotorDirection(1);
+		  SetRMotorDirection(1);
+		  TIM2->CCR4 = fabsf(200);
+		  TIM2->CCR3 = fabsf(200);
+	}
+}
