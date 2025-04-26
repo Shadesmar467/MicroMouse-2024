@@ -1,2 +1,5 @@
-../Core/Src/movement.c:14:5:move_dist	32	static
-../Core/Src/movement.c:31:5:find_bias	24	static
+../Core/Src/movement.c:14:5:move_dist	40	static
+../Core/Src/movement.c:33:5:find_bias	24	static
+../Core/Src/movement.c:46:6:turn180	24	static
+../Core/Src/movement.c:59:6:turnLeft	24	static
+../Core/Src/movement.c:69:6:turnRight	24	static

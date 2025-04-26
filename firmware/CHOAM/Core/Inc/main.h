@@ -28,8 +28,6 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
-#include <math.h>
-#include <stdio.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -77,13 +75,13 @@ void Error_Handler(void);
 #define ML_ENC_B_GPIO_Port GPIOA
 #define REC_FL_Pin GPIO_PIN_0
 #define REC_FL_GPIO_Port GPIOB
-#define REC_SL_Pin GPIO_PIN_1		// Q0, PB1
+#define REC_SL_Pin GPIO_PIN_1
 #define REC_SL_GPIO_Port GPIOB
 #define EMIT_SR_Pin GPIO_PIN_10
 #define EMIT_SR_GPIO_Port GPIOB
 #define EMIT_FL_Pin GPIO_PIN_11
 #define EMIT_FL_GPIO_Port GPIOB
-#define EMIT_SL_Pin GPIO_PIN_12 	// D0, PB12
+#define EMIT_SL_Pin GPIO_PIN_12
 #define EMIT_SL_GPIO_Port GPIOB
 #define MR_FWD_Pin GPIO_PIN_13
 #define MR_FWD_GPIO_Port GPIOB

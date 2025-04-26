@@ -12,5 +12,7 @@ int move_dist(float dist);
 
 int find_bias();
 
+void turn180();
+
 
 #endif /* INC_MOVEMENT_H_ */

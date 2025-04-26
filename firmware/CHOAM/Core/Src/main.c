@@ -147,12 +147,13 @@ int main(void)
 
   HAL_TIM_Base_Start_IT(&htim2);
 
-  //I think ML is 4 and MR is 3
-  //setting PWM here, (e.g. period = 2047, 50% duty cycle = 1023)
+  //find_bias();
+  turn180();
+  move_dist(200);
+  turnLeft();
+  turnRight();
+  turnRight();
 
-
-  find_bias();
-//  move_dist(200);
 
   /* USER CODE END 2 */
 

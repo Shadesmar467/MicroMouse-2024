@@ -2,7 +2,7 @@
  * movement.c
  *
  *  Created on: Apr 24, 2025
- *      Author: adamhwu
+ *      Author: adamhwu, jpyong
  */
 
 /* Private includes ----------------------------------------------------------*/
@@ -12,13 +12,15 @@
 #include "values.h"
 
 int move_dist(float dist) {
+	int targetL = encLmm + dist;
+	int targetR = encRmm + dist;
 	int direction = (dist > 0) ? 1 : 0;
 	SetLMotorDirection(direction);
 	SetRMotorDirection(direction);
 	TIM2->CCR4 = fabsf(mouseSpeed);
 	TIM2->CCR3 = fabsf(mouseSpeed);
 
-	while (encLmm < dist) {
+	while ((encRmm < targetR) && (encLmm < targetL)) {
 		continue;
 	}
 
@@ -39,4 +41,37 @@ int find_bias() {
 	}
 	TIM2->CCR4 = fabsf(0);
 	return num;
+}
+
+void turn180() {
+	int targetL = encLmm + 85;
+	int targetR = encRmm - 95;
+	while ((encLmm < targetL) && (encRmm > targetR)) {
+		SetLMotorDirection(1);
+		SetRMotorDirection(0);
+		TIM2->CCR4 = fabsf(mouseSpeed);
+		TIM2->CCR3 = fabsf(mouseSpeed);
+	}
+	TIM2->CCR4 = fabsf(0);
+	TIM2->CCR3 = fabsf(0);
+}
+
+void turnLeft() {
+	int targetL = encLmm + 170;
+	while ((encLmm < targetL)) {
+		SetLMotorDirection(1);
+		TIM2->CCR4 = fabsf(mouseSpeed);
+		TIM2->CCR3 = fabsf(0);
+	}
+	TIM2->CCR4 = fabsf(0);
+}
+
+void turnRight() {
+	int targetR = encRmm + 150; //right motor stronger than the left
+	while ((encRmm < targetR)) {
+		SetRMotorDirection(1);
+		TIM2->CCR3 = fabsf(mouseSpeed);
+		TIM2->CCR4 = fabsf(0);
+	}
+	TIM2->CCR3 = fabsf(0);
 }
