@@ -83,7 +83,7 @@ uint16_t prevEncR = 0;
 float encLmm, encRmm, dLmm, dRmm;
 int16_t dL, dR;
 
-
+// hehe
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	//left encoder timer
 	if (htim->Instance == TIM3){
