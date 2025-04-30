@@ -12,28 +12,39 @@
 #include "values.h"
 #include <math.h>
 
-// hehebruh
+void moveLeftMotor(int direction, int speed) {
+	SetLMotorDirection(direction);
+	TIM2->CCR4 = fabsf(speed);
+}
+
+void moveRightMotor(int direction, int speed) {
+	SetRMotorDirection(direction);
+	TIM2->CCR3 = fabsf(speed);
+}
+
 int move_dist(float dist) {
 	int targetL = encLmm + dist;
 	int targetR = encRmm + dist;
 	int direction = (dist > 0) ? 1 : 0;
 
-	while ((encRmm < targetR) || (encRmm > targetR+10) || (encLmm < targetL) || (encLmm > targetL + 10)) {
+	int overshoot_dist = 10;
+
+	while ((encRmm < targetR) ||
+			(encRmm > targetR + overshoot_dist) ||
+			(encLmm < targetL) ||
+			(encLmm > targetL + overshoot_dist)) {
+
 		if (encRmm < targetR){
-			SetRMotorDirection(direction);
-			TIM2->CCR4 = fabsf(mouseSpeedR);
+			moveRightMotor(direction, mouseSpeedR);
 		}
-		else if (encRmm > targetR + 10){
-			SetRMotorDirection(!direction);
-			TIM2->CCR4 = fabsf(biasVoltageR + 20);
+		else if (encRmm > targetR + overshoot_dist){
+			moveRightMotor(!direction, biasVoltageR + 10);
 		}
 		if (encLmm < targetL) {
-			SetLMotorDirection(direction);
-			TIM2->CCR3 = fabsf(mouseSpeedL);
+			moveLeftMotor(direction, mouseSpeedL);
 		}
 		else if (encLmm > targetL + 10) {
-			SetLMotorDirection(!direction);
-			TIM2->CCR3 = fabsf(biasVoltageL + 20);
+			moveRightMotor(direction , biasVoltageL + 10);
 		}
 		continue;
 	}
@@ -61,6 +72,17 @@ int move_dist(float dist) {
 	TIM2->CCR3 = fabsf(0);	// left channel
 
 	return 0;
+}
+
+void frontStraighten() {
+	while (dis_FL < dis_FL_30mm || dis_FR < dis_FR_30mm){
+		if (dis_FL < dis_FL_30mm)
+			moveLeftMotor(1, biasVoltageL + 20);
+		if (dis_FR < dis_FR_30mm)
+			moveRightMotor(1, biasVoltageR + 20);
+	}
+	moveLeftMotor(1, 0);
+	moveRightMotor(1, 0);
 }
 
 void turn180() {

@@ -74,33 +74,27 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
- int mouseSpeedL = addVoltage + biasVoltageL;
- int mouseSpeedR = addVoltage + biasVoltageR;
+int mouseSpeedL = addVoltage + biasVoltageL;
+int mouseSpeedR = addVoltage + biasVoltageR;
 
-uint16_t encL = 0; //counter for left encoder value
-uint16_t encR = 0; //counter for right encoder value
-uint16_t prevEncL = 0;
-uint16_t prevEncR = 0;
-float encLmm, encRmm, dLmm, dRmm;
-int16_t dL, dR;
+uint16_t encL = 0, encR = 0; //counter for left and right encoder value
+uint16_t prevEncL = 0, prevEncR = 0; // counter for previous left and right encoder values
+float encLmm, encRmm;	// distance traveled in mm
+int16_t dL, dR;		// change in ticks traveled since last update
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
  //left encoder timer
 	if (htim->Instance == TIM3){
 		encL = __HAL_TIM_GET_COUNTER(htim);
 		dL = (int16_t)(prevEncL - encL);
-		dLmm = dL / 5.74125f; // every 5.74125 ticks is 1 mm
-		encLmm += dLmm;
-
+		encLmm += dL / tickConvertL;		// every 5.74125 ticks is 1 mm
 		prevEncL = encL;
 	}
 
 	if (htim->Instance == TIM4) {
 		encR = __HAL_TIM_GET_COUNTER(htim);
 		dR = (int16_t)(prevEncR - encR);
-		dRmm = dR / 2.90833f; //every 2.90833 ticks is 1mm
-		encRmm += dRmm;
-
+		encRmm += dR / tickConvertR;	//every 2.90833 ticks is 1mm
 		prevEncR = encR;
 	}
 }
@@ -154,12 +148,12 @@ int main(void)
 
   HAL_TIM_Base_Start_IT(&htim2);
 
-  //find_bias();
 //  turn180();
-  move_dist(200);
+//  move_dist(200);
 //  turnLeft();
 //  turnRight();
 //  turnRight();
+  frontStraighten();
 
 
   /* USER CODE END 2 */

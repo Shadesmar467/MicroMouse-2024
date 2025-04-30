@@ -8,11 +8,28 @@
 #ifndef INC_VALUES_H_
 #define INC_VALUES_H_
 
-#define addVoltage 50
-#define biasVoltageL 170
-#define biasVoltageR 150
+// motors/encoders //
 
-extern float encLmm, encRmm;
+// voltages to assign to motors
+#define addVoltage 50
+#define biasVoltageL 150
+#define biasVoltageR 150
+// constants for converting encoders
+#define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
+#define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
+extern float encLmm, encRmm;	// dist traveled for each enc
+
+// IR Sensors
+extern uint16_t dis_FL;
+extern uint16_t dis_FR;
+extern uint16_t dis_SL;
+extern uint16_t dis_SR;
+
+// constant tick values for desired cushion
+#define  dis_FL_30mm 3485
+#define  dis_FR_30mm 3640
+#define  dis_SL_30mm 3720
+#define  dis_SR_30mm 3570
 
 extern int mouseSpeedR;
 extern int mouseSpeedL;
