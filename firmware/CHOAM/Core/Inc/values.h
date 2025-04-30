@@ -9,9 +9,12 @@
 #define INC_VALUES_H_
 
 #define addVoltage 50
-#define biasVoltage 150
+#define biasVoltageL 170
+#define biasVoltageR 150
 
 extern float encLmm, encRmm;
-extern int mouseSpeed;
+
+extern int mouseSpeedR;
+extern int mouseSpeedL;
 
 #endif /* INC_VALUES_H_ */
