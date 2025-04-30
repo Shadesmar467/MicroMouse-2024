@@ -1,0 +1,20 @@
+{
+    "version": 4,
+    "configurations": [
+        {
+            "name": "STM32",
+            "includePath": [
+                "${workspaceFolder}/Core/Inc",
+                "${workspaceFolder}/Drivers/CMSIS/Include",
+                "${workspaceFolder}/Drivers/STM32F1xx_HAL_Driver/Inc",
+                "${workspaceFolder}/Drivers/CMSIS/Device/ST/STM32F1xx/Include"
+            ],
+            "defines": [
+                "STM32F103C8Tx",
+                "USE_HAL_DRIVER"
+            ],
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "intelliSenseMode": "${default}"
+        }
+    ]
+}

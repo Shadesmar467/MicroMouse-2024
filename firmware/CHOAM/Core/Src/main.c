@@ -77,23 +77,31 @@ static void MX_TIM4_Init(void);
  int mouseSpeed = addVoltage + biasVoltage;
 
 uint16_t encL = 0; //counter for left encoder value
-uint16_t encR = 0; //counter for left encoder value
-int16_t leftCounter = 0;
-int16_t rightCounter = 0;
-float encLmm, encRmm;
+uint16_t encR = 0; //counter for right encoder value
+uint16_t prevEncL = 0;
+uint16_t prevEncR = 0;
+float encLmm, encRmm, dLmm, dRmm;
+int16_t dL, dR;
+
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 	//left encoder timer
 	if (htim->Instance == TIM3){
 		encL = __HAL_TIM_GET_COUNTER(htim);
-		leftCounter = (int16_t) encL * -1;
-		encLmm = leftCounter / 5.74125;
+		dL = (int16_t)(prevEncL - encL);
+		dLmm = dL / 5.74125f; // every 5.74125 ticks is 1 mm
+		encLmm += dLmm;
+
+		prevEncL = encL;
 	}
 
 	if (htim->Instance == TIM4) {
 		encR = __HAL_TIM_GET_COUNTER(htim);
-		rightCounter = (int16_t) encR * -1;
-		encRmm = rightCounter / 2.90833;
+		dR = (int16_t)(prevEncR - encR);
+		dRmm = dR / 2.90833f; //every 2.90833 ticks is 1mm
+		encRmm += dRmm;
+
+		prevEncR = encR;
 	}
 }
 
