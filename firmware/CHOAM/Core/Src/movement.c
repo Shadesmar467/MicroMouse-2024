@@ -23,54 +23,39 @@ void moveRightMotor(int direction, int speed) {
 }
 
 int move_dist(float dist) {
-	int targetL = encLmm + dist;
-	int targetR = encRmm + dist;
+	int startencL = encLmm;
+	int startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
 
-	int overshoot_dist = 10;
+	//int overshoot_dist = 10;
 
-	while ((encRmm < targetR) ||
-			(encRmm > targetR + overshoot_dist) ||
-			(encLmm < targetL) ||
-			(encLmm > targetL + overshoot_dist)) {
+	while (encRmm < dist+startencR || encLmm < dist+startencL){
+		// Right motor profile
+		if (encRmm-startencR < dist * .6){
+			moveRightMotor(direction, 370);
+		}
+		else if (encRmm-startencR < dist){
+			moveRightMotor(direction, 130);
+		}
+		else{
+			moveRightMotor(direction, 0);
+		}
 
-		if (encRmm < targetR){
-			moveRightMotor(direction, mouseSpeedR);
+		// Left motor profile
+		if (encLmm-startencL < dist * .6) {
+			moveLeftMotor(direction, 370);
 		}
-		else if (encRmm > targetR + overshoot_dist){
-			moveRightMotor(!direction, biasVoltageR + 10);
+		else if (encLmm-startencL < dist) {
+			moveLeftMotor(direction , 130);
 		}
-		if (encLmm < targetL) {
-			moveLeftMotor(direction, mouseSpeedL);
-		}
-		else if (encLmm > targetL + 10) {
-			moveRightMotor(direction , biasVoltageL + 10);
+		else{
+			moveLeftMotor(direction, 0);
 		}
 		continue;
 	}
 
-//	while ((encRmm < targetR) || (encLmm < targetL)) {
-//		if (encRmm < targetR){
-//			SetRMotorDirection(direction);
-//			TIM2->CCR4 = fabsf(mouseSpeedR);
-//		}
-//		else {
-//			TIM2->CCR4 = fabsf(0);	// right channel
-//		}
-//
-//		if (encLmm < targetL) {
-//			SetLMotorDirection(direction);
-//			TIM2->CCR3 = fabsf(mouseSpeedL);
-//		}
-//		else {
-//			TIM2->CCR3 = fabsf(0);	// right channel
-//		}
-//		continue;
-//	}
-
-	TIM2->CCR4 = fabsf(0);	// right channel
-	TIM2->CCR3 = fabsf(0);	// left channel
-
+	moveRightMotor(direction, 0);
+	moveLeftMotor(direction, 0);
 	return 0;
 }
 

@@ -1,7 +1,7 @@
 ../Core/Src/movement.c:15:6:moveLeftMotor	1
 ../Core/Src/movement.c:20:6:moveRightMotor	1
-../Core/Src/movement.c:25:5:move_dist	10
-../Core/Src/movement.c:77:6:straighten	5
-../Core/Src/movement.c:88:6:turn180	3
-../Core/Src/movement.c:101:6:turnLeft	2
-../Core/Src/movement.c:111:6:turnRight	2
+../Core/Src/movement.c:25:5:move_dist	8
+../Core/Src/movement.c:62:6:frontStraighten	5
+../Core/Src/movement.c:73:6:turn180	3
+../Core/Src/movement.c:86:6:turnLeft	2
+../Core/Src/movement.c:96:6:turnRight	2
