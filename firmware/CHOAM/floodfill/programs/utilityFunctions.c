@@ -114,7 +114,6 @@ void deadEndID(Maze* mazePtr, Mouse* mousePtr) {    // checks if current cell is
 
     //checking for a dead end (which always has 3 walls)
     if (countOnes(curCellWalls) == 3) {
-        API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'Y'); // visually show it is a dead end
         mousePtr->isInDeadEnd = true;   // store in mouse whether we are in a dead end
     }
 }
@@ -131,22 +130,18 @@ void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if 
             case NORTH:
                 prevPos.y -= 1;
                 curCellWall |= SOUTH_MASK;
-                API::setWall(curPos.x, curPos.y, 's');
                 break;
             case EAST:
                 prevPos.x += 1;
                 curCellWall |= WEST_MASK;
-                API::setWall(curPos.x, curPos.y, 'w');
                 break;
             case SOUTH:
                 prevPos.y += 1;
                 curCellWall |= NORTH_MASK;
-                API::setWall(curPos.x, curPos.y, 'n');
                 break;
             case WEST:
                 prevPos.x -= 1;
                 curCellWall |= EAST_MASK;
-                API::setWall(curPos.x, curPos.y, 'e');
                 break;
         }
 
@@ -175,14 +170,12 @@ int goToPos(int goalIsCenter, Maze* myMaze, Mouse* myMouse){
 		}
 		scanWalls(myMaze, myMouse);
 		deadEndCheck(myMaze, myMouse);
-		updateSim(myMaze, myMouse);
 		floodFill(myMaze);
 
 		Coord bestCell = getBestGoalCell(myMaze, myMouse);
 
 		move(myMaze, myMouse, &bestCell);
 		updateMousePos(myMouse);
-		updateSim(myMaze, myMouse);
 
 		if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
 			break;
