@@ -180,8 +180,29 @@ void deadEndCheck (Maze* mazePtr, Mouse* mousePtr) {    // blocks off dead ends 
     } else { //impossible for deadend to be in starting cell
         mousePtr->isInDeadEnd = false;
     }
-    
-    
 }
 
+    int goToPos(int goalIsCenter, Maze* myMaze, Mouse* myMouse){
+        while (true) {
+            if (goalIsCenter){
+                setGoalCenter(myMouse, myMaze);
+            }
+            scanWalls(myMaze, myMouse);
+            deadEndCheck(myMaze, myMouse);
+            updateSim(myMaze, myMouse);
+            floodFill(myMaze);
+
+            Coord bestCell = getBestGoalCell(myMaze, myMouse);
+
+            move(myMaze, myMouse, &bestCell);
+            updateMousePos(myMouse);
+            updateSim(myMaze, myMouse);
+
+            if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
+                std::cerr << "it is finished" << std::endl;
+                break;
+            }
+        }
+    return 0;
+}
 #endif
