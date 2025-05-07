@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;CHOAM/floodfill/headers/floodfill.h&apos; to &apos;floodFill.h&apos;" description="Rename resource &apos;floodfill.h&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="floodfill/headers/floodfill.h" name="floodFill.h" stamp="1746653324784" updateReferences="true"/>
+</session>

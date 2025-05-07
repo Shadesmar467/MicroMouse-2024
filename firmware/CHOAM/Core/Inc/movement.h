@@ -10,9 +10,8 @@
 
 int move_dist(float dist);
 
-int find_bias();
-
 void turn180();
 
+void frontStraighten();
 
 #endif /* INC_MOVEMENT_H_ */
