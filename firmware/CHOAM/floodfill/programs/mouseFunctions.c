@@ -4,19 +4,15 @@
 void updateMousePos(Mouse* mouse) {
     if (mouse->mouseDir == NORTH) {
         mouse->mousePos.y++;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
     }
      if (mouse->mouseDir == SOUTH) {
         mouse->mousePos.y--;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
      }
      if (mouse->mouseDir == WEST) {
         mouse->mousePos.x--;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
      }
     if (mouse->mouseDir == EAST) {
         mouse->mousePos.x++;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
      }
 }
 
