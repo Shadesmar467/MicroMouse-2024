@@ -69,5 +69,6 @@ fp-info-cache
 # STM32CubeIDE
 software/CHOAM/.metadata/
 firmware/CHOAM/.metadata/
+metadata/
 .settings/
 *.ld
