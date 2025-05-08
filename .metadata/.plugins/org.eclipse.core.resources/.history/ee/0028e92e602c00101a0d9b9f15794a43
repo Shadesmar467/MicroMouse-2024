@@ -1,0 +1,40 @@
+/*
+ * values.h
+ *
+ *  Created on: Apr 24, 2025
+ *      Author: adamhwu
+ */
+
+#ifndef INC_VALUES_H_
+#define INC_VALUES_H_
+
+// motors/encoders //
+
+// voltages to assign to motors
+#define addVoltage 100
+#define biasVoltageL 170
+#define biasVoltageR 170
+// constants for converting encoders
+#define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
+#define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
+// encoder constants for turning
+#define turnTicksR 35
+#define turnTicksL 20
+extern float encLmm, encRmm;	// dist traveled for each enc
+
+// IR Sensors
+extern uint16_t dis_FL;
+extern uint16_t dis_FR;
+extern uint16_t dis_SL;
+extern uint16_t dis_SR;
+
+// constant IR tick values for desired cushion
+#define  dis_FL_30mm 3485
+#define  dis_FR_30mm 3640
+#define  dis_SL_30mm 3720
+#define  dis_SR_30mm 3570
+
+extern int mouseSpeedR;
+extern int mouseSpeedL;
+
+#endif /* INC_VALUES_H_ */

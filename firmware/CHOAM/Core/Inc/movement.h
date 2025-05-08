@@ -14,4 +14,6 @@ void turn180();
 
 void frontStraighten();
 
+void turn(int rightDir);
+
 #endif /* INC_MOVEMENT_H_ */

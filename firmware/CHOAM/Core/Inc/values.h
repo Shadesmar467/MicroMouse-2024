@@ -17,6 +17,9 @@
 // constants for converting encoders
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
 #define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
+// encoder constants for turning
+#define turnTicksR 30
+#define turnTicksL 30
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 // IR Sensors
@@ -25,7 +28,7 @@ extern uint16_t dis_FR;
 extern uint16_t dis_SL;
 extern uint16_t dis_SR;
 
-// constant tick values for desired cushion
+// constant IR tick values for desired cushion
 #define  dis_FL_30mm 3485
 #define  dis_FR_30mm 3640
 #define  dis_SL_30mm 3720
