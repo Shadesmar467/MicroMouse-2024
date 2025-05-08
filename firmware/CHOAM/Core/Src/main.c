@@ -138,7 +138,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   //start motors
-  //question: are we in interrupt mode? do we need it? how to do it?
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
