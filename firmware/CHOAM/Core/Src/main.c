@@ -149,11 +149,14 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim2);
 
 //  turn180();
-  move_dist(500);
+//  move_dist(500);
 //  turnLeft();
 //  turnRight();
 //  turnRight();
 //  frontStraighten();
+  turn(0);
+  turn(1);
+  turn(0);
 
 
   /* USER CODE END 2 */
