@@ -69,16 +69,8 @@ void frontStraighten() {
 }
 
 void turn180() {
-	int targetL = encLmm + 85;
-	int targetR = encRmm - 95;
-	while ((encLmm < targetL) && (encRmm > targetR)) {
-		SetLMotorDirection(1);
-		SetRMotorDirection(0);
-		TIM2->CCR4 = fabsf(mouseSpeedR);
-		TIM2->CCR3 = fabsf(mouseSpeedL);
-	}
-	TIM2->CCR4 = fabsf(0);
-	TIM2->CCR3 = fabsf(0);
+	turn(1);
+	turn(1);
 }
 
 void turn(int rightDir) {

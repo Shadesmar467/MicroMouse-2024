@@ -1,11 +1,16 @@
 #include <stdbool.h>
 #include "stdlib.h"
 
+#include "floodFill.h"
+#include "mazeFunctions.h"
+#include "mouseFunctions.h"
+
 #include "definitions.h"
+#include "values.h"
 
 void initQ(Queue* q) {
     for (int x = 0; x < 255; x++) {
-            q->kew[x] = {0};
+            q->kew[x].pos = initialCoord;
     }
 }
 
@@ -18,7 +23,6 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     int dirY[] = {1, 0, -1, 0};
 
     int count = 0;
-    char test[20];
 
     //the following if statement is for calculating size of the allocated memory
     if ((c.x == 15 || c.x == 0) && (c.y == 0 || c.y == 15)) {
@@ -109,7 +113,6 @@ int countOnes(unsigned int n) { // counts how many ones are in a binary number
 
 
 void deadEndID(Maze* mazePtr, Mouse* mousePtr) {    // checks if current cell is a dead end
-    Coord curPos = mousePtr->mousePos;
     int curCellWalls = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y];
 
     //checking for a dead end (which always has 3 walls)
@@ -119,7 +122,6 @@ void deadEndID(Maze* mazePtr, Mouse* mousePtr) {    // checks if current cell is
 }
 
 void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if we are at the mouth of the dead end
-    Coord curPos = mousePtr->mousePos;
     int curCellWall = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y];
 
     //if dead end is true we know we are returning from a dead end

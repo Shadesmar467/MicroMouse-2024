@@ -153,9 +153,7 @@ int main(void)
 //  turnRight();
 //  turnRight();
 //  frontStraighten();
-  turn(0);
-  turn(1);
-  turn(0);
+  turn180();
 
 
   /* USER CODE END 2 */

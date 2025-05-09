@@ -1,0 +1,10 @@
+../floodfill/programs/utilityFunctions.c:11:6:initQ	2
+../floodfill/programs/utilityFunctions.c:17:11:getNeighborCells	16
+../floodfill/programs/utilityFunctions.c:61:7:getBestGoalCell	3
+../floodfill/programs/utilityFunctions.c:78:7:getBestStartCell	3
+../floodfill/programs/utilityFunctions.c:95:7:chooseRandomCell	1
+../floodfill/programs/utilityFunctions.c:105:5:countOnes	2
+../floodfill/programs/utilityFunctions.c:115:6:deadEndID	2
+../floodfill/programs/utilityFunctions.c:124:6:wallIntersectionTest	6
+../floodfill/programs/utilityFunctions.c:154:6:deadEndCheck	4
+../floodfill/programs/utilityFunctions.c:168:5:goToPos	4

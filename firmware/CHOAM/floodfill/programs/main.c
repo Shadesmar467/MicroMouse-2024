@@ -11,15 +11,15 @@ int main(int argc, char* argv[]) {
 
     initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
 
-    setGoalPos({15,15}, &myMaze);
+    setGoalPos(goal1, &myMaze);
     goToPos(0, &myMaze, &myMouse);
 
-    setGoalPos({0,15}, &myMaze);
+    setGoalPos(goal2, &myMaze);
     goToPos(0, &myMaze, &myMouse);
 
     goToPos(1, &myMaze, &myMouse);
 
-    setGoalPos({0,0}, &myMaze);
+    setGoalPos(initialCoord, &myMaze);
     goToPos(0, &myMaze, &myMouse);
 
     goToPos(1, &myMaze, &myMouse);

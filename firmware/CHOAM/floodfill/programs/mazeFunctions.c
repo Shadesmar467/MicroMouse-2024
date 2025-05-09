@@ -2,10 +2,12 @@
 
 #include "definitions.h"
 #include "mazeFunctions.h"
+#include "values.h"
 
 void initializeEverything(Maze* myMaze, Mouse* myMouse) {
 
-    myMouse->mousePos = {0, 0};
+    myMaze->goalPos.x = 0;
+    myMaze->goalPos.y = 0;
     myMouse->mouseDir = NORTH;
 
     for (int x = 0; x < 16; x++) {
@@ -13,7 +15,9 @@ void initializeEverything(Maze* myMaze, Mouse* myMouse) {
 
             myMaze->cellWalls[x][y] = 0;
             myMaze->distances[x][y] = 255;
-            myMaze->goalPos = {7, 8};
+            myMaze->goalPos.x = 7;
+            myMaze->goalPos.y = 8;
+
 
             if (x == 0) {
             	//west boundary hardcoded

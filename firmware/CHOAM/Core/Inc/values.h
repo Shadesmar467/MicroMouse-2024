@@ -8,6 +8,8 @@
 #ifndef INC_VALUES_H_
 #define INC_VALUES_H_
 
+#include <stdint.h>
+
 // motors/encoders //
 
 // voltages to assign to motors
