@@ -9,6 +9,7 @@
 #include "distance.h"
 #include "main.h"
 #include "adc_manager.h"
+#include "movement.h"
 
 uint16_t measure_dist(dist_t dist){
     GPIO_TypeDef* emitter_port;
@@ -51,3 +52,15 @@ uint16_t measure_dist(dist_t dist){
 
     return adc_val;
    }
+
+int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
+
+	if (valueFR > 2092 && valueFL > 2572) {
+		stopMotors();
+		return 1;
+	}
+
+	return 0;
+
+}
+

@@ -6,8 +6,7 @@
 
 void initializeEverything(Maze* myMaze, Mouse* myMouse) {
 
-    myMaze->goalPos.x = 0;
-    myMaze->goalPos.y = 0;
+    myMaze->goalPos = initialCoord;
     myMouse->mouseDir = NORTH;
 
     for (int x = 0; x < 16; x++) {

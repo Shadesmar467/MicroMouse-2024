@@ -1,6 +1,7 @@
 ../Core/Src/movement.c:15:6:moveLeftMotor	24	static
 ../Core/Src/movement.c:20:6:moveRightMotor	24	static
-../Core/Src/movement.c:25:5:move_dist	40	static
-../Core/Src/movement.c:60:6:frontStraighten	8	static
-../Core/Src/movement.c:71:6:turn180	8	static
-../Core/Src/movement.c:76:6:turn	24	static
+../Core/Src/movement.c:25:6:stopMotors	8	static
+../Core/Src/movement.c:30:5:move_dist	48	static
+../Core/Src/movement.c:69:6:frontStraighten	8	static
+../Core/Src/movement.c:80:6:turn	24	static
+../Core/Src/movement.c:126:6:turn180	8	static

@@ -22,7 +22,12 @@ void moveRightMotor(int direction, int speed) {
 	TIM2->CCR3 = fabsf(speed);
 }
 
-int move_dist(float dist) {
+void stopMotors() {
+	moveRightMotor(0, 0);
+	moveLeftMotor(0, 0);
+}
+
+int move_dist(float dist, uint16_t* valueFL, uint16_t* valueFR) {
 	float startencL = encLmm;
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
@@ -49,6 +54,10 @@ int move_dist(float dist) {
 		else{
 			moveLeftMotor(direction, 0);
 		}
+
+		if (wallDetectFront(dis_FL, dis_FR)) {
+			break;
+		}
 		continue;
 	}
 
@@ -66,11 +75,6 @@ void frontStraighten() {
 	}
 	moveLeftMotor(1, 0);
 	moveRightMotor(1, 0);
-}
-
-void turn180() {
-	turn(1);
-	turn(1);
 }
 
 void turn(int rightDir) {
@@ -117,4 +121,9 @@ void turn(int rightDir) {
 		moveRightMotor(0,0);
 	}
 	HAL_Delay(500);
+}
+
+void turn180() {
+	turn(1);
+	turn(1);
 }

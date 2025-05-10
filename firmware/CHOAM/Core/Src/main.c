@@ -147,13 +147,8 @@ int main(void)
 
   HAL_TIM_Base_Start_IT(&htim2);
 
-//  turn180();
-//  move_dist(500);
-//  turnLeft();
-//  turnRight();
-//  turnRight();
-//  frontStraighten();
-  turn180();
+  //turn180();
+  move_dist(1000, &dis_FL, &dis_FR);
 
 
   /* USER CODE END 2 */
@@ -164,6 +159,7 @@ int main(void)
   {
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  HAL_Delay(2000);
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
