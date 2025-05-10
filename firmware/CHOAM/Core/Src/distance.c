@@ -55,7 +55,7 @@ uint16_t measure_dist(dist_t dist){
 
 int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
 
-	if (valueFR > 2092 && valueFL > 2572) {
+	if (valueFR > 814 && valueFL > 1505) {
 		stopMotors();
 		return 1;
 	}

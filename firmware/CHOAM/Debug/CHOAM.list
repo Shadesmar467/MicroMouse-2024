@@ -1514,13 +1514,13 @@ int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
  8000fc4:	4613      	mov	r3, r2
  8000fc6:	80bb      	strh	r3, [r7, #4]
 
-	if (valueFR > 2092 && valueFL > 2572) {
+	if (valueFR > 814 && valueFL > 1505) {
  8000fc8:	88bb      	ldrh	r3, [r7, #4]
- 8000fca:	f640 022c 	movw	r2, #2092	@ 0x82c
+ 8000fca:	f240 322e 	movw	r2, #814	@ 0x32e
  8000fce:	4293      	cmp	r3, r2
  8000fd0:	d908      	bls.n	8000fe4 <wallDetectFront+0x2c>
  8000fd2:	88fb      	ldrh	r3, [r7, #6]
- 8000fd4:	f640 220c 	movw	r2, #2572	@ 0xa0c
+ 8000fd4:	f240 52e1 	movw	r2, #1505	@ 0x5e1
  8000fd8:	4293      	cmp	r3, r2
  8000fda:	d903      	bls.n	8000fe4 <wallDetectFront+0x2c>
 		stopMotors();
