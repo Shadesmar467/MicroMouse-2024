@@ -10,6 +10,7 @@
 #include "main.h"
 #include "motors.h"
 #include "values.h"
+#include "distance.h"
 #include <math.h>
 
 void moveLeftMotor(int direction, int speed) {

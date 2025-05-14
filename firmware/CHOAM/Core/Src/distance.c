@@ -55,6 +55,8 @@ uint16_t measure_dist(dist_t dist){
 
 int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
 
+	//raw values, nominalizing input:
+
 	if (valueFR > 814 && valueFL > 1505) {
 		stopMotors();
 		return 1;
