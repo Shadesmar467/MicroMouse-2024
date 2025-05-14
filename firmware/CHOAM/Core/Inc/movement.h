@@ -14,7 +14,7 @@ void moveRightMotor(int direction, int speed);
 
 void stopMotors();
 
-int move_dist(float dist, uint16_t* valueFL, uint16_t* valueFR);
+int move_dist(float dist);
 
 void turn180();
 

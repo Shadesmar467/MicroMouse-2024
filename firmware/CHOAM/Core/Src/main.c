@@ -74,6 +74,13 @@ static void MX_TIM4_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+/*ir var inits*/
+int SCALE_FL = (int)NOM_F / CAL_FL;
+int SCALE_FR = (int)NOM_F / CAL_FR;
+int SCALE_SL = (int)NOM_S / CAL_SL;
+int SCALE_SR = (int)NOM_S / CAL_SR;
+
+
 int mouseSpeedL = addVoltage + biasVoltageL;
 int mouseSpeedR = addVoltage + biasVoltageR;
 
@@ -148,7 +155,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim2);
 
   //turn180();
-  move_dist(1000, &dis_FL, &dis_FR);
+  move_dist(5000);
 
 
   /* USER CODE END 2 */

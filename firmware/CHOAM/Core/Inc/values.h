@@ -34,20 +34,20 @@ extern uint16_t dis_SR;
 const int NOM_F = 100;  // range of values for IR front sensors
 const int NOM_S = 100;  // range of values for IR side sensors
 
-const int CAL_FL = 250; // calibrate, currently arbitrary
-const int CAL_FR = 250; // calibrate, currently arbitrary
-const int CAL_SL = 250; // calibrate, currently arbitrary
-const int CAL_SR = 250; // calibrate, currently arbitrary
+const int CAL_FL = 3321; //re-calibrate per location
+const int CAL_FR = 3461;
+const int CAL_SL = 3600;
+const int CAL_SR = 3217;
 
-const float SCALE_FL = (float)NOM_FRONT / CAL_FL;
-const float SCALE_FR = (float)NOM_FRONT / CAL_FR;
-const float SCALE_SL = (float)NOM_FRONT / CAL_SL;
-const float SCALE_SR = (float)NOM_FRONT / CAL_SR;
+extern int SCALE_FL;
+extern int SCALE_FR;
+extern int SCALE_SL;
+extern int SCALE_SR;
 
 // movement values
 const float KP = 1.1; // calibrate, currently arbitrary
 const float KD = 1.2; // calibrate, currently arbitrary
-extern float prev_error = 0;
+extern float prev_error;
 
 // constant tick values for desired cushion
 #define  dis_FL_30mm 3485

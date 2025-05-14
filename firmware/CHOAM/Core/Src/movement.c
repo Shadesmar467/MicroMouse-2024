@@ -12,7 +12,6 @@
 #include "values.h"
 #include "distance.h"
 #include <math.h>
-#include "distance.h"
 
 void moveLeftMotor(int direction, int speed) {
 	SetLMotorDirection(direction);
@@ -29,7 +28,7 @@ void stopMotors() {
 	moveLeftMotor(0, 0);
 }
 
-int move_dist(float dist, uint16_t* valueFL, uint16_t* valueFR) {
+int move_dist(float dist) {
 	float startencL = encLmm;
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
@@ -60,8 +59,16 @@ int move_dist(float dist, uint16_t* valueFL, uint16_t* valueFR) {
 		if (wallDetectFront(dis_FL, dis_FR)) {
 			break;
 		}
+
+		if (wallDetectSideLeft(dis_SL) && wallDetectSideRight(dis_SR)) {
+			//in corridor
+			break;
+		}
+
 		continue;
 	}
+
+
 
 	moveRightMotor(direction, 0);
 	moveLeftMotor(direction, 0);
