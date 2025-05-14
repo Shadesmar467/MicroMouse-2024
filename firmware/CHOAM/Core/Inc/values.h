@@ -8,15 +8,21 @@
 #ifndef INC_VALUES_H_
 #define INC_VALUES_H_
 
+#include <stdint.h>
+
 // motors/encoders //
 
 // voltages to assign to motors
 #define addVoltage 100
 #define biasVoltageL 170
 #define biasVoltageR 170
+
 // constants for converting encoders
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
 #define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
+// encoder constants for turning
+#define turnTicksR 30
+#define turnTicksL 30
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 // IR Sensors

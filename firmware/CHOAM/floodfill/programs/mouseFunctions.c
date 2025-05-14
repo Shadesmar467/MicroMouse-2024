@@ -1,27 +1,24 @@
 #include "definitions.h"
 #include "utilityFunctions.h"
+#include "values.h"
+#include "movement.h"
 
 void updateMousePos(Mouse* mouse) {
     if (mouse->mouseDir == NORTH) {
         mouse->mousePos.y++;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
     }
      if (mouse->mouseDir == SOUTH) {
         mouse->mousePos.y--;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
      }
      if (mouse->mouseDir == WEST) {
         mouse->mousePos.x--;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
      }
     if (mouse->mouseDir == EAST) {
         mouse->mousePos.x++;
-        API::setColor(mouse->mousePos.x, mouse->mousePos.y, 'G');
      }
 }
 
 void move(Maze* maze, Mouse* mouse, Coord* inC) {
-    bool dead; //for wall-checking
     int targetDir;
 
     if (mouse->mousePos.y - inC->y == 1) {
@@ -39,20 +36,18 @@ void move(Maze* maze, Mouse* mouse, Coord* inC) {
 
     switch (turnsNeeded) {
         case 1:  // 90 degrees right
-            API::turnRight();
+            turn(1);
             break;
         case 2:  // 180 degrees
-            API::turnLeft();
-            API::turnLeft();
+            turn180();
             break;
         case 3:  // 90 degrees left
-            API::turnLeft();
+            turn(0);
             break;
         default: // case 0, no turn needed
             break;
     }
 
-    mouse->mouseDir = static_cast<Direction>(targetDir);  // Update the mouse direction
-    //directionCheck(mouse);
-    API::moveForward();
+    mouse->mouseDir = (Direction)(targetDir);  // Update the mouse direction
+    move_dist(180);
 }

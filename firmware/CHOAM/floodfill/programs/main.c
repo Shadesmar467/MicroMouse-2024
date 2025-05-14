@@ -10,23 +10,19 @@ int main(int argc, char* argv[]) {
     Maze myMaze;
 
     initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
-    updateSim(&myMaze, &myMouse);
 
-    setGoalPos({15,15}, &myMaze);
+    setGoalPos(goal1, &myMaze);
     goToPos(0, &myMaze, &myMouse);
 
-    setGoalPos({0,15}, &myMaze);
-    goToPos(0, &myMaze, &myMouse);
-
-    goToPos(1, &myMaze, &myMouse);
-
-    setGoalPos({0,0}, &myMaze);
+    setGoalPos(goal2, &myMaze);
     goToPos(0, &myMaze, &myMouse);
 
     goToPos(1, &myMaze, &myMouse);
 
-    API::setColor(0, 0, 'G');
-    API::setText(0, 0, "abc");
+    setGoalPos(initialCoord, &myMaze);
+    goToPos(0, &myMaze, &myMouse);
+
+    goToPos(1, &myMaze, &myMouse);
 
     return 0;
 }

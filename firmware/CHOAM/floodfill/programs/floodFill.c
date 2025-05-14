@@ -10,8 +10,6 @@ void floodFill (Maze* mazePtr) {
     q.tail = 0;
     Cell a;
 
-    char distConvert[2];
-
     // floodfill setup
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
@@ -27,8 +25,6 @@ void floodFill (Maze* mazePtr) {
                 //initialize all other cells to max distance (255)
                 mazePtr->distances[x][y] = MAX_COST;
             }
-            sprintf(distConvert, "%d", mazePtr->distances[x][y]);
-            API::setText(x, y, distConvert);
         }
     }
 
@@ -47,8 +43,6 @@ void floodFill (Maze* mazePtr) {
                 q.kew[q.tail] = cur_neighbor;
                 q.tail++;
                 mazePtr->distances[cur_neighbor.pos.x][cur_neighbor.pos.y] = new_cost;
-                sprintf(distConvert, "%d", new_cost);
-                API::setText(cur_neighbor.pos.x, cur_neighbor.pos.y, distConvert);
             }
         }
     }

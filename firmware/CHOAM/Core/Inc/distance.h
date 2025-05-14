@@ -14,4 +14,6 @@
 
 uint16_t measure_dist(dist_t dist);
 
+int wallDetectFront(uint16_t valueFL, uint16_t valueFR);
+
 #endif /* INC_DISTANCE_H_ */

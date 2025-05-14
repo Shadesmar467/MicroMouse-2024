@@ -2,10 +2,11 @@
 
 #include "definitions.h"
 #include "mazeFunctions.h"
+#include "values.h"
 
 void initializeEverything(Maze* myMaze, Mouse* myMouse) {
 
-    myMouse->mousePos = {0, 0};
+    myMaze->goalPos = initialCoord;
     myMouse->mouseDir = NORTH;
 
     for (int x = 0; x < 16; x++) {
@@ -13,12 +14,29 @@ void initializeEverything(Maze* myMaze, Mouse* myMouse) {
 
             myMaze->cellWalls[x][y] = 0;
             myMaze->distances[x][y] = 255;
-            myMaze->goalPos = {7, 8};
+            myMaze->goalPos.x = 7;
+            myMaze->goalPos.y = 8;
 
-            API::setWall(0, y, 'w');
-            API::setWall(15, y, 'e');
-            API::setWall(x, 0, 's');
-            API::setWall(x, 15, 'n');
+
+            if (x == 0) {
+            	//west boundary hardcoded
+            	myMaze->cellWalls[x][y] = 0b1000;
+            }
+
+            if (x == 15) {
+            	//east boundary hardcoded
+            	myMaze->cellWalls[x][y] = 0b0100;
+            }
+
+            if (y == 0) {
+            	//south boundary hardcoded
+            	myMaze->cellWalls[x][y] = 0b0010;
+            }
+
+            if (y == 15) {
+            	//north boundary hardcoded
+            	myMaze->cellWalls[x][y] = 0b0001;
+            }
         }
     }
 }
@@ -41,27 +59,7 @@ void scanWalls(Maze* mazePtr, Mouse* mousePtr) {
     //at this point, the mouses current cell now contains a binary number that tells us which walls exist
 }
 
-void updateSim (Maze* mazePtr, Mouse* mousePtr) {
-    for (int x = 0; x < 16; x++) {
-        for (int y = 0; y < 16; y++) {
-            if (mazePtr->cellWalls[x][y] & NORTH_MASK) {
-                API::setWall(x, y, 'n');
-            }
-            if (mazePtr->cellWalls[x][y] & EAST_MASK){
-                API::setWall(x, y, 'e');
-            }
-            if (mazePtr->cellWalls[x][y] & SOUTH_MASK) {
-                API::setWall(x, y, 's');
-            }
-            if (mazePtr->cellWalls[x][y] & WEST_MASK) {
-                API::setWall(x, y, 'w');
-            }
-        }
-    }
-}
-
 void setGoalCenter (Mouse* mouse, Maze* maze){
-    API::clearColor(maze->goalPos.x, maze->goalPos.y);
     int closestX;
     int closestY;
     if (mouse->mousePos.x >= 8 && mouse->mousePos.y >= 8){
@@ -79,7 +77,6 @@ void setGoalCenter (Mouse* mouse, Maze* maze){
     }
     maze->goalPos.x = closestX;
     maze->goalPos.y = closestY;
-    API::setColor(maze->goalPos.x, maze->goalPos.y, 'O');
 }
 
 void setGoalPos (Coord coord, Maze* maze) {

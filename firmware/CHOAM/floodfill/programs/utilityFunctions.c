@@ -1,11 +1,16 @@
 #include <stdbool.h>
 #include "stdlib.h"
 
+#include "floodFill.h"
+#include "mazeFunctions.h"
+#include "mouseFunctions.h"
+
 #include "definitions.h"
+#include "values.h"
 
 void initQ(Queue* q) {
     for (int x = 0; x < 255; x++) {
-            q->kew[x] = {0};
+            q->kew[x].pos = initialCoord;
     }
 }
 
@@ -18,7 +23,6 @@ CellList* getNeighborCells(Maze* mazePtr, Coord c) { //input a coordinate C, get
     int dirY[] = {1, 0, -1, 0};
 
     int count = 0;
-    char test[20];
 
     //the following if statement is for calculating size of the allocated memory
     if ((c.x == 15 || c.x == 0) && (c.y == 0 || c.y == 15)) {
@@ -109,18 +113,15 @@ int countOnes(unsigned int n) { // counts how many ones are in a binary number
 
 
 void deadEndID(Maze* mazePtr, Mouse* mousePtr) {    // checks if current cell is a dead end
-    Coord curPos = mousePtr->mousePos;
     int curCellWalls = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y];
 
     //checking for a dead end (which always has 3 walls)
     if (countOnes(curCellWalls) == 3) {
-        API::setColor(mousePtr->mousePos.x, mousePtr->mousePos.y, 'Y'); // visually show it is a dead end
         mousePtr->isInDeadEnd = true;   // store in mouse whether we are in a dead end
     }
 }
 
 void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if we are at the mouth of the dead end
-    Coord curPos = mousePtr->mousePos;
     int curCellWall = mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y];
 
     //if dead end is true we know we are returning from a dead end
@@ -131,22 +132,18 @@ void wallIntersectionTest(Maze* mazePtr, Mouse* mousePtr) {     // sets wall if 
             case NORTH:
                 prevPos.y -= 1;
                 curCellWall |= SOUTH_MASK;
-                API::setWall(curPos.x, curPos.y, 's');
                 break;
             case EAST:
                 prevPos.x += 1;
                 curCellWall |= WEST_MASK;
-                API::setWall(curPos.x, curPos.y, 'w');
                 break;
             case SOUTH:
                 prevPos.y += 1;
                 curCellWall |= NORTH_MASK;
-                API::setWall(curPos.x, curPos.y, 'n');
                 break;
             case WEST:
                 prevPos.x -= 1;
                 curCellWall |= EAST_MASK;
-                API::setWall(curPos.x, curPos.y, 'e');
                 break;
         }
 
@@ -175,14 +172,12 @@ int goToPos(int goalIsCenter, Maze* myMaze, Mouse* myMouse){
 		}
 		scanWalls(myMaze, myMouse);
 		deadEndCheck(myMaze, myMouse);
-		updateSim(myMaze, myMouse);
 		floodFill(myMaze);
 
 		Coord bestCell = getBestGoalCell(myMaze, myMouse);
 
 		move(myMaze, myMouse, &bestCell);
 		updateMousePos(myMouse);
-		updateSim(myMaze, myMouse);
 
 		if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
 			break;

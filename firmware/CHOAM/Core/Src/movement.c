@@ -23,12 +23,15 @@ void moveRightMotor(int direction, int speed) {
 	TIM2->CCR3 = fabsf(speed);
 }
 
-int move_dist(float dist) {
-	int startencL = encLmm;
-	int startencR = encRmm;
-	int direction = (dist > 0) ? 1 : 0;
+void stopMotors() {
+	moveRightMotor(0, 0);
+	moveLeftMotor(0, 0);
+}
 
-	//int overshoot_dist = 10;
+int move_dist(float dist, uint16_t* valueFL, uint16_t* valueFR) {
+	float startencL = encLmm;
+	float startencR = encRmm;
+	int direction = (dist > 0) ? 1 : 0;
 
 	while (encRmm < dist+startencR || encLmm < dist+startencL){
 		// Right motor profile
@@ -51,6 +54,10 @@ int move_dist(float dist) {
 		}
 		else{
 			moveLeftMotor(direction, 0);
+		}
+
+		if (wallDetectFront(dis_FL, dis_FR)) {
+			break;
 		}
 		continue;
 	}
@@ -100,35 +107,53 @@ void corridor_correction() {
 	moveRightMotor(1, right_volts); // setting motor speeds to adjusted speed
 }
 
+void turn(int rightDir) {
+	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
+	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
+
+	if (rightDir){
+		while ((encRmm > targetR) || (encLmm < targetL)) {
+			if (encRmm > targetR) {
+				moveRightMotor(0, biasVoltageR + 50);
+			}
+			else {
+				moveRightMotor(0, 0);
+			}
+
+			if (encLmm < targetL) {
+				moveLeftMotor(1, biasVoltageL + 50);
+			}
+			else {
+				moveLeftMotor(1, 0);
+			}
+		}
+		moveLeftMotor(0,0);
+		moveRightMotor(0,0);
+	}
+
+	else {
+		while ((encRmm < targetR) || (encLmm > targetL)) {
+			if (encRmm < targetR) {
+				moveRightMotor(1, biasVoltageR + 50);
+			}
+			else {
+				moveRightMotor(1, 0);
+			}
+
+			if (encLmm > targetL) {
+				moveLeftMotor(0, biasVoltageL + 50);
+			}
+			else {
+				moveLeftMotor(0, 0);
+			}
+		}
+		moveLeftMotor(0,0);
+		moveRightMotor(0,0);
+	}
+	HAL_Delay(500);
+}
+
 void turn180() {
-	int targetL = encLmm + 85;
-	int targetR = encRmm - 95;
-	while ((encLmm < targetL) && (encRmm > targetR)) {
-		SetLMotorDirection(1);
-		SetRMotorDirection(0);
-		TIM2->CCR4 = fabsf(mouseSpeedR);
-		TIM2->CCR3 = fabsf(mouseSpeedL);
-	}
-	TIM2->CCR4 = fabsf(0);
-	TIM2->CCR3 = fabsf(0);
-}
-
-void turnLeft() {
-	int targetL = encLmm + 170;
-	while ((encLmm < targetL)) {
-		SetLMotorDirection(1);
-		TIM2->CCR4 = fabsf(mouseSpeedR);
-		TIM2->CCR3 = fabsf(0);
-	}
-	TIM2->CCR4 = fabsf(0);
-}
-
-void turnRight() {
-	int targetR = encRmm + 150; //right motor stronger than the left
-	while ((encRmm < targetR)) {
-		SetRMotorDirection(1);
-		TIM2->CCR3 = fabsf(mouseSpeedL);
-		TIM2->CCR4 = fabsf(0);
-	}
-	TIM2->CCR3 = fabsf(0);
+	turn(1);
+	turn(1);
 }
