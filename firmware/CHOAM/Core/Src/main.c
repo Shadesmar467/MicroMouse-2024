@@ -75,10 +75,10 @@ static void MX_TIM4_Init(void);
 /* USER CODE BEGIN 0 */
 
 /*ir var inits*/
-int SCALE_FL = (int)NOM_F / CAL_FL;
-int SCALE_FR = (int)NOM_F / CAL_FR;
-int SCALE_SL = (int)NOM_S / CAL_SL;
-int SCALE_SR = (int)NOM_S / CAL_SR;
+int SCALE_FL = (int)(NOM_F / CAL_FL);
+int SCALE_FR = (int)(NOM_F / CAL_FR);
+int SCALE_SL = (int)(NOM_S / CAL_SL);
+int SCALE_SR = (int)(NOM_S / CAL_SR);
 
 
 int mouseSpeedL = addVoltage + biasVoltageL;

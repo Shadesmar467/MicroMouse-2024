@@ -31,13 +31,13 @@ extern uint16_t dis_FR;
 extern uint16_t dis_SL;
 extern uint16_t dis_SR;
 
-const int NOM_F = 100;  // range of values for IR front sensors
-const int NOM_S = 100;  // range of values for IR side sensors
+#define NOM_F 100  // range of values for IR front sensors
+#define NOM_S 100  // range of values for IR side sensors
 
-const int CAL_FL = 3321; //re-calibrate per location
-const int CAL_FR = 3461;
-const int CAL_SL = 3600;
-const int CAL_SR = 3217;
+#define CAL_FL 3321 //re-calibrate per location. center of the cell values
+#define CAL_FR 3461
+#define CAL_SL 3600
+#define CAL_SR 3217
 
 extern int SCALE_FL;
 extern int SCALE_FR;
@@ -45,8 +45,8 @@ extern int SCALE_SL;
 extern int SCALE_SR;
 
 // movement values
-const float KP = 1.1; // calibrate, currently arbitrary
-const float KD = 1.2; // calibrate, currently arbitrary
+#define KP 1.1f // calibrate, currently arbitrary
+#define KD 1.2f // calibrate, currently arbitrary
 extern float prev_error;
 
 // constant tick values for desired cushion

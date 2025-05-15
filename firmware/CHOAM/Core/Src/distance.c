@@ -63,14 +63,16 @@ int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
 }
 
 int wallDetectSideLeft(uint16_t valueSL) {
-	if (valueSL*SCALE_SL >= 95) {
+	if (valueSL*SCALE_SL >= 10) {
+		stopMotors();
 		return 1;
 	}
 	return 0;
 }
 
 int wallDetectSideRight(uint16_t valueSR) {
-	if (valueSR*SCALE_SR >= 95) {
+	if (valueSR*SCALE_SR >= 10) {
+		stopMotors();
 		return 1;
 	}
 	return 0;
