@@ -54,10 +54,11 @@ TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
-uint16_t dis_FL;
-uint16_t dis_FR;
-uint16_t dis_SL;
-uint16_t dis_SR;
+int dis_FL;
+int dis_FR;
+int dis_SL;
+int dis_SR;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -75,10 +76,6 @@ static void MX_TIM4_Init(void);
 /* USER CODE BEGIN 0 */
 
 /*ir var inits*/
-int SCALE_FL = (int)(NOM_F / CAL_FL);
-int SCALE_FR = (int)(NOM_F / CAL_FR);
-int SCALE_SL = (int)(NOM_S / CAL_SL);
-int SCALE_SR = (int)(NOM_S / CAL_SR);
 
 
 int mouseSpeedL = addVoltage + biasVoltageL;
@@ -155,7 +152,11 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim2);
 
   //turn180();
-  move_dist(5000);
+//  move_dist(400);
+//  turn(1);
+//  turn(1);
+//  move_dist(400);
+
 
 
   /* USER CODE END 2 */
@@ -515,10 +516,10 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-	dis_SR = measure_dist(DIST_SR);
-	dis_FR = measure_dist(DIST_FR);
-	dis_FL = measure_dist(DIST_FL);
-	dis_SL = measure_dist(DIST_SL);
+	dis_FL = measure_dist(DIST_FL) * SCALE_FL;
+	dis_FR = measure_dist(DIST_FR) * SCALE_FR;
+	dis_SL = measure_dist(DIST_SL) * SCALE_SL;
+	dis_SR = measure_dist(DIST_SR) * SCALE_SR;
 }
 /* USER CODE END 4 */
 

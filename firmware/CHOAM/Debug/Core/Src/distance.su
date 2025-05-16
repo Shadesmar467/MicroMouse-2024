@@ -1,4 +1,0 @@
-../Core/Src/distance.c:15:10:measure_dist	24	static
-../Core/Src/distance.c:57:5:wallDetectFront	16	static
-../Core/Src/distance.c:65:5:wallDetectSideLeft	24	static
-../Core/Src/distance.c:74:5:wallDetectSideRight	24	static

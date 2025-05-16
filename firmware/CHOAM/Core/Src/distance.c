@@ -54,27 +54,27 @@ uint16_t measure_dist(dist_t dist){
     return adc_val;
    }
 
-int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
-	if (valueFL*SCALE_FL >= 90 && valueFR*SCALE_FR >= 90) {
-		stopMotors();
-		return 1;
-	}
-	return 0;
-}
-
-int wallDetectSideLeft(uint16_t valueSL) {
-	if (valueSL*SCALE_SL >= 10) {
-		stopMotors();
-		return 1;
-	}
-	return 0;
-}
-
-int wallDetectSideRight(uint16_t valueSR) {
-	if (valueSR*SCALE_SR >= 10) {
-		stopMotors();
-		return 1;
-	}
-	return 0;
-}
+//int wallDetectFront(uint16_t valueFL, uint16_t valueFR) {
+//	if (valueFL*SCALE_FL >= 90 && valueFR*SCALE_FR >= 90) {
+//		stopMotors();
+//		return 1;
+//	}
+//	return 0;
+//}
+//
+//int wallDetectSideLeft(uint16_t valueSL) {
+//	if (valueSL*SCALE_SL >= 10) {
+//		stopMotors();
+//		return 1;
+//	}
+//	return 0;
+//}
+//
+//int wallDetectSideRight(uint16_t valueSR) {
+//	if (valueSR*SCALE_SR >= 10) {
+//		stopMotors();
+//		return 1;
+//	}
+//	return 0;
+//}
 

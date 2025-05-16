@@ -26,23 +26,25 @@
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 // IR Sensors
-extern uint16_t dis_FL;
-extern uint16_t dis_FR;
-extern uint16_t dis_SL;
-extern uint16_t dis_SR;
+extern int dis_FL;
+extern int dis_FR;
+extern int dis_SL;
+extern int dis_SR;
 
-#define NOM_F 100  // range of values for IR front sensors
-#define NOM_S 100  // range of values for IR side sensors
+//re-calibrate often. center of the cell values
+#define CAL_FL 3321.0
+#define CAL_FR 3461.0
+#define CAL_SL 3600.0
+#define CAL_SR 3217.0
 
-#define CAL_FL 3321 //re-calibrate per location. center of the cell values
-#define CAL_FR 3461
-#define CAL_SL 3600
-#define CAL_SR 3217
+#define NOM_F 100.0
+#define NOM_S 100.0
 
-extern int SCALE_FL;
-extern int SCALE_FR;
-extern int SCALE_SL;
-extern int SCALE_SR;
+#define SCALE_FL NOM_F/CAL_FL
+#define SCALE_FR NOM_F/CAL_FR
+#define SCALE_SL NOM_S/CAL_SL
+#define SCALE_SR NOM_S/CAL_SR
+
 
 // movement values
 #define KP 1.1f // calibrate, currently arbitrary

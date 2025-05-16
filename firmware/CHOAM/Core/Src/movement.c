@@ -36,24 +36,24 @@ int move_dist(float dist) {
 	while (encRmm < dist+startencR || encLmm < dist+startencL){
 		// Right motor profile
 		if (encRmm-startencR < dist * .6){
-			moveRightMotor(direction, 370);
+			moveRightMotor(direction, 250);
 		}
 		else if (encRmm-startencR < dist){
-			moveRightMotor(direction, 130);
+			moveRightMotor(direction, 100);
 		}
 		else{
-			moveRightMotor(direction, 0);
+			moveRightMotor(!direction, 80);
 		}
 
 		// Left motor profile
 		if (encLmm-startencL < dist * .6) {
-			moveLeftMotor(direction, 370);
+			moveLeftMotor(direction, 250);
 		}
 		else if (encLmm-startencL < dist) {
-			moveLeftMotor(direction , 130);
+			moveLeftMotor(direction , 100);
 		}
 		else{
-			moveLeftMotor(direction, 0);
+			moveLeftMotor(!direction, 80);
 		}
 
 		if (wallDetectFront(dis_FL, dis_FR)) {
