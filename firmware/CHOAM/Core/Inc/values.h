@@ -54,8 +54,9 @@ extern int dis_SR;
 
 
 /* 			PID Values			*/
-#define KP .1 // calibrate, currently arbitrary
-#define KD 1 // calibrate, currently arbitrary
+#define KP 3.5 // calibrate, currently arbitrary
+#define KD 20 // calibrate, currently arbitrary
+#define CRUISE_SPEED 200
 #define CLK_PERIOD .001
 extern float prev_error;
 

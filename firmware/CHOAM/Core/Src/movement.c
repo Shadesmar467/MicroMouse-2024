@@ -70,26 +70,6 @@ int move_dist(float dist) {
 	return 0;
 }
 
-void corridor_correction() {
-	float lnew, rnew, error, p_term, d_term, correction;
-	// error is high if closer to right, low if close to left
-	error = dis_SL - dis_SR;
-	// p term is proportional to error
-	p_term = KP * error;
-	// d term is proportional to derivative of error
-	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD * (error - prev_error)/CLK_PERIOD * 0;
-	correction = p_term + d_term;
-
-	lnew = mouseSpeedL - correction;
-	rnew = mouseSpeedR + correction;
-
-	// clamp maximum and minimum voltages
-	mouseSpeedL = (lnew < 250 && lnew > 0) ? lnew : mouseSpeedL;
-	mouseSpeedR = (rnew < 250 && rnew > 0) ? rnew : mouseSpeedR;
-	prev_error = error;
-}
-
 void turn(int rightDir) {
 	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
 	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
@@ -134,6 +114,26 @@ void turn(int rightDir) {
 		moveRightMotor(0,0);
 	}
 	HAL_Delay(500);
+}
+
+void corridor_correction() {
+	float lnew, rnew, error, p_term, d_term, correction;
+	// error is high if closer to right, low if close to left
+	error = dis_SL - dis_SR;
+	// p term is proportional to error
+	p_term = KP * error * .001;
+	// d term is proportional to derivative of error
+	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
+	d_term = KD * (error - prev_error);
+	correction = p_term + d_term;
+
+	lnew = mouseSpeedL - correction;
+	rnew = mouseSpeedR + correction;
+
+	// clamp maximum and minimum voltages
+	mouseSpeedL = (lnew < 230 && lnew > 170) ? lnew : mouseSpeedL;
+	mouseSpeedR = (rnew < 230 && rnew > 170) ? rnew : mouseSpeedR;
+	prev_error = error;
 }
 
 int move_forward(){
