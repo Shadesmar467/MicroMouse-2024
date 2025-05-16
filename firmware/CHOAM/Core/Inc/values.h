@@ -10,10 +10,9 @@
 
 #include <stdint.h>
 
-// motors/encoders //
-
+/*			motors/encoders			*/
 // voltages to assign to motors
-#define addVoltage 100
+#define addVoltage 0
 #define biasVoltageL 170
 #define biasVoltageR 170
 
@@ -25,12 +24,11 @@
 #define turnTicksL 30
 extern float encLmm, encRmm;	// dist traveled for each enc
 
-// IR Sensors
-extern int dis_FL;
-extern int dis_FR;
-extern int dis_SL;
-extern int dis_SR;
 
+
+
+
+/*			IR Sensors			*/
 //re-calibrate often. center of the cell values
 #define CAL_FL 3321.0
 #define CAL_FR 3461.0
@@ -45,18 +43,24 @@ extern int dis_SR;
 #define SCALE_SL -1*NOM_S/CAL_SL
 #define SCALE_SR -1*NOM_S/CAL_SR
 
+// normalized IR readings
+extern int dis_FL;
+extern int dis_FR;
+extern int dis_SL;
+extern int dis_SR;
 
-// movement values
-#define KP 1.1f // calibrate, currently arbitrary
-#define KD 1.2f // calibrate, currently arbitrary
+
+
+
+
+/* 			PID Values			*/
+#define KP .1 // calibrate, currently arbitrary
+#define KD 1 // calibrate, currently arbitrary
+#define CLK_PERIOD .001
 extern float prev_error;
 
-// constant tick values for desired cushion
-#define  dis_FL_30mm 3485
-#define  dis_FR_30mm 3640
-#define  dis_SL_30mm 3720
-#define  dis_SR_30mm 3570
 
+// current mouse speed
 extern int mouseSpeedR;
 extern int mouseSpeedL;
 
