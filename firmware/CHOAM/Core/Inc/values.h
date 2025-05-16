@@ -40,10 +40,10 @@ extern int dis_SR;
 #define NOM_F 100.0
 #define NOM_S 100.0
 
-#define SCALE_FL NOM_F/CAL_FL
-#define SCALE_FR NOM_F/CAL_FR
-#define SCALE_SL NOM_S/CAL_SL
-#define SCALE_SR NOM_S/CAL_SR
+#define SCALE_FL -1*NOM_F/CAL_FL
+#define SCALE_FR -1*NOM_F/CAL_FR
+#define SCALE_SL -1*NOM_S/CAL_SL
+#define SCALE_SR -1*NOM_S/CAL_SR
 
 
 // movement values

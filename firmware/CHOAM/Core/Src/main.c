@@ -155,7 +155,8 @@ int main(void)
 //  move_dist(400);
 //  turn(1);
 //  turn(1);
-//  move_dist(400);
+  HAL_Delay(500);
+  move_dist(400);
 
 
 
@@ -516,10 +517,10 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-	dis_FL = measure_dist(DIST_FL) * SCALE_FL;
-	dis_FR = measure_dist(DIST_FR) * SCALE_FR;
-	dis_SL = measure_dist(DIST_SL) * SCALE_SL;
-	dis_SR = measure_dist(DIST_SR) * SCALE_SR;
+	dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F;
+	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
+	dis_SL = measure_dist(DIST_SL) * SCALE_SL + NOM_S;
+	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S;
 }
 /* USER CODE END 4 */
 

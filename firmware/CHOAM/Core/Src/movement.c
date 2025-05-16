@@ -56,19 +56,12 @@ int move_dist(float dist) {
 			moveLeftMotor(!direction, 80);
 		}
 
-		if (wallDetectFront(dis_FL, dis_FR)) {
-			break;
-		}
-
-		if (wallDetectSideLeft(dis_SL) && wallDetectSideRight(dis_SR)) {
-			//in corridor
+		if (dis_FL < 40 || dis_FR < 40) {
 			break;
 		}
 
 		continue;
 	}
-
-
 
 	moveRightMotor(direction, 0);
 	moveLeftMotor(direction, 0);
