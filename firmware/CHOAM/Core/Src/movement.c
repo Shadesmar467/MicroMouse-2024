@@ -16,11 +16,13 @@
 void moveLeftMotor(int direction, int speed) {
 	SetLMotorDirection(direction);
 	TIM2->CCR4 = fabsf(speed);
+	mouseSpeedL = speed;
 }
 
 void moveRightMotor(int direction, int speed) {
 	SetRMotorDirection(direction);
 	TIM2->CCR3 = fabsf(speed);
+	mouseSpeedR = speed;
 }
 
 void stopMotors() {
@@ -36,7 +38,7 @@ int move_dist(float dist) {
 	while (encRmm < dist+startencR || encLmm < dist+startencL){
 		// Right motor profile
 		if (encRmm-startencR < dist * .6){
-			moveRightMotor(direction, 250);
+			moveRightMotor(direction, mouseSpeedR);
 		}
 		else if (encRmm-startencR < dist){
 			moveRightMotor(direction, 100);
@@ -47,7 +49,7 @@ int move_dist(float dist) {
 
 		// Left motor profile
 		if (encLmm-startencL < dist * .6) {
-			moveLeftMotor(direction, 250);
+			moveLeftMotor(direction, mouseSpeedL);
 		}
 		else if (encLmm-startencL < dist) {
 			moveLeftMotor(direction , 100);
@@ -66,46 +68,6 @@ int move_dist(float dist) {
 	moveRightMotor(direction, 0);
 	moveLeftMotor(direction, 0);
 	return 0;
-}
-
-void corridor_correction() {
-
-	// PSUEDO CODE
-
-	// get ERROR: difference in IR sensors
-	// get DIFF: current - prev errors
-	// set prev to current error
-	// get PD: Kp * ERROR + Kd * DIFF
-
-	// conversion in output to rotational adjustment (constants or later conversion)
-
-	// set left speed to current speed plus rotational adjustment // +/- figure out
-	// set right speed to current speed minues rotational adjustment
-
-	// set left voltage by converting left speed to voltage
-	// set right voltage by converting right speed to voltage
-
-	// set left motor to left voltage
-	// set right motor to right voltage
-
-	float ir_sl = measure_dist(DIST_SL) * SCALE_SL; // get normalized ir value
-	float ir_sr = measure_dist(DIST_SR) * SCALE_SR; // get normalized ir value
-	float error = ir_sl - ir_sr;  // get error, or difference between ir values
-
-	float diff = error - prev_error; // get difference from current and previous error
-
-	prev_error = error; // set previous error to current
-
-	float pd = KP * error + KD * diff; // pd output
-
-	float percent_error = pd / 200; // 200 is the max error between IR sensors, adjust
-	float rot_change = percent_error * 10; // 10 * 2 is the max motor difference to rotate mouse, adjust
-
-	float left_volts = mouseSpeedL - rot_change; // changing current volts to rotate
-	float right_volts = mouseSpeedR + rot_change; // changing current volts to rotate
-
-	moveLeftMotor(1, left_volts); // setting motor speeds to adjusted speed
-	moveRightMotor(1, right_volts); // setting motor speeds to adjusted speed
 }
 
 void turn(int rightDir) {
@@ -152,6 +114,42 @@ void turn(int rightDir) {
 		moveRightMotor(0,0);
 	}
 	HAL_Delay(500);
+}
+
+void corridor_correction() {
+	float lnew, rnew, error, p_term, d_term, correction;
+	int max_correct, min_correct;
+	// error is high if closer to right, low if close to left
+	error = dis_SL - dis_SR;
+	// p term is proportional to error
+	p_term = KP * error * .001;
+	// d term is proportional to derivative of error
+	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
+	d_term = KD * (error - prev_error);
+	correction = p_term + d_term;
+
+	lnew = mouseSpeedL - correction;
+	rnew = mouseSpeedR + correction;
+
+	max_correct = CRUISE_SPEED + 30;
+	min_correct = CRUISE_SPEED - 30;
+
+	// clamp maximum and minimum voltages
+	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
+	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
+	prev_error = error;
+}
+
+int move_forward(){
+	do {
+		moveLeftMotor(1, mouseSpeedL);
+		moveRightMotor(1, mouseSpeedR);
+		corridor_correction();
+	} while (dis_FL > 50 || dis_FR > 50);
+	moveRightMotor(1, 0);
+	moveLeftMotor(1, 0);
+
+	return 0;
 }
 
 void turn180() {

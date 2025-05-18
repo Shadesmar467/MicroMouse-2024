@@ -18,7 +18,9 @@ int move_dist(float dist);
 
 void turn180();
 
-void frontStraighten();
+void corridor_correction();
+
+int move_forward();
 
 void turn(int rightDir);
 
