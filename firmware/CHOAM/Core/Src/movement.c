@@ -13,34 +13,38 @@
 #include "distance.h"
 #include <math.h>
 
-void moveLeftMotor(int direction, int speed) {
+// starts left motor
+void moveLeftMotor(int direction, int speed) { // speed is a PWM value
 	SetLMotorDirection(direction);
-	TIM2->CCR4 = fabsf(speed);
-	mouseSpeedL = speed;
+	TIM2->CCR4 = fabsf(speed); // sets PWM value to abs(speed)
+	mouseSpeedL = speed; // directional value retained
 }
 
+// starts right motor
 void moveRightMotor(int direction, int speed) {
 	SetRMotorDirection(direction);
 	TIM2->CCR3 = fabsf(speed);
 	mouseSpeedR = speed;
 }
 
+// mouse halt
 void stopMotors() {
 	moveRightMotor(0, 0);
 	moveLeftMotor(0, 0);
 }
 
+// mouse move some distance forward in mm
 int move_dist(float dist) {
-	float startencL = encLmm;
+	float startencL = encLmm; //startenc = current distance traveled
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
 
 	while (encRmm < dist+startencR || encLmm < dist+startencL){
 		// Right motor profile
-		if (encRmm-startencR < dist * .6){
+		if (encRmm-startencR < dist * .6){ // for 60% of desired distance move full speed
 			moveRightMotor(direction, mouseSpeedR);
 		}
-		else if (encRmm-startencR < dist){
+		else if (encRmm-startencR < dist){ // moves at PWM value of 100 for remaining
 			moveRightMotor(direction, 100);
 		}
 		else{
@@ -58,14 +62,14 @@ int move_dist(float dist) {
 			moveLeftMotor(!direction, 80);
 		}
 
-		if (dis_FL < 40 || dis_FR < 40) {
+		if (dis_FL < 40 || dis_FR < 40) { // approaching 0 is closer to the wall
 			break;
 		}
 
 		continue;
 	}
 
-	moveRightMotor(direction, 0);
+	moveRightMotor(direction, 0); //stop motors, retain direction on startup
 	moveLeftMotor(direction, 0);
 	return 0;
 }

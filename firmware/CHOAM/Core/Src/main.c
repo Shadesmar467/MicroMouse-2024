@@ -76,27 +76,24 @@ static void MX_TIM4_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-/*ir var inits*/
-
-
 int mouseSpeedL = addVoltage + biasVoltageL;
 int mouseSpeedR = addVoltage + biasVoltageR;
 
-uint16_t encL = 0, encR = 0; //counter for left and right encoder value
+uint16_t encL = 0, encR = 0; // counter for left and right encoder value
 uint16_t prevEncL = 0, prevEncR = 0; // counter for previous left and right encoder values
-float encLmm, encRmm;	// distance traveled in mm
-int16_t dL, dR;		// change in ticks traveled since last update
+float encLmm, encRmm; // distance traveled in mm
+int16_t dL, dR;	// change in ticks traveled since last update
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
- //left encoder timer
-	if (htim->Instance == TIM3){
+	//left encoder timer
+	if (htim->Instance == TIM3){ //instance of timer peripheral (htim)
 		encL = __HAL_TIM_GET_COUNTER(htim);
-		dL = (int16_t)(prevEncL - encL);
-		encLmm += dL / tickConvertL;		// every 5.74125 ticks is 1 mm
-		prevEncL = encL;
+		dL = (int16_t)(prevEncL - encL); // small_uint - big_uint = really_big_uint, but gets converted back to actual number when typecasted, this solves overflow
+		encLmm += dL / tickConvertL; // every 5.74125 ticks is 1 mm
+		prevEncL = encL; //for next iteration
 	}
 
+	//right encoder timer
 	if (htim->Instance == TIM4) {
 		encR = __HAL_TIM_GET_COUNTER(htim);
 		dR = (int16_t)(prevEncR - encR);
@@ -149,6 +146,7 @@ int main(void)
 
   //start left encoder
   HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+  //start right encoder
   HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
 
   HAL_TIM_Base_Start_IT(&htim2);
@@ -162,6 +160,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  //blink LED for testing
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 	  HAL_Delay(2000);
 
@@ -512,11 +511,13 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-	dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F;
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) { // called every period
+
+	//getting and converting IR values to usable values
+	dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F; // (Current distance value)*(-100)/(calibration constant)
 	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
-	dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
-	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
+	dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25; // Side Left IR is weak, hence the *3
+	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25; // +25 to make all PID values positive
 }
 /* USER CODE END 4 */
 

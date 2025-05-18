@@ -17,7 +17,6 @@ void initializeEverything(Maze* myMaze, Mouse* myMouse) {
             myMaze->goalPos.x = 7;
             myMaze->goalPos.y = 8;
 
-
             if (x == 0) {
             	//west boundary hardcoded
             	myMaze->cellWalls[x][y] = 0b1000;
@@ -47,13 +46,13 @@ void scanWalls(Maze* mazePtr, Mouse* mousePtr) {
     const int leftMasks[] = {WEST_MASK, NORTH_MASK, EAST_MASK, SOUTH_MASK};
     const int frontMasks[] = {NORTH_MASK, EAST_MASK, SOUTH_MASK, WEST_MASK};
 
-    if (API::wallFront()) {
+    if (wallDetectFront()) {
         mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= frontMasks[mousePtr->mouseDir];
     }
-    if (API::wallRight()) {
+    if (wallDetectSideRight()) {
         mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= rightMasks[mousePtr->mouseDir];
     }
-    if (API::wallLeft()) {
+    if (wallDetectSideLeft()) {
         mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= leftMasks[mousePtr->mouseDir];
     }
     //at this point, the mouses current cell now contains a binary number that tells us which walls exist

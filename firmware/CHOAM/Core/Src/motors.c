@@ -4,13 +4,6 @@
 
 void SetLMotorDirection(int forward){
 	if (forward){
-		/*
-		//ML Backwards LOW
-		HAL_GPIO_WritePin(GPIOB, ML_BWD_Pin, GPIO_PIN_RESET);
-		//ML Forward HIGH
-		HAL_GPIO_WritePin(GPIOA, ML_FWD_Pin, GPIO_PIN_SET);
-		*/
-
 		//ML Backwards LOW
 		HAL_GPIO_WritePin(ML_BWD_GPIO_Port, ML_BWD_Pin, GPIO_PIN_RESET);
 		//ML Forward HIGH
