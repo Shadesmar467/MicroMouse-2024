@@ -55,26 +55,14 @@ uint16_t measure_dist(dist_t dist){
    }
 
 int wallDetectFront() {
-	if (dis_FL < 10 && dis_FR < 10) {
-		stopMotors();
-		return 1;
-	}
-	return 0;
+	return (dis_FL < DETECT_FL || dis_FR < DETECT_FR);
 }
 
-int wallDetectSideLeft(uint16_t valueSL) {
-	if (valueSL*SCALE_SL >= 10) {
-		stopMotors();
-		return 1;
-	}
-	return 0;
+int wallDetectLeft() {
+	return (dis_SL < DETECT_SL);
 }
 
-int wallDetectSideRight(uint16_t valueSR) {
-	if (valueSR*SCALE_SR >= 10) {
-		stopMotors();
-		return 1;
-	}
-	return 0;
+int wallDetectRight() {
+	return (dis_SR < DETECT_SR);
 }
 

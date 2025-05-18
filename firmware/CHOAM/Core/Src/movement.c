@@ -118,6 +118,7 @@ void turn(int rightDir) {
 
 void corridor_correction() {
 	float lnew, rnew, error, p_term, d_term, correction;
+	int max_correct, min_correct;
 	// error is high if closer to right, low if close to left
 	error = dis_SL - dis_SR;
 	// p term is proportional to error
@@ -130,9 +131,12 @@ void corridor_correction() {
 	lnew = mouseSpeedL - correction;
 	rnew = mouseSpeedR + correction;
 
+	max_correct = CRUISE_SPEED + 30;
+	min_correct = CRUISE_SPEED - 30;
+
 	// clamp maximum and minimum voltages
-	mouseSpeedL = (lnew < 230 && lnew > 170) ? lnew : mouseSpeedL;
-	mouseSpeedR = (rnew < 230 && rnew > 170) ? rnew : mouseSpeedR;
+	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
+	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
 	prev_error = error;
 }
 
@@ -141,7 +145,7 @@ int move_forward(){
 		moveLeftMotor(1, mouseSpeedL);
 		moveRightMotor(1, mouseSpeedR);
 		corridor_correction();
-	} while (dis_FL > 30 || dis_FR > 30);
+	} while (dis_FL > 50 || dis_FR > 50);
 	moveRightMotor(1, 0);
 	moveLeftMotor(1, 0);
 

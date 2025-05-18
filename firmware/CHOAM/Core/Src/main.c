@@ -80,8 +80,11 @@ static void MX_TIM4_Init(void);
 /*ir var inits*/
 
 
-int mouseSpeedL = addVoltage + biasVoltageL;
-int mouseSpeedR = addVoltage + biasVoltageR;
+//int mouseSpeedL = addVoltage + biasVoltageL;
+//int mouseSpeedR = addVoltage + biasVoltageR;
+
+int mouseSpeedL = CRUISE_SPEED;
+int mouseSpeedR = CRUISE_SPEED;
 
 uint16_t encL = 0, encR = 0; //counter for left and right encoder value
 uint16_t prevEncL = 0, prevEncR = 0; // counter for previous left and right encoder values
@@ -517,6 +520,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
 	dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
 	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
+
+	encLmm = wallDetectFront();
+	encRmm = wallDetectLeft();
+	mouseSpeedL = wallDetectRight();
 }
 /* USER CODE END 4 */
 

@@ -13,8 +13,8 @@
 /*			motors/encoders			*/
 // voltages to assign to motors
 #define addVoltage 0
-#define biasVoltageL 170
-#define biasVoltageR 170
+#define biasVoltageL 180
+#define biasVoltageR 180
 
 // constants for converting encoders
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
@@ -49,14 +49,21 @@ extern int dis_FR;
 extern int dis_SL;
 extern int dis_SR;
 
+// walldetect values
+#define DETECT_FL 50.0
+#define DETECT_FR 38.0
+#define DETECT_SL 130.0
+#define DETECT_SR 90.0
+
 
 
 
 
 /* 			PID Values			*/
+// old: 3.5, 20
 #define KP 3.5 // calibrate, currently arbitrary
 #define KD 20 // calibrate, currently arbitrary
-#define CRUISE_SPEED 200
+#define CRUISE_SPEED 230
 #define CLK_PERIOD .001
 extern float prev_error;
 
