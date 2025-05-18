@@ -1,5 +1,4 @@
 #include "floodfill_includes/floodfill.h"
-#include "floodfill_includes/definitions.h"
 #include "floodfill_includes/utilityFunctions.h"
 
 void floodFill (Maze* maze) {

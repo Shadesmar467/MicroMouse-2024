@@ -27,11 +27,6 @@
 #include "motors.h"
 #include "values.h"
 #include "movement.h"
-<<<<<<< HEAD
-#include "floodfill_includes/definitions.h"
-
-=======
->>>>>>> 3a6b84d7593358bdfd310e2565074b48d302f90e
 
 // software integration includes
 #include "floodfill_includes/definitions.h"
@@ -173,7 +168,7 @@ int main(void)
   Mouse myMouse;
   Maze myMaze;
 
-  initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
+  init_maze(&myMaze, &myMouse); //hard-code the boundary walls
 
   setGoalPos(goal1, &myMaze);
   goToPos(0, &myMaze, &myMouse);

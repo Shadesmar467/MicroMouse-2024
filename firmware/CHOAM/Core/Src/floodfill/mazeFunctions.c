@@ -1,0 +1,78 @@
+#include "stdlib.h"
+#include "floodfill_includes/mazeFunctions.h"
+#include "distance.h"
+
+void init_maze(Maze* maze, Mouse* mouse) {
+
+    mouse->mousePos = initialCoord;
+    mouse->mouseDir = NORTH;
+
+    for (int x = 0; x < 16; x++) {
+        for (int y = 0; y < 16; y++) {
+
+            maze->cellWalls[x][y] = 0;
+            maze->distances[x][y] = 255;
+            maze->goalPos.x = 7;
+            maze->goalPos.y = 8;
+
+            if (x == 0) {
+            	maze->cellWalls[x][y] |= WEST_MASK; //not verified if this works
+            }
+
+            if (x == 15) {
+				maze->cellWalls[x][y] |= EAST_MASK;
+			}
+
+            if (y == 0) {
+				maze->cellWalls[x][y] |= SOUTH_MASK;
+			}
+
+            if (y == 15) {
+				maze->cellWalls[x][y] |= NORTH_MASK;
+			}
+        }
+    }
+}
+
+void scanWalls(Maze* maze, Mouse* mouse) {
+    // ^^need a pointer to affect the og mouse and maze, instead of making a copy
+    const int rightMasks[] = {EAST_MASK, SOUTH_MASK, WEST_MASK, NORTH_MASK};
+    const int leftMasks[] = {WEST_MASK, NORTH_MASK, EAST_MASK, SOUTH_MASK};
+    const int frontMasks[] = {NORTH_MASK, EAST_MASK, SOUTH_MASK, WEST_MASK};
+
+    if (wallDetectFront()) {
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= frontMasks[mouse->mouseDir];
+    }
+    if (wallDetectLeft()) {
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= rightMasks[mouse->mouseDir];
+    }
+    if (wallDetectRight()) {
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= leftMasks[mouse->mouseDir];
+    }
+    //at this point, the mouses current cell now contains a binary number that tells us which walls exist
+}
+
+void setGoalCenter (Mouse* mouse, Maze* maze){
+    int closestX;
+    int closestY;
+    if (mouse->mousePos.x >= 8 && mouse->mousePos.y >= 8){
+        closestX = 8;
+        closestY = 8;
+    } else if (mouse->mousePos.x < 8 && mouse->mousePos.y >= 8) {
+        closestX = 7;
+        closestY = 8;
+    } else if (mouse->mousePos.x < 8 && mouse->mousePos.y < 8) {
+        closestX = 7;
+        closestY = 7;
+    } else if (mouse->mousePos.x >= 8 && mouse->mousePos.y < 8) {
+        closestX = 8;
+        closestY = 7;
+    }
+    maze->goalPos.x = closestX;
+    maze->goalPos.y = closestY;
+}
+
+void setGoalPos (Coord coord, Maze* maze) {
+    maze->goalPos.x = coord.x;
+    maze->goalPos.y = coord.y;
+}

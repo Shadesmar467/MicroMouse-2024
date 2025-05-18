@@ -10,6 +10,8 @@
 
 #define MAX_COST 255
 
+#include "definitions.h"
+
 void floodFill(Maze* maze);
 
 #endif /* INC_FLOODFILL_INCLUDES_FLOODFILL_H_ */
