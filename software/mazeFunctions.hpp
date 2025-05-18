@@ -1,26 +1,22 @@
 #ifndef MAZE
 #define MAZE
 
-#include <iostream>
-#include <string>
-
 #include "stdlib.h"
 
 #include "API.h"
 #include "definitions.hpp"
-#include "log.hpp"
 
-void initializeEverything(Maze* myMaze, Mouse* myMouse) {
+void initializeEverything(Maze* maze, Mouse* mouse) {
 
-    myMouse->mousePos = {0,0};
-    myMouse->mouseDir = NORTH;
+    mouse->mousePos = {0,0};
+    mouse->mouseDir = NORTH;
 
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
 
-            myMaze->cellWalls[x][y] = 0;
-            myMaze->distances[x][y] = 255;
-            myMaze->goalPos = {7,8};
+            maze->cellWalls[x][y] = 0;
+            maze->distances[x][y] = 255;
+            maze->goalPos = {7,8};
 
             API::setWall(0, y, 'w'); 
             API::setWall(15, y, 'e'); 
@@ -30,37 +26,37 @@ void initializeEverything(Maze* myMaze, Mouse* myMouse) {
     }
 }
 
-void scanWalls(Maze* mazePtr, Mouse* mousePtr) { 
+void scanWalls(Maze* maze, Mouse* mouse) { 
     // ^^need a pointer to affect the og mouse and maze, instead of making a copy
     const int rightMasks[] = {EAST_MASK, SOUTH_MASK, WEST_MASK, NORTH_MASK};
     const int leftMasks[] = {WEST_MASK, NORTH_MASK, EAST_MASK, SOUTH_MASK};
     const int frontMasks[] = {NORTH_MASK, EAST_MASK, SOUTH_MASK, WEST_MASK};
 
     if (API::wallFront()) {
-        mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= frontMasks[mousePtr->mouseDir];
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= frontMasks[mouse->mouseDir];
     }
     if (API::wallRight()) {
-        mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= rightMasks[mousePtr->mouseDir];
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= rightMasks[mouse->mouseDir];
     }
     if (API::wallLeft()) {
-        mazePtr->cellWalls[mousePtr->mousePos.x][mousePtr->mousePos.y] |= leftMasks[mousePtr->mouseDir];
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= leftMasks[mouse->mouseDir];
     }
     //at this point, the mouses current cell now contains a binary number that tells us which walls exist
 }
 
-void updateSim (Maze* mazePtr, Mouse* mousePtr) {
+void updateSim (Maze* maze, Mouse* mouse) {
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
-            if (mazePtr->cellWalls[x][y] & NORTH_MASK) {
+            if (maze->cellWalls[x][y] & NORTH_MASK) {
                 API::setWall(x, y, 'n');
             }
-            if (mazePtr->cellWalls[x][y] & EAST_MASK){
+            if (maze->cellWalls[x][y] & EAST_MASK){
                 API::setWall(x, y, 'e');
             }
-            if (mazePtr->cellWalls[x][y] & SOUTH_MASK) {
+            if (maze->cellWalls[x][y] & SOUTH_MASK) {
                 API::setWall(x, y, 's');
             }
-            if (mazePtr->cellWalls[x][y] & WEST_MASK) {
+            if (maze->cellWalls[x][y] & WEST_MASK) {
                 API::setWall(x, y, 'w');
             }
         }

@@ -2,13 +2,7 @@
 #define MOUSE
 
 #include "definitions.hpp"
-#include "log.hpp"
 #include "API.h"
-#include "testFunctions.hpp"
-#include "utilityFunctions.hpp"
-
-#include <iostream>
-#include <string>
 
 void updateMousePos(Mouse* mouse) {
     if (mouse->mouseDir == NORTH) {

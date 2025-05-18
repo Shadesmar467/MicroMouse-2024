@@ -2,14 +2,12 @@
 #define UTIL
 
 #include <iostream>
-#include <string>
 #include <stdbool.h>
 
 #include "stdlib.h"
 
 #include "API.h"
 #include "definitions.hpp"
-#include "log.hpp"
 
 void initQ(Queue* q) {
     for (int x = 0; x < 255; x++) {

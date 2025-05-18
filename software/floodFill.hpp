@@ -2,17 +2,12 @@
 #define FLOOD
 #define MAX_COST 255
 
-#include <iostream>
 #include <string>
 #include <stdio.h>
 
 
 #include "definitions.hpp"
-#include "mouseFunctions.hpp"
-#include "mazeFunctions.hpp"
-#include "testFunctions.hpp"
 #include "utilityFunctions.hpp"
-#include "log.hpp"
 
 
 void floodFill (Maze* mazePtr){
