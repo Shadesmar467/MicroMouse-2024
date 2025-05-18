@@ -8,6 +8,8 @@
 #ifndef INC_FLOODFILL_INCLUDES_UTILITYFUNCTIONS_H_
 #define INC_FLOODFILL_INCLUDES_UTILITYFUNCTIONS_H_
 
+#include "definitions.h"
+
 void initQ(Queue* q);
 
 CellList* getNeighborCells(Maze* mazePtr, Coord c);
