@@ -21,14 +21,19 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+// hardware includes
 #include "adc_manager.h"
 #include "distance.h"
 #include "motors.h"
 #include "values.h"
 #include "movement.h"
-#include "definitions.h"
 
-
+// software integration includes
+#include "floodfill_includes/definitions.h"
+#include "floodfill_includes/mouseFunctions.h"
+#include "floodfill_includes/mazeFunctions.h"
+#include "floodfill_includes/utilityFunctions.h"
+#include "floodfill_includes/floodFill.h"
 
 /* USER CODE END Includes */
 
@@ -160,8 +165,23 @@ int main(void)
 
   HAL_TIM_Base_Start_IT(&htim2);
 
-  HAL_Delay(500);
-  move_forward();
+  Mouse myMouse;
+  Maze myMaze;
+
+  initializeEverything(&myMaze, &myMouse); //hard-code the boundary walls
+
+  setGoalPos(goal1, &myMaze);
+  goToPos(0, &myMaze, &myMouse);
+
+  setGoalPos(goal2, &myMaze);
+  goToPos(0, &myMaze, &myMouse);
+
+  goToPos(1, &myMaze, &myMouse);
+
+  setGoalPos(initialCoord, &myMaze);
+  goToPos(0, &myMaze, &myMouse);
+
+  goToPos(1, &myMaze, &myMouse);
 
   /* USER CODE END 2 */
 

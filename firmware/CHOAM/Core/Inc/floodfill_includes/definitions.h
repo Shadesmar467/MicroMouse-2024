@@ -8,6 +8,8 @@
 #ifndef INC_DEFINITIONS_H_
 #define INC_DEFINITIONS_H_
 
+#include <stdbool.h>
+
 #define goal1 (Coord){15, 15}
 #define goal2 (Coord){0, 15}
 #define initialCoord (Coord){0, 0}
