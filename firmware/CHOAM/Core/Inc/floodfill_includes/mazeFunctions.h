@@ -1,10 +1,3 @@
-/*
- * maze_functions.h
- *
- *  Created on: May 17, 2025
- *      Author: adamhwu
- */
-
 #ifndef INC_FLOODFILL_INCLUDES_MAZEFUNCTIONS_H_
 #define INC_FLOODFILL_INCLUDES_MAZEFUNCTIONS_H_
 

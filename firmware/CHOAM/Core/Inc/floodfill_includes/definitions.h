@@ -1,10 +1,3 @@
-/*
- * definitions.h
- *
- *  Created on: May 17, 2025
- *      Author: adamhwu
- */
-
 #ifndef INC_DEFINITIONS_H_
 #define INC_DEFINITIONS_H_
 

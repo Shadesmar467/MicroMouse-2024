@@ -1,10 +1,3 @@
-/*
- * adc_manager.h
- *
- *  Created on: Mar 2, 2025
- *      Author: adamhwu
- */
-
 #pragma once
 
 #ifndef INC_ADC_MANAGER_H_
