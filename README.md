@@ -1,7 +1,7 @@
 # MicroMouse 24-25 (IEEE@UCI)
 By Adam Wu and Jeremiah Yong
 ## Project Summary
-A robot(mouse) that navigates a 16x16ft maze, from corner to center using an STM32F103C8T6(bluepill) microcontroller
+A robot(mouse) that navigates a 16x16 cell maze, from corner to center using an STM32F103C8T6(bluepill) microcontroller
 
 **Concepts Utilized:** Floodfill, PWM, Proportional-Integral-Derivative(PID) Correction
 
