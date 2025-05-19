@@ -12,7 +12,7 @@ void init_maze(Maze* maze, Mouse* mouse) {
         for (int y = 0; y < 16; y++) {
 
             maze->cellWalls[x][y] = (x == 0) ? WEST_MASK : 0;
-            maze->cellWalls[x][y] = (x == 15) ? EAST_MASK :0;
+            maze->cellWalls[x][y] = (x == 15) ? EAST_MASK : 0;
             maze->cellWalls[x][y] = (y == 0) ? SOUTH_MASK : 0;
             maze->cellWalls[x][y] = (y == 15) ? NORTH_MASK : 0;
 
@@ -33,7 +33,8 @@ void scanWalls(Maze* maze, Mouse* mouse) {
 
     /* mouseDir is an enum, from 0 to 3. By shifting the order of the directions we can select the correct wall and add it to the cell.
      * For example, if the mouse is facing EAST, this is the value 1. If, while facing east, we detect a wall to the RIGHT of the mouse,
-     * the third statement gets triggered and we calculate rightMasks[1]. This is the value SOUTH_MASK, and it is bitwise or'd to the current wall value to update it.*/
+     * the third statement gets triggered and we calculate rightMasks[1]. This is the value SOUTH_MASK, and it is bitwise or'd to the
+     * current wall value to update it.*/
     if (wallDetectFront()) {
         maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= frontMasks[mouse->mouseDir];
     }
