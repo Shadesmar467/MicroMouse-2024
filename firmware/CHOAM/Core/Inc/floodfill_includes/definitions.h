@@ -6,6 +6,7 @@
 #define goal1 (Coord){15, 15}
 #define goal2 (Coord){0, 15}
 #define initialCoord (Coord){0, 0}
+#define goalTest (Coord){4,4}
 
 extern char dir_chars[4];
 extern int dir_mask[4];

@@ -5,6 +5,7 @@
 #include "values.h"
 #include "distance.h"
 #include <math.h>
+#include "movement.h"
 
 void moveLeftMotor(int direction, int speed) {
 	SetLMotorDirection(direction);
@@ -24,13 +25,11 @@ void stopMotors() {
 }
 
 int move_dist(float dist) {
-	HAL_Delay(500);
 	float startencL = encLmm;
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
 	mouseSpeedL = CRUISE_SPEED;
 	mouseSpeedR = CRUISE_SPEED;
-//	corridor_correction();
 
 	while (encRmm < dist+startencR || encLmm < dist+startencL){
 		// Right motor profile
@@ -55,6 +54,10 @@ int move_dist(float dist) {
 			moveLeftMotor(direction, 0);
 		}
 
+		if (wallDetectLeft() && wallDetectRight()) {
+				corridor_correction();
+		}
+
 		continue;
 	}
 
@@ -70,14 +73,14 @@ void turn(int rightDir) {
 	if (rightDir){
 		while ((encRmm > targetR) || (encLmm < targetL)) {
 			if (encRmm > targetR) {
-				moveRightMotor(0, biasVoltageR + 50);
+				moveRightMotor(0, biasVoltageR + 30);
 			}
 			else {
 				moveRightMotor(0, 0);
 			}
 
 			if (encLmm < targetL) {
-				moveLeftMotor(1, biasVoltageL + 50);
+				moveLeftMotor(1, biasVoltageL + 30);
 			}
 			else {
 				moveLeftMotor(1, 0);
@@ -88,14 +91,14 @@ void turn(int rightDir) {
 	else {
 		while ((encRmm < targetR) || (encLmm > targetL)) {
 			if (encRmm < targetR) {
-				moveRightMotor(1, biasVoltageR + 50);
+				moveRightMotor(1, biasVoltageR + 30);
 			}
 			else {
 				moveRightMotor(1, 0);
 			}
 
 			if (encLmm > targetL) {
-				moveLeftMotor(0, biasVoltageL + 50);
+				moveLeftMotor(0, biasVoltageL + 30);
 			}
 			else {
 				moveLeftMotor(0, 0);
@@ -104,7 +107,6 @@ void turn(int rightDir) {
 	}
 	moveLeftMotor(0,0);
 	moveRightMotor(0,0);
-	HAL_Delay(500);
 }
 
 void corridor_correction() {
@@ -144,6 +146,6 @@ int move_forward(){
 }
 
 void turn180() {
-	turn(1);
-	turn(1);
+		turn(1);
+		turn(1);
 }

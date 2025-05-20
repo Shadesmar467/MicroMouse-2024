@@ -13,8 +13,8 @@
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
 #define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
 // encoder constants for turning
-#define turnTicksR 34
-#define turnTicksL 34
+#define turnTicksR 20 //30 for stop-turn-stop, 20 for continuous turn
+#define turnTicksL 20
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 
@@ -45,8 +45,8 @@ extern int dis_SR;
 // walldetect values
 #define DETECT_FL 40.0
 #define DETECT_FR 25.0
-#define DETECT_SL 35.0
-#define DETECT_SR 25.0
+#define DETECT_SL 70.0
+#define DETECT_SR 70.0
 
 
 

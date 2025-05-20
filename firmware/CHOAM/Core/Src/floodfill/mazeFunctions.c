@@ -1,6 +1,7 @@
 #include "stdlib.h"
 #include "floodfill_includes/mazeFunctions.h"
 #include "distance.h"
+#include "values.h"
 
 //initializes maze start values (borders, wall values set to 0, goal cell set as center, mouse initial direction north)
 void init_maze(Maze* maze, Mouse* mouse) {
@@ -10,11 +11,14 @@ void init_maze(Maze* maze, Mouse* mouse) {
 
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
+        	// Clear wall data first
+			maze->cellWalls[x][y] = 0;
 
-            maze->cellWalls[x][y] = (x == 0) ? (maze->cellWalls[x][y] | WEST_MASK) : 0;
-            maze->cellWalls[x][y] = (x == 15) ? (maze->cellWalls[x][y] | EAST_MASK) : 0;
-            maze->cellWalls[x][y] = (y == 0) ? (maze->cellWalls[x][y] | SOUTH_MASK) : 0;
-            maze->cellWalls[x][y] = (y == 15) ? (maze->cellWalls[x][y] | NORTH_MASK) : 0;
+			// Set boundary walls
+			if (x == 0)  maze->cellWalls[x][y] |= WEST_MASK;
+			if (x == 15) maze->cellWalls[x][y] |= EAST_MASK;
+			if (y == 0)  maze->cellWalls[x][y] |= SOUTH_MASK;
+			if (y == 15) maze->cellWalls[x][y] |= NORTH_MASK;
 
             maze->distances[x][y] = 255;
 
@@ -42,7 +46,6 @@ void scan_walls(Maze* maze, Mouse* mouse) {
     }
     if (wallDetectRight()) {
         maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= rightMasks[mouse->mouseDir];
-
     }
     //at this point, the mouses current cell now contains a binary number that tells us which walls exist
 }

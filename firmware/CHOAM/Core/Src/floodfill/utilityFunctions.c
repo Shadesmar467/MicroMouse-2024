@@ -76,7 +76,7 @@ Coord getBestGoalCell(Maze* mazePtr, Mouse* mousePtr) {
         int test_cell_cost = mazePtr->distances[test_cell_coord.x][test_cell_coord.y];
 
         if (test_cell_cost == desired_cell_cost)   // if the cost is 1 less than the current one...
-            best_cell_coord = test_cell_coord; // ... then we know this is the best cell!
+            best_cell_coord = test_cell_coord; // ... then we know this is the best cell
         	//note: in case of a tie the mouse picks the cell it IDs first
     }
     return best_cell_coord;

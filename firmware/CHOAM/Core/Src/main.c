@@ -183,23 +183,34 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   HAL_Delay(500);
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  while (dis_FL > 20){
-  }
+  //while (dis_FL > 20){
+  //}
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   HAL_Delay(1500);
 
   init_maze(&myMaze, &myMouse); //hard-code the boundary walls
-  setGoalPos(goal1, &myMaze);
+  setGoalPos(goalTest, &myMaze);
+  scan_walls(&myMaze, &myMouse);
   while (goToPos(1, &myMaze, &myMouse)) {
-	  move_dist(160);
+	  move_dist(180);
 	  updateMousePos(&myMouse);
+  }
+
+  /*CURRENT ERRORS:
+   * turnTicks varies between turns-in-place and turns on the go
+   * turns are inaccurate - 180 turns are cooked
+   * right motor stronger than left - corrects with PID, but drifts too far if there is a gap in walls
+   * mouse sometimes crashes into walls head on - i think because it either updates faster than it can move,
+   * 	or momentum built up in a straight isn't registered as movement in our code
+   * */
+
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-  }
   /* USER CODE END 3 */
 }
 
