@@ -66,6 +66,17 @@ int dis_FR;
 int dis_SL;
 int dis_SR;
 
+int debug1 = 0;
+int debug2 = 0;
+int debug3 = 0;
+int debug4;
+int debug5;
+int debug6;
+int debug7;
+int debug8;
+int debug9;
+
+
 float prev_error;
 
 Mouse mouse;
@@ -168,30 +179,23 @@ int main(void)
   Mouse myMouse;
   Maze myMaze;
 
-  init_maze(&myMaze, &myMouse); //hard-code the boundary walls
-
-  setGoalPos(goal1, &myMaze);
-  goToPos(0, &myMaze, &myMouse);
-
-  setGoalPos(goal2, &myMaze);
-  goToPos(0, &myMaze, &myMouse);
-
-  goToPos(1, &myMaze, &myMouse);
-
-  setGoalPos(initialCoord, &myMaze);
-  goToPos(0, &myMaze, &myMouse);
-
-  goToPos(1, &myMaze, &myMouse);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  HAL_Delay(500);
+  turn(0);
+  turn(1);
+  turn180();
+  while (dis_FL > 20){
+	  HAL_Delay(500);
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  HAL_Delay(2000);
-
+  }
+  HAL_Delay(1000);
+  init_maze(&myMaze, &myMouse); //hard-code the boundary walls
+  setGoalPos(goal1, &myMaze);
+  while (goToPos(1, &myMaze, &myMouse)) {
+	  move_dist(180);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -20,8 +20,8 @@
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
 #define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
 // encoder constants for turning
-#define turnTicksR 30
-#define turnTicksL 30
+#define turnTicksR 33
+#define turnTicksL 33
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 
@@ -50,10 +50,10 @@ extern int dis_SL;
 extern int dis_SR;
 
 // walldetect values
-#define DETECT_FL 50.0
-#define DETECT_FR 38.0
-#define DETECT_SL 130.0
-#define DETECT_SR 90.0
+#define DETECT_FL 40.0
+#define DETECT_FR 25.0
+#define DETECT_SL 35.0
+#define DETECT_SR 25.0
 
 
 
@@ -71,5 +71,16 @@ extern float prev_error;
 // current mouse speed
 extern int mouseSpeedR;
 extern int mouseSpeedL;
+
+extern int debug1;
+extern int debug2;
+extern int debug3;
+extern int debug4;
+extern int debug5;
+extern int debug6;
+extern int debug7;
+extern int debug8;
+extern int debug9;
+
 
 #endif /* INC_VALUES_H_ */

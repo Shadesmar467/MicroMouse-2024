@@ -34,7 +34,7 @@ void init_maze(Maze* maze, Mouse* mouse) {
     }
 }
 
-void scanWalls(Maze* maze, Mouse* mouse) {
+void scan_walls(Maze* maze, Mouse* mouse) {
     // ^^need a pointer to affect the og mouse and maze, instead of making a copy
     const int rightMasks[] = {EAST_MASK, SOUTH_MASK, WEST_MASK, NORTH_MASK};
     const int leftMasks[] = {WEST_MASK, NORTH_MASK, EAST_MASK, SOUTH_MASK};
@@ -44,10 +44,10 @@ void scanWalls(Maze* maze, Mouse* mouse) {
         maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= frontMasks[mouse->mouseDir];
     }
     if (wallDetectLeft()) {
-        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= rightMasks[mouse->mouseDir];
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= leftMasks[mouse->mouseDir];
     }
     if (wallDetectRight()) {
-        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= leftMasks[mouse->mouseDir];
+        maze->cellWalls[mouse->mousePos.x][mouse->mousePos.y] |= rightMasks[mouse->mouseDir];
     }
     //at this point, the mouses current cell now contains a binary number that tells us which walls exist
 }

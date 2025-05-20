@@ -6,6 +6,8 @@
  */
 
 #include "floodfill_includes/mouseFunctions.h"
+#include "movement.h"
+#include "values.h"
 
 void updateMousePos(Mouse* mouse) {
     if (mouse->mouseDir == NORTH) {
@@ -35,7 +37,6 @@ void move(Maze* maze, Mouse* mouse, Coord* pos) {
         targetDir = EAST;  // best cell is EAST
     }
 
-
     int turnsNeeded = (targetDir - mouse->mouseDir + 4) % 4;
 
     switch (turnsNeeded) {
@@ -51,7 +52,5 @@ void move(Maze* maze, Mouse* mouse, Coord* pos) {
         default: // case 0, no turn needed
             break;
     }
-
     mouse->mouseDir = (Direction)(targetDir);  // Update the mouse direction
-    move_dist(180);
 }

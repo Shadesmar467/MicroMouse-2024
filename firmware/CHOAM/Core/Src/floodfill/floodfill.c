@@ -1,5 +1,7 @@
 #include "floodfill_includes/floodfill.h"
 #include "floodfill_includes/utilityFunctions.h"
+#include "values.h"
+#include <stdlib.h>
 
 void floodFill (Maze* maze) {
     Queue q;
@@ -29,6 +31,7 @@ void floodFill (Maze* maze) {
     while (q.head < q.tail) {
         Cell cur_cell = q.kew[q.head];  // pop first item from queue
         q.head++;
+
         CellList* neighborList = getNeighborCells(maze, cur_cell.pos);   // get neighboring cells that arent blocked by walls
         int new_cost = maze->distances[cur_cell.pos.x][cur_cell.pos.y] + 1;  // cost of neighboring cells will be current cell cost + 1
 
@@ -42,5 +45,7 @@ void floodFill (Maze* maze) {
                 maze->distances[cur_neighbor.pos.x][cur_neighbor.pos.y] = new_cost;
             }
         }
+        free(neighborList->cells);
+        free(neighborList);
     }
 }

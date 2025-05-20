@@ -37,7 +37,6 @@ void move(Maze* maze, Mouse* mouse, Coord* inC) {
         targetDir = EAST;  // best cell is EAST
     }
 
-
     int turnsNeeded = (targetDir - mouse->mouseDir + 4) % 4;
 
     switch (turnsNeeded) {

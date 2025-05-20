@@ -9,6 +9,12 @@
 #include "stdlib.h"
 
 #include "floodfill_includes/utilityFunctions.h"
+#include "floodfill_includes/mouseFunctions.h"
+#include "floodfill_includes/mazeFunctions.h"
+#include "floodfill_includes/floodfill.h"
+#include "movement.h"
+#include "values.h"
+
 
 void initQ(Queue* q) {
     for (int x = 0; x < 255; x++) {
@@ -160,28 +166,24 @@ void deadEndCheck (Maze* mazePtr, Mouse* mousePtr) {    // blocks off dead ends 
         else {
             deadEndID(mazePtr, mousePtr); // otherwise, check if we're in a dead end
         }
-    } else { //impossible for deadend to be in starting cell
+    } else { //impossible for dead end to be in starting cell
         mousePtr->isInDeadEnd = false;
     }
 }
 
 int goToPos(int goalIsCenter, Maze* myMaze, Mouse* myMouse){
-	while (true) {
-		if (goalIsCenter){
-			setGoalCenter(myMouse, myMaze);
-		}
-		scanWalls(myMaze, myMouse);
-		deadEndCheck(myMaze, myMouse);
-		floodFill(myMaze);
-
-		Coord bestCell = getBestGoalCell(myMaze, myMouse);
-
-		move(myMaze, myMouse, &bestCell);
-		updateMousePos(myMouse);
-
-		if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
-			break;
-		}
+	if (goalIsCenter){
+		setGoalCenter(myMouse, myMaze);
 	}
-    return 0;
+	scan_walls(myMaze, myMouse);
+//		deadEndCheck(myMaze, myMouse);
+	floodFill(myMaze);
+	Coord bestCell = getBestGoalCell(myMaze, myMouse);
+	move(myMaze, myMouse, &bestCell);
+	updateMousePos(myMouse);
+
+	if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
+		return 0;
+	}
+    return 1;
 }

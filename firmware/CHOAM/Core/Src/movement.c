@@ -31,9 +31,13 @@ void stopMotors() {
 }
 
 int move_dist(float dist) {
+	HAL_Delay(500);
 	float startencL = encLmm;
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
+	mouseSpeedL = CRUISE_SPEED;
+	mouseSpeedR = CRUISE_SPEED;
+//	corridor_correction();
 
 	while (encRmm < dist+startencR || encLmm < dist+startencL){
 		// Right motor profile
@@ -41,10 +45,10 @@ int move_dist(float dist) {
 			moveRightMotor(direction, mouseSpeedR);
 		}
 		else if (encRmm-startencR < dist){
-			moveRightMotor(direction, 100);
+			moveRightMotor(direction, mouseSpeedR);
 		}
 		else{
-			moveRightMotor(!direction, 80);
+			moveRightMotor(direction, 0);
 		}
 
 		// Left motor profile
@@ -52,14 +56,10 @@ int move_dist(float dist) {
 			moveLeftMotor(direction, mouseSpeedL);
 		}
 		else if (encLmm-startencL < dist) {
-			moveLeftMotor(direction , 100);
+			moveLeftMotor(direction , mouseSpeedL);
 		}
 		else{
-			moveLeftMotor(!direction, 80);
-		}
-
-		if (dis_FL < 40 || dis_FR < 40) {
-			break;
+			moveLeftMotor(direction, 0);
 		}
 
 		continue;
@@ -90,8 +90,6 @@ void turn(int rightDir) {
 				moveLeftMotor(1, 0);
 			}
 		}
-		moveLeftMotor(0,0);
-		moveRightMotor(0,0);
 	}
 
 	else {
@@ -110,9 +108,9 @@ void turn(int rightDir) {
 				moveLeftMotor(0, 0);
 			}
 		}
-		moveLeftMotor(0,0);
-		moveRightMotor(0,0);
 	}
+	moveLeftMotor(0,0);
+	moveRightMotor(0,0);
 	HAL_Delay(500);
 }
 
