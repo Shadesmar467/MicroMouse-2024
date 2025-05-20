@@ -184,18 +184,17 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   HAL_Delay(500);
-  turn(0);
-  turn(1);
-  turn180();
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   while (dis_FL > 20){
-	  HAL_Delay(500);
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   }
-  HAL_Delay(1000);
+  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_Delay(1500);
+
   init_maze(&myMaze, &myMouse); //hard-code the boundary walls
   setGoalPos(goal1, &myMaze);
   while (goToPos(1, &myMaze, &myMouse)) {
-	  move_dist(180);
+	  move_dist(160);
+	  updateMousePos(&myMouse);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

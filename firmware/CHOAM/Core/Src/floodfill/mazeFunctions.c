@@ -11,10 +11,10 @@ void init_maze(Maze* maze, Mouse* mouse) {
     for (int x = 0; x < 16; x++) {
         for (int y = 0; y < 16; y++) {
 
-            maze->cellWalls[x][y] = (x == 0) ? WEST_MASK : 0;
-            maze->cellWalls[x][y] = (x == 15) ? EAST_MASK : 0;
-            maze->cellWalls[x][y] = (y == 0) ? SOUTH_MASK : 0;
-            maze->cellWalls[x][y] = (y == 15) ? NORTH_MASK : 0;
+            maze->cellWalls[x][y] = (x == 0) ? (maze->cellWalls[x][y] | WEST_MASK) : 0;
+            maze->cellWalls[x][y] = (x == 15) ? (maze->cellWalls[x][y] | EAST_MASK) : 0;
+            maze->cellWalls[x][y] = (y == 0) ? (maze->cellWalls[x][y] | SOUTH_MASK) : 0;
+            maze->cellWalls[x][y] = (y == 15) ? (maze->cellWalls[x][y] | NORTH_MASK) : 0;
 
             maze->distances[x][y] = 255;
 

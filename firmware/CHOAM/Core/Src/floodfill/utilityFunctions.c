@@ -179,31 +179,11 @@ void deadEndCheck (Maze* mazePtr, Mouse* mousePtr) {
 
 //meat of mouse navigation, combines previous functions to navigate the maze
 int goToPos(int goalIsCenter, Maze* myMaze, Mouse* myMouse){
-	while (true) {
-		if (goalIsCenter){
-			setGoalCenter(myMouse, myMaze);
-		}
-		scanWalls(myMaze, myMouse);
-		deadEndCheck(myMaze, myMouse);
-		floodFill(myMaze);
-
-		Coord bestCell = getBestGoalCell(myMaze, myMouse);
-
-		move(myMaze, myMouse, &bestCell);
-		updateMousePos(myMouse);
-
-		if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
-			//it is finished.
-			break;
-			//LISAN AL GAIB
-		}
-	}
 	scan_walls(myMaze, myMouse);
 //		deadEndCheck(myMaze, myMouse);
 	floodFill(myMaze);
 	Coord bestCell = getBestGoalCell(myMaze, myMouse);
 	move(myMaze, myMouse, &bestCell);
-	updateMousePos(myMouse);
 
 	if (myMouse->mousePos.x == myMaze->goalPos.x && myMouse->mousePos.y == myMaze->goalPos.y) {
 		return 0;

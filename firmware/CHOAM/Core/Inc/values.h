@@ -13,8 +13,8 @@
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
 #define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
 // encoder constants for turning
-#define turnTicksR 33
-#define turnTicksL 33
+#define turnTicksR 34
+#define turnTicksL 34
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 

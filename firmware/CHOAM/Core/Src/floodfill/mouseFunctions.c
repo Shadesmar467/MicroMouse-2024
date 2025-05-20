@@ -54,5 +54,4 @@ void move(Maze* maze, Mouse* mouse, Coord* bestCell) {
     }
     mouse->mouseDir = (Direction)(targetDir);  // Update the mouse direction
     // 180mm is the length of one cell in the actual maze.
-    move_dist(180);
 }
