@@ -1,10 +1,3 @@
-/*
- * distance.h
- *
- *  Created on: Mar 2, 2025
- *      Author: adamhwu
- */
-
 #ifndef INC_DISTANCE_H_
 #define INC_DISTANCE_H_
 

@@ -1,10 +1,3 @@
-/*
- * distance.c
- *
- *  Created on: Mar 2, 2025
- *      Author: adamhwu
- */
-
 #include <stdint.h>
 #include "distance.h"
 #include "main.h"

@@ -1,10 +1,3 @@
-/*
- * movement.c
- *
- *  Created on: Apr 24, 2025
- *      Author: adamhwu, jpyong
- */
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "main.h"
