@@ -59,14 +59,14 @@ int move_dist(float dist) {
 		}
 
 		if (wallDetectLeft() && wallDetectRight()) {
-				corridor_correction_IR();
+//				corridor_correction_IR();
 		}
 
 		continue;
 	}
 
+	moveRightMotor(!direction, 120);
 	moveLeftMotor(!direction, 80);
-	moveRightMotor(!direction, 80);
 	return 0;
 }
 
@@ -80,8 +80,9 @@ void turn(int rightDir) {
 				moveLeftMotor(1, biasVoltageL + 50);
 				moveRightMotor(0, biasVoltageR + 50);
 		}
-		moveLeftMotor(0,80);
 		moveRightMotor(1,80);
+		moveLeftMotor(0,80);
+
 	}
 
 	else {
@@ -92,6 +93,7 @@ void turn(int rightDir) {
 		moveLeftMotor(1,80);
 		moveRightMotor(0,80);
 	}
+	HAL_Delay(500);
 }
 
 void corridor_correction_IR() {
@@ -133,6 +135,5 @@ int move_forward(){
 void turn180() {
 		turn(1);
 		turn(1);
-		backAlign();
-
+		//backAlign();
 }

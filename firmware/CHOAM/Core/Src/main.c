@@ -142,7 +142,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -189,19 +189,16 @@ int main(void)
   }
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   HAL_Delay(1500);
-  turn(1);
-  turn(0);
-  turn180();
 
   init_maze(&myMaze, &myMouse); //hard-code the boundary walls
+  backAlign();
   setGoalPos(goalTest, &myMaze);
   scan_walls(&myMaze, &myMouse);
-  backAlign();
-  move_dist(180); //180 is too strong right now, momentum carries it into the wall
-  /*while (goToPos(1, &myMaze, &myMouse)) {
+
+  while (goToPos(1, &myMaze, &myMouse)) {
 	  move_dist(180);
 	  updateMousePos(&myMouse);
-  }*/
+  }
 
   /*CURRENT ERRORS:
    * turnTicks varies between turns-in-place and turns on the go
@@ -562,6 +559,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
 	dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
 	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
+	corridor_correction_IR();
 }
 /* USER CODE END 4 */
 
