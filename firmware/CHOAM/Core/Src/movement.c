@@ -36,22 +36,16 @@ int move_dist(float dist) {
 		if (encRmm-startencR < dist * .6){
 			moveRightMotor(direction, mouseSpeedR);
 		}
-		else if (encRmm-startencR < dist){
-			moveRightMotor(direction, mouseSpeedR);
-		}
-		else{
-			moveRightMotor(direction, 0);
+		else {
+			moveRightMotor(direction, CRUISE_SPEED-50);
 		}
 
 		// Left motor profile
 		if (encLmm-startencL < dist * .6) {
 			moveLeftMotor(direction, mouseSpeedL);
 		}
-		else if (encLmm-startencL < dist) {
-			moveLeftMotor(direction , mouseSpeedL);
-		}
-		else{
-			moveLeftMotor(direction, 0);
+		else {
+			moveLeftMotor(direction , CRUISE_SPEED-50);
 		}
 
 		if (wallDetectLeft() && wallDetectRight()) {
@@ -61,52 +55,33 @@ int move_dist(float dist) {
 		continue;
 	}
 
-	moveRightMotor(direction, 0);
-	moveLeftMotor(direction, 0);
+	moveLeftMotor(!direction, 80);
+	moveRightMotor(!direction, 80);
 	return 0;
 }
 
 void turn(int rightDir) {
+	HAL_Delay(500);
 	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
 	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
 
 	if (rightDir){
 		while ((encRmm > targetR) || (encLmm < targetL)) {
-			if (encRmm > targetR) {
-				moveRightMotor(0, biasVoltageR + 30);
-			}
-			else {
-				moveRightMotor(0, 0);
-			}
-
-			if (encLmm < targetL) {
-				moveLeftMotor(1, biasVoltageL + 30);
-			}
-			else {
-				moveLeftMotor(1, 0);
-			}
+				moveLeftMotor(1, biasVoltageL + 50);
+				moveRightMotor(0, biasVoltageR + 50);
 		}
+		moveLeftMotor(0,80);
+		moveRightMotor(1,80);
 	}
 
 	else {
 		while ((encRmm < targetR) || (encLmm > targetL)) {
-			if (encRmm < targetR) {
-				moveRightMotor(1, biasVoltageR + 30);
-			}
-			else {
-				moveRightMotor(1, 0);
-			}
-
-			if (encLmm > targetL) {
-				moveLeftMotor(0, biasVoltageL + 30);
-			}
-			else {
-				moveLeftMotor(0, 0);
-			}
+				moveLeftMotor(0, biasVoltageL + 50);
+				moveRightMotor(1, biasVoltageR + 50);
 		}
+		moveLeftMotor(1,80);
+		moveRightMotor(0,80);
 	}
-	moveLeftMotor(0,0);
-	moveRightMotor(0,0);
 }
 
 void corridor_correction() {

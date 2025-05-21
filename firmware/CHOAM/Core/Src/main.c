@@ -186,10 +186,13 @@ int main(void)
 
   HAL_Delay(500);
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-  //while (dis_FL > 20){
-  //}
+  while (dis_FL > 20){
+  }
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   HAL_Delay(1500);
+  turn(1);
+  turn(0);
+  turn180();
 
   init_maze(&myMaze, &myMouse); //hard-code the boundary walls
   setGoalPos(goalTest, &myMaze);
