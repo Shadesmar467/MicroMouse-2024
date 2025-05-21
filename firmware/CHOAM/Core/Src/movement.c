@@ -24,6 +24,16 @@ void stopMotors() {
 	moveLeftMotor(0, 0);
 }
 
+void backAlign() {
+	float encLBack = encLmm - 30;
+	float encRBack = encRmm - 30;
+
+	while ((encRmm > encRBack) && (encLmm > encLBack)) {
+		moveRightMotor(0, mouseSpeedR);
+		moveLeftMotor(0, mouseSpeedL);
+	}
+}
+
 int move_dist(float dist) {
 	float startencL = encLmm;
 	float startencR = encRmm;
@@ -31,7 +41,7 @@ int move_dist(float dist) {
 	mouseSpeedL = CRUISE_SPEED;
 	mouseSpeedR = CRUISE_SPEED;
 
-	while (encRmm < dist+startencR || encLmm < dist+startencL){
+	while (encRmm < dist+startencR && encLmm < dist+startencL){
 		// Right motor profile
 		if (encRmm-startencR < dist * .6){
 			moveRightMotor(direction, mouseSpeedR);
@@ -49,7 +59,7 @@ int move_dist(float dist) {
 		}
 
 		if (wallDetectLeft() && wallDetectRight()) {
-				corridor_correction();
+				corridor_correction_IR();
 		}
 
 		continue;
@@ -84,7 +94,7 @@ void turn(int rightDir) {
 	}
 }
 
-void corridor_correction() {
+void corridor_correction_IR() {
 	float lnew, rnew, error, p_term, d_term, correction;
 	int max_correct, min_correct;
 	// error is high if closer to right, low if close to left
@@ -112,7 +122,7 @@ int move_forward(){
 	do {
 		moveLeftMotor(1, mouseSpeedL);
 		moveRightMotor(1, mouseSpeedR);
-		corridor_correction();
+		corridor_correction_IR();
 	} while (dis_FL > 50 || dis_FR > 50);
 	moveRightMotor(1, 0);
 	moveLeftMotor(1, 0);
@@ -123,4 +133,6 @@ int move_forward(){
 void turn180() {
 		turn(1);
 		turn(1);
+		backAlign();
+
 }

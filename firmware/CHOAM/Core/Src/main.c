@@ -77,8 +77,7 @@ int debug8;
 int debug9;
 
 
-float prev_error;
-
+float prev_error, prev_e_error;
 Mouse mouse;
 
 /* USER CODE END PV */
@@ -197,10 +196,12 @@ int main(void)
   init_maze(&myMaze, &myMouse); //hard-code the boundary walls
   setGoalPos(goalTest, &myMaze);
   scan_walls(&myMaze, &myMouse);
-  while (goToPos(1, &myMaze, &myMouse)) {
+  backAlign();
+  move_dist(180); //180 is too strong right now, momentum carries it into the wall
+  /*while (goToPos(1, &myMaze, &myMouse)) {
 	  move_dist(180);
 	  updateMousePos(&myMouse);
-  }
+  }*/
 
   /*CURRENT ERRORS:
    * turnTicks varies between turns-in-place and turns on the go

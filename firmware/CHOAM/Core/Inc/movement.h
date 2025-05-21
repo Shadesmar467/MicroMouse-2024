@@ -7,11 +7,13 @@ void moveRightMotor(int direction, int speed);
 
 void stopMotors();
 
+void backAlign();
+
 int move_dist(float dist);
 
 void turn180();
 
-void corridor_correction();
+void corridor_correction_IR();
 
 int move_forward();
 

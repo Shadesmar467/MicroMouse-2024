@@ -53,12 +53,17 @@ extern int dis_SR;
 
 
 /* 			PID Values			*/
-// old: 3.5, 20
+// IR sensor PID
 #define KP 3.5 // calibrate, currently arbitrary
 #define KD 20 // calibrate, currently arbitrary
 #define CRUISE_SPEED 230
 #define CLK_PERIOD .001
 extern float prev_error;
+
+// encoder PID
+#define eKP 10
+#define eKD 10
+extern float prev_encoder_error;
 
 
 // current mouse speed
