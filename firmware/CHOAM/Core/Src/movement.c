@@ -24,6 +24,16 @@ void stopMotors() {
 	moveLeftMotor(0, 0);
 }
 
+void backAlign() {
+	float encLBack = encLmm - 30;
+	float encRBack = encRmm - 30;
+
+	while ((encRmm > encRBack) && (encLmm > encLBack)) {
+		moveRightMotor(0, mouseSpeedR);
+		moveLeftMotor(0, mouseSpeedL);
+	}
+}
+
 int move_dist(float dist) {
 	float startencL = encLmm;
 	float startencR = encRmm;
@@ -31,35 +41,37 @@ int move_dist(float dist) {
 	mouseSpeedL = CRUISE_SPEED;
 	mouseSpeedR = CRUISE_SPEED;
 
-	while (encRmm < dist+startencR || encLmm < dist+startencL){
+	while (encRmm < dist+startencR && encLmm < dist+startencL){
 		// Right motor profile
 		if (encRmm-startencR < dist * .6){
 			moveRightMotor(direction, mouseSpeedR);
 		}
-		else if (encRmm-startencR < dist){
-			moveRightMotor(direction, mouseSpeedR);
-		}
-		else{
-			moveRightMotor(direction, 0);
+		else {
+			moveRightMotor(direction, mouseSpeedR - 80);
 		}
 
 		// Left motor profile
 		if (encLmm-startencL < dist * .6) {
 			moveLeftMotor(direction, mouseSpeedL);
 		}
-		else if (encLmm-startencL < dist) {
-			moveLeftMotor(direction , mouseSpeedL);
-		}
-		else{
-			moveLeftMotor(direction, 0);
+		else {
+			moveLeftMotor(direction, mouseSpeedL - 80);
 		}
 
 		if (wallDetectLeft() && wallDetectRight()) {
-				corridor_correction();
+				corridor_correction_IR();
 		}
 
 		continue;
 	}
+
+	/*if (encRmm > dist + startencR){
+		moveRightMotor(!direction, 170);
+	}
+
+	if (encLmm < dist+startencL) {
+		moveLeftMotor(!direction, 170);
+	}*/
 
 	moveRightMotor(direction, 0);
 	moveLeftMotor(direction, 0);
@@ -67,20 +79,21 @@ int move_dist(float dist) {
 }
 
 void turn(int rightDir) {
+	HAL_Delay(500);
 	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
 	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
 
 	if (rightDir){
 		while ((encRmm > targetR) || (encLmm < targetL)) {
 			if (encRmm > targetR) {
-				moveRightMotor(0, biasVoltageR + 30);
+				moveRightMotor(0, biasVoltageR + 50);
 			}
 			else {
 				moveRightMotor(0, 0);
 			}
 
 			if (encLmm < targetL) {
-				moveLeftMotor(1, biasVoltageL + 30);
+				moveLeftMotor(1, biasVoltageL + 50);
 			}
 			else {
 				moveLeftMotor(1, 0);
@@ -91,14 +104,14 @@ void turn(int rightDir) {
 	else {
 		while ((encRmm < targetR) || (encLmm > targetL)) {
 			if (encRmm < targetR) {
-				moveRightMotor(1, biasVoltageR + 30);
+				moveRightMotor(1, biasVoltageR + 50);
 			}
 			else {
 				moveRightMotor(1, 0);
 			}
 
 			if (encLmm > targetL) {
-				moveLeftMotor(0, biasVoltageL + 30);
+				moveLeftMotor(0, biasVoltageL + 50);
 			}
 			else {
 				moveLeftMotor(0, 0);
@@ -109,7 +122,7 @@ void turn(int rightDir) {
 	moveRightMotor(0,0);
 }
 
-void corridor_correction() {
+void corridor_correction_IR() {
 	float lnew, rnew, error, p_term, d_term, correction;
 	int max_correct, min_correct;
 	// error is high if closer to right, low if close to left
@@ -137,7 +150,7 @@ int move_forward(){
 	do {
 		moveLeftMotor(1, mouseSpeedL);
 		moveRightMotor(1, mouseSpeedR);
-		corridor_correction();
+		corridor_correction_IR();
 	} while (dis_FL > 50 || dis_FR > 50);
 	moveRightMotor(1, 0);
 	moveLeftMotor(1, 0);
@@ -148,4 +161,6 @@ int move_forward(){
 void turn180() {
 		turn(1);
 		turn(1);
+		backAlign();
+
 }
