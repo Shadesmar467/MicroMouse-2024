@@ -130,10 +130,10 @@ void left_corridor_correction_IR() {
 	d_term = KD_l * (error - prev_error_l);
 	correction = p_term + d_term;
 
-	lnew = mouseSpeedL - correction;
+	lnew = mouseSpeedL - correction; // TUNE POSSIBLY FLIP
 	rnew = mouseSpeedR + correction;
 
-	max_correct = CRUISE_SPEED + 30; // TUNE FLIP
+	max_correct = CRUISE_SPEED + 30;
 	min_correct = CRUISE_SPEED - 30;
 
 	// clamp maximum and minimum voltages
@@ -154,11 +154,11 @@ void right_corridor_correction_IR() {
 	d_term = KD_r * (error - prev_error_r);
 	correction = p_term + d_term;
 
-	lnew = mouseSpeedL - correction;
-	rnew = mouseSpeedR + correction;
+	lnew = mouseSpeedL + correction; // TUNE POSSIBLY FLIP
+	rnew = mouseSpeedR - correction;
 
-	max_correct = CRUISE_SPEED - 30; // TUNE FLIP
-	min_correct = CRUISE_SPEED + 30;
+	max_correct = CRUISE_SPEED + 30;
+	min_correct = CRUISE_SPEED - 30;
 
 	// clamp maximum and minimum voltages
 	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
