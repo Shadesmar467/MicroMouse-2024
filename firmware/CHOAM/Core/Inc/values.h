@@ -72,8 +72,7 @@ extern float prev_error_r;
 extern float prev_encoder_error;
 
 // state
-extern bool rotating;
-
+extern int rotating;
 
 // current mouse speed
 extern int mouseSpeedR;

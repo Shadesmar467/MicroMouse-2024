@@ -68,7 +68,7 @@ int move_dist(float dist) {
 
 void turn(int rightDir) {
 	HAL_Delay(500);
-	rotating = true;
+	rotating = 1;
 	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
 	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
 
@@ -90,15 +90,27 @@ void turn(int rightDir) {
 		moveLeftMotor(1,80);
 		moveRightMotor(0,80);
 	}
-	rotating = false;
+	rotating = 0;
 	HAL_Delay(500);
 }
 
 void corridor_correction_IR() {
 	float lnew, rnew, error, p_term, d_term, correction;
 	int max_correct, min_correct;
-	// error is high if closer to right, low if close to left
-	error = dis_SL - dis_SR;
+	int wallState;
+
+	if (wallDetectLeft() && wallDetectRight()) {
+		wallState = 0;
+		//error is high if closer to right, low if close to left
+		error = dis_SL - dis_SR;
+	} else if (wallDetectLeft()) {
+		wallState = 1;
+		error = dis_SL - 25; //re-tune @ UCLA, currently assuming 25 the center
+	} else if (wallDetectRight()) {
+		wallState = 2;
+		error = dis_SR - 25; //re-tune @ UCLA, currently assuming 25 the center
+	}
+
 	// p term is proportional to error
 	p_term = KP_b * error * .001;
 	// d term is proportional to derivative of error
@@ -106,8 +118,20 @@ void corridor_correction_IR() {
 	d_term = KD_b * (error - prev_error_b);
 	correction = p_term + d_term;
 
-	lnew = mouseSpeedL - correction;
-	rnew = mouseSpeedR + correction;
+	switch (wallState) {
+	case 0: //both walls
+		lnew = mouseSpeedL - correction;
+		rnew = mouseSpeedR + correction;
+		break;
+	case 1: //left wall only
+		lnew = mouseSpeedL - correction;
+		rnew = mouseSpeedR + correction;
+		break;
+	case 2: //right wall only
+		lnew = mouseSpeedL + correction; // TUNE POSSIBLY FLIP
+		rnew = mouseSpeedR - correction;
+		break;
+	}
 
 	max_correct = CRUISE_SPEED + 30;
 	min_correct = CRUISE_SPEED - 30;
@@ -117,7 +141,7 @@ void corridor_correction_IR() {
 	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
 	prev_error_b = error;
 }
-
+/*
 void left_corridor_correction_IR() {
 	float lnew, rnew, error, p_term, d_term, correction;
 	int max_correct, min_correct;
@@ -164,7 +188,7 @@ void right_corridor_correction_IR() {
 	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
 	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
 	prev_error_r = error;
-}
+}*/
 
 int move_forward(){
 	do {

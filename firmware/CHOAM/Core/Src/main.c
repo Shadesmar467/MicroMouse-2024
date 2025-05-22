@@ -76,8 +76,10 @@ int debug7;
 int debug8;
 int debug9;
 
+int rotating;
 
-float prev_error, prev_e_error;
+
+float prev_error_b, prev_error_l, prev_error_r, prev_encoder_error;
 Mouse mouse;
 
 /* USER CODE END PV */
@@ -199,14 +201,6 @@ int main(void)
 	  move_dist(180);
 	  updateMousePos(&myMouse);
   }
-
-  /*CURRENT ERRORS:
-   * turnTicks varies between turns-in-place and turns on the go
-   * turns are inaccurate - 180 turns are cooked
-   * right motor stronger than left - corrects with PID, but drifts too far if there is a gap in walls
-   * mouse sometimes crashes into walls head on - i think because it either updates faster than it can move,
-   * 	or momentum built up in a straight isn't registered as movement in our code
-   * */
 
 
     /* USER CODE END WHILE */
@@ -555,22 +549,16 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
-	dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F;
-	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
-	dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
-	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
-	if (!rotating) {
-		if (wallDetectLeft() && wallDetectRight()) {
-			corridor_correction_IR();
-		}
-		else if (wallDetectLeft()) {
-			left_corridor_correction_IR();
 
-		}
-		else if (wallDetectRight()) {
-			right_corridor_correction_IR();
-		}
+	if (!rotating) {
+		dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F;
+		dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
+		dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
+		dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
 	}
+
+	corridor_correction_IR();
+
 }
 /* USER CODE END 4 */
 
