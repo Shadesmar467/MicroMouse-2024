@@ -54,8 +54,12 @@ extern int dis_SR;
 
 /* 			PID Values			*/
 // IR sensor PID
-#define KP 3.5 // calibrate, currently arbitrary
-#define KD 20 // calibrate, currently arbitrary
+#define KP_b 3.5 // calibrate, currently arbitrary
+#define KP_l 3.5
+#define KP_r 3.5
+#define KD_b 20 // calibrate, currently arbitrary
+#define KD_l 20
+#define KD_r 20
 #define CRUISE_SPEED 230
 #define CLK_PERIOD .001
 extern float prev_error_b;

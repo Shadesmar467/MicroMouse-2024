@@ -58,10 +58,6 @@ int move_dist(float dist) {
 			moveLeftMotor(direction , CRUISE_SPEED-50);
 		}
 
-		if (wallDetectLeft() && wallDetectRight()) {
-//				corridor_correction_IR();
-		}
-
 		continue;
 	}
 
@@ -104,10 +100,10 @@ void corridor_correction_IR() {
 	// error is high if closer to right, low if close to left
 	error = dis_SL - dis_SR;
 	// p term is proportional to error
-	p_term = KP * error * .001;
+	p_term = KP_b * error * .001;
 	// d term is proportional to derivative of error
 	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD * (error - prev_error_b);
+	d_term = KD_b * (error - prev_error_b);
 	correction = p_term + d_term;
 
 	lnew = mouseSpeedL - correction;
@@ -128,10 +124,10 @@ void left_corridor_correction_IR() {
 	// error is high if closer to right, low if close to left
 	error = dis_SL - 25; // TUNE 25 IS CENTER?
 	// p term is proportional to error
-	p_term = KP * error * .001;
+	p_term = KP_l * error * .001;
 	// d term is proportional to derivative of error
 	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD * (error - prev_error_l);
+	d_term = KD_l * (error - prev_error_l);
 	correction = p_term + d_term;
 
 	lnew = mouseSpeedL - correction;
@@ -152,10 +148,10 @@ void right_corridor_correction_IR() {
 	// error is high if closer to right, low if close to left
 	error = dis_SR - 25; // TUNE 25 IS CENTER??
 	// p term is proportional to error
-	p_term = KP * error * .001;
+	p_term = KP_r * error * .001;
 	// d term is proportional to derivative of error
 	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD * (error - prev_error_r);
+	d_term = KD_r * (error - prev_error_r);
 	correction = p_term + d_term;
 
 	lnew = mouseSpeedL - correction;
