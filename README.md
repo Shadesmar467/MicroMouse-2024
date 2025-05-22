@@ -1,5 +1,5 @@
 # MicroMouse 24-25 (IEEE@UCI)
-By Adam Wu and Jeremiah Yong
+By Adam Wu, Jeremiah Yong, and Jayce Spurgiasz
 ## Project Summary
 A robot(mouse) that navigates a 16x16 cell maze, from corner to center using an STM32F103C8T6(bluepill) microcontroller
 
