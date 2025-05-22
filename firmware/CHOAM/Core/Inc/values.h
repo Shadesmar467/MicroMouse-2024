@@ -58,12 +58,17 @@ extern int dis_SR;
 #define KD 20 // calibrate, currently arbitrary
 #define CRUISE_SPEED 230
 #define CLK_PERIOD .001
-extern float prev_error;
+extern float prev_error_b;
+extern float prev_error_l;
+extern float prev_error_r;
 
 // encoder PID
 #define eKP 10
 #define eKD 10
 extern float prev_encoder_error;
+
+// state
+extern bool rotating;
 
 
 // current mouse speed

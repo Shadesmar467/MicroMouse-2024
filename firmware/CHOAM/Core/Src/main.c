@@ -559,7 +559,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
 	dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
 	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
-	corridor_correction_IR();
+	if (!rotating) {
+		if (wallDetectLeft() && wallDetectRight()) {
+			corridor_correction_IR();
+		}
+		else if (wallDetectLeft()) {
+			left_corridor_correction_IR();
+
+		}
+		else if (wallDetectRight()) {
+			right_corridor_correction_IR();
+		}
+	}
 }
 /* USER CODE END 4 */
 
