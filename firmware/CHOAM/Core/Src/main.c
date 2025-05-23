@@ -78,8 +78,7 @@ int debug9;
 
 int rotating;
 
-
-float prev_error_b, prev_error_l, prev_error_r, prev_encoder_error;
+float prev_error_b, prev_encoder_error;
 Mouse mouse;
 
 /* USER CODE END PV */
@@ -187,6 +186,7 @@ int main(void)
 
   HAL_Delay(500);
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  move_dist(700);
   while (dis_FL > 20){
   }
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
@@ -550,13 +550,13 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 
-	if (!rotating) {
+	if (!rotating) { //turn off IR while turning
 		dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F;
 		dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
 		dis_SL = 3 * (measure_dist(DIST_SL) * SCALE_SL + NOM_S) + 25;
 		dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
 	}
-
+	encoder_cc();
 	corridor_correction_IR();
 
 }

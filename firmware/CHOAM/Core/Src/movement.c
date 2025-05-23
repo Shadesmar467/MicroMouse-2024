@@ -39,7 +39,7 @@ int move_dist(float dist) {
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
 	mouseSpeedL = CRUISE_SPEED;
-	mouseSpeedR = CRUISE_SPEED;
+	mouseSpeedR = CRUISE_SPEED-30;
 
 	while (encRmm < dist+startencR && encLmm < dist+startencL){
 		// Right motor profile
@@ -141,54 +141,26 @@ void corridor_correction_IR() {
 	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
 	prev_error_b = error;
 }
-/*
-void left_corridor_correction_IR() {
-	float lnew, rnew, error, p_term, d_term, correction;
-	int max_correct, min_correct;
-	// error is high if closer to right, low if close to left
-	error = dis_SL - 25; // TUNE 25 IS CENTER?
-	// p term is proportional to error
-	p_term = KP_l * error * .001;
-	// d term is proportional to derivative of error
-	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD_l * (error - prev_error_l);
-	correction = p_term + d_term;
 
-	lnew = mouseSpeedL - correction; // TUNE POSSIBLY FLIP
+void encoder_cc() {
+	float lnew, rnew;
+	int max_correct, min_correct;
+	//ideally difference should be zero for the motors to both travel the same distance
+	float error = encLmm - encRmm;
+	float d = error - prev_encoder_error;
+	float correction = eKP*error + eKD*d;
+
+	lnew = mouseSpeedL - correction;
 	rnew = mouseSpeedR + correction;
 
 	max_correct = CRUISE_SPEED + 30;
 	min_correct = CRUISE_SPEED - 30;
 
-	// clamp maximum and minimum voltages
 	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
 	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
-	prev_error_l = error;
+
+	prev_encoder_error = error;
 }
-
-void right_corridor_correction_IR() {
-	float lnew, rnew, error, p_term, d_term, correction;
-	int max_correct, min_correct;
-	// error is high if closer to right, low if close to left
-	error = dis_SR - 25; // TUNE 25 IS CENTER??
-	// p term is proportional to error
-	p_term = KP_r * error * .001;
-	// d term is proportional to derivative of error
-	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD_r * (error - prev_error_r);
-	correction = p_term + d_term;
-
-	lnew = mouseSpeedL + correction; // TUNE POSSIBLY FLIP
-	rnew = mouseSpeedR - correction;
-
-	max_correct = CRUISE_SPEED + 30;
-	min_correct = CRUISE_SPEED - 30;
-
-	// clamp maximum and minimum voltages
-	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
-	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
-	prev_error_r = error;
-}*/
 
 int move_forward(){
 	do {
@@ -205,5 +177,5 @@ int move_forward(){
 void turn180() {
 		turn(1);
 		turn(1);
-		//backAlign();
+		backAlign();
 }

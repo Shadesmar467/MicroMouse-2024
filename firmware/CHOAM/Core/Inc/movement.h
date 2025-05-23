@@ -15,9 +15,7 @@ void turn180();
 
 void corridor_correction_IR();
 
-void right_corridor_correction_IR();
-
-void left_corridor_correction_IR();
+void encoder_cc();
 
 int move_forward();
 
