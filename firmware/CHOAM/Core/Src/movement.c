@@ -82,8 +82,11 @@ void turn(int rightDir) {
 	}
 	moveLeftMotor(!rightDir, 80);
 	moveRightMotor(rightDir, 80);
+
+	currentEncDist = encLmm - encRmm; //stored for encoder PID
 	rotating = 0;
 	HAL_Delay(200);
+
 }
 
 void turn180() {

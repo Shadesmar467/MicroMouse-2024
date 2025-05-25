@@ -79,8 +79,13 @@ void IR_PID() {
 void encoder_PID(){
 	float lnew, rnew;
 	int max_correct, min_correct;
-	//ideally difference should be zero for the motors to both travel the same distance
-	float error = encLmm - encRmm;
+
+	//if after every turn the current distance between encoders is stored
+	//this distance should be maintained to keep the mouse centered in a straight shot
+
+	float error = (encLmm - encRmm) - currentEncDist; //should equal 0 to be centered
+	//after every turn currentEncDist is updated
+
 	float d = error - prev_encoder_error;
 	float correction = eKP*error + eKD*d;
 

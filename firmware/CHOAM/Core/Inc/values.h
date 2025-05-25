@@ -65,6 +65,7 @@ extern float prev_error_l;
 #define eKP 1.5 //currently untuned
 #define eKD 20
 extern float prev_encoder_error;
+extern float currentEncDist;
 
 // state
 extern int rotating;

@@ -80,6 +80,8 @@ int debug9;
 int rotating;
 
 float prev_error_b, prev_encoder_error;
+float currentEncDist;
+
 Mouse mouse;
 
 /* USER CODE END PV */
