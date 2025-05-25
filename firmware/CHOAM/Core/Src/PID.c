@@ -12,10 +12,21 @@ void leftWallPID(){
 	float lnew, rnew, error, p_term, d_term, correction;
 	error = dis_SL - 25;
 
-	p_term = KP_b * error * .001;
+	p_term = KP_l * error * .001;
 
-	d_term = KD_b * (error - prev_error_b);
+	d_term = KD_l * (error - prev_error_l);
 	correction = p_term + d_term;
+
+	lnew = mouseSpeedL - correction;
+	rnew = mouseSpeedR + correction;
+
+	max_correct = CRUISE_SPEED + 30;
+	min_correct = CRUISE_SPEED - 30;
+
+	// clamp maximum and minimum voltages
+	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
+	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
+	prev_error_l = error;
 }
 
 void rightWallPID();
