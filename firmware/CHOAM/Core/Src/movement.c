@@ -44,7 +44,7 @@ int move_dist(float dist) {
 	mouseSpeedR = CRUISE_SPEED;
 
 	while (encRmm < dist+startencR && encLmm < dist+startencL){
-		if (dis_FL < 2 && dis_FR < 2) {
+		if (dis_FL < 120 && dis_FR < 120) {
 			break;
 		}
 		// Right motor profile
@@ -66,6 +66,8 @@ int move_dist(float dist) {
 
 	moveRightMotor(!direction, 80);
 	moveLeftMotor(!direction, 80);
+	enclIdeal += dist;
+	encrIdeal += dist;
 	return 0;
 }
 
@@ -82,6 +84,9 @@ void turn(int rightDir) {
 	}
 	moveLeftMotor(!rightDir, 80);
 	moveRightMotor(rightDir, 80);
+
+	enclIdeal += encLmm - encLmmStart;
+	encrIdeal += encRmm - encRmmStart;
 	rotating = 0;
 	HAL_Delay(200);
 }

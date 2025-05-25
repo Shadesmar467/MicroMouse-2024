@@ -80,6 +80,8 @@ int debug9;
 int rotating;
 
 float prev_error_l, prev_error_r, prev_encoder_error;
+float currentEncDist;
+float error_integral = 0;
 Mouse mouse;
 
 /* USER CODE END PV */
@@ -111,6 +113,7 @@ uint16_t encL = 0, encR = 0; //counter for left and right encoder value
 uint16_t prevEncL = 0, prevEncR = 0; // counter for previous left and right encoder values
 float encLmm, encRmm;	// distance traveled in mm
 int16_t dL, dR;		// change in ticks traveled since last update
+float encrIdeal = 0, enclIdeal = 0;
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
  //left encoder timer
@@ -127,6 +130,17 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 		encRmm += dR / tickConvertR;	//every 2.90833 ticks is 1mm
 		prevEncR = encR;
 	}
+}
+void measure_ir(){
+	float raw_FL = measure_dist(DIST_FL);
+	float raw_FR = measure_dist(DIST_FR);
+	float raw_SL = measure_dist(DIST_SL);
+	float raw_SR = measure_dist(DIST_SR);
+
+	dis_FL = (((raw_FL - z_FL)/(loc_FL - z_FL)) * NOM_F) + 200; //raw
+	dis_FR = (((raw_FR - z_FR)/(loc_FR - z_FR)) * NOM_F) + 200; //raw
+	dis_SL = (((raw_SL - z_SL)/(loc_SL - z_SL)) * NOM_S) + 130; //raw
+	dis_SR = (((raw_SR - z_SR)/(loc_SR - z_SR)) * .5 * NOM_S) + 105; //raw
 }
 /* USER CODE END 0 */
 
@@ -188,21 +202,21 @@ int main(void)
   HAL_Delay(500);
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 
-  while (dis_FL > 20){
+  while (dis_FL > 180){
   }
-
   while (1){
+
   }
 
   HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
   HAL_Delay(1500);
 
   init_maze(&myMaze, &myMouse); //hard-code the boundary walls
-  setGoalPos(goalTest, &myMaze);
+  setGoalPos(goal1, &myMaze);
   scan_walls(&myMaze, &myMouse);
 
   while (goToPos(1, &myMaze, &myMouse)) {
-	  move_dist(180);
+	  move_dist(185);
 	  updateMousePos(&myMouse);
   }
 
@@ -558,16 +572,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim) {
 	debug3 = wallDetectLeft();
 
 	//turn off IR while turning
-	dis_FL = measure_dist(DIST_FL) * SCALE_FL + NOM_F;
-	dis_FR = measure_dist(DIST_FR) * SCALE_FR + NOM_F;
-	dis_SL = measure_dist(DIST_SL) * SCALE_SL + NOM_S + 25;
-	dis_SR = measure_dist(DIST_SR) * SCALE_SR + NOM_S + 25;
-
-//	dis_FL = measure_dist(DIST_FL);
-//	dis_FR = measure_dist(DIST_FR);
-//	dis_SL = measure_dist(DIST_SL);
-//	dis_SR = measure_dist(DIST_SR);
+	debug4 = measure_dist(DIST_FL);
+	debug5 = measure_dist(DIST_FR);
+	debug6 = measure_dist(DIST_SL);
+	debug7 = measure_dist(DIST_SR);
+//
+	measure_ir();
 	PID();
+
 }
 /* USER CODE END 4 */
 
