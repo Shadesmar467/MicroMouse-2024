@@ -48,7 +48,7 @@ uint16_t measure_dist(dist_t dist){
    }
 
 int wallDetectFront() {
-	return (dis_FL < DETECT_FL || dis_FR < DETECT_FR);
+	return (dis_FL < DETECT_FL && dis_FR < DETECT_FR);
 }
 
 int wallDetectLeft() {

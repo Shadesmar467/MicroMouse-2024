@@ -24,10 +24,10 @@ extern float encLmm, encRmm;	// dist traveled for each enc
 
 /*			IR Sensors			*/
 //re-calibrate often. center of the cell values
-#define CAL_FL 3321.0
-#define CAL_FR 3570.0
-#define CAL_SL 3610.0
-#define CAL_SR 3284.0
+#define CAL_FL 2816.0
+#define CAL_FR 3100.0
+#define CAL_SL 3590.0
+#define CAL_SR 2843.0
 
 #define NOM_F 100.0
 #define NOM_S 100.0
@@ -44,10 +44,10 @@ extern int dis_SL;
 extern int dis_SR;
 
 // walldetect values
-#define DETECT_FL 40.0
-#define DETECT_FR 25.0
-#define DETECT_SL 70.0
-#define DETECT_SR 70.0
+#define DETECT_FL 10.0
+#define DETECT_FR 10.0
+#define DETECT_SL 55.0
+#define DETECT_SR 90.0
 
 
 
@@ -55,9 +55,14 @@ extern int dis_SR;
 
 /* 			PID Values			*/
 // IR sensor PID
-#define KP_l 3.5 // calibrate, currently arbitrary
-#define KD_l 20 // calibrate, currently arbitrary
+#define KP_l 4.0 // calibrate
+#define KD_l 20 // calibrate
 extern float prev_error_l;
+
+#define KP_r 4.0 // calibrate
+#define KD_r 20 // calibrate
+extern float prev_error_r;
+
 #define CRUISE_SPEED 230
 #define CLK_PERIOD .001
 

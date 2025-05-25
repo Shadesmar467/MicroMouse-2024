@@ -7,9 +7,11 @@
 
 #include "PID.h"
 #include "values.h"
+#include "distance.h"
 
 void leftWallPID(){
 	float lnew, rnew, error, p_term, d_term, correction;
+	int max_correct, min_correct;
 	error = dis_SL - 25;
 
 	p_term = KP_l * error * .001;
@@ -29,43 +31,18 @@ void leftWallPID(){
 	prev_error_l = error;
 }
 
-void rightWallPID();
-
-void IR_PID() {
+void rightWallPID(){
 	float lnew, rnew, error, p_term, d_term, correction;
 	int max_correct, min_correct;
-	int wallState;
+	error = dis_SR - 20;
 
-	if (wallDetectLeft() && wallDetectRight()) {
-		wallState = 0;
-		//error is high if closer to right, low if close to left
-		error = dis_SL - dis_SR;
-	} else if (wallDetectLeft()) {
-		wallState = 1;
-		error = dis_SL - 22; //re-tune @ UCLA, currently assuming 25 the center
-	} else if (wallDetectRight()) {
-		wallState = 2;
-		error = dis_SR - 22; //re-tune @ UCLA, currently assuming 25 the center
-	}
+	p_term = KP_r * error * .001;
 
-	// p term is proportional to error
-	p_term = KP_b * error * .001;
-	// d term is proportional to derivative of error
-	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD_b * (error - prev_error_b);
+	d_term = KD_r * (error - prev_error_r);
 	correction = p_term + d_term;
 
-	switch (wallState) {
-	case 0: //both walls
-	case 1: //left wall only
-		lnew = mouseSpeedL - correction;
-		rnew = mouseSpeedR + correction;
-		break;
-	case 2: //right wall only
-		lnew = mouseSpeedL + correction; // TUNE POSSIBLY FLIP
-		rnew = mouseSpeedR - correction;
-		break;
-	}
+	lnew = mouseSpeedL + correction;
+	rnew = mouseSpeedR - correction;
 
 	max_correct = CRUISE_SPEED + 30;
 	min_correct = CRUISE_SPEED - 30;
@@ -73,7 +50,16 @@ void IR_PID() {
 	// clamp maximum and minimum voltages
 	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
 	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
-	prev_error_b = error;
+	prev_error_r = error;
+}
+
+void IR_PID() {
+	//if (wallDetectLeft() && rotating == 0){
+		//leftWallPID();
+	//}
+	 if (wallDetectRight() && rotating == 0) {
+		rightWallPID();
+	}
 }
 
 void encoder_PID(){
@@ -96,4 +82,6 @@ void encoder_PID(){
 	prev_encoder_error = error;
 }
 
-void PID();
+void PID(){
+	IR_PID();
+}
