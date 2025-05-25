@@ -1,10 +1,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <math.h>
+
 #include "main.h"
 #include "motors.h"
 #include "values.h"
 #include "distance.h"
-#include <math.h>
 #include "movement.h"
 
 void moveLeftMotor(int direction, int speed) {
@@ -42,6 +43,9 @@ int move_dist(float dist) {
 	mouseSpeedR = CRUISE_SPEED;
 
 	while (encRmm < dist+startencR && encLmm < dist+startencL){
+		if (dis_FL < 2 || dis_FR < 2) {
+			break;
+		}
 		// Right motor profile
 		if (encRmm-startencR < dist * .6){
 			moveRightMotor(direction, mouseSpeedR);
@@ -57,79 +61,29 @@ int move_dist(float dist) {
 		else {
 			moveLeftMotor(direction , CRUISE_SPEED-50);
 		}
-
-		if (wallDetectLeft() && wallDetectRight()) {
-//				corridor_correction_IR();
-		}
-
-		continue;
+		PID();
 	}
 
-	moveRightMotor(!direction, 120);
+	moveRightMotor(!direction, 80);
 	moveLeftMotor(!direction, 80);
 	return 0;
 }
 
 void turn(int rightDir) {
-	HAL_Delay(500);
-	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
-	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
+	HAL_Delay(200);
+	rotating = 1;
 
-	if (rightDir){
-		while ((encRmm > targetR) || (encLmm < targetL)) {
-				moveLeftMotor(1, biasVoltageL + 50);
-				moveRightMotor(0, biasVoltageR + 50);
-		}
-		moveRightMotor(1,80);
-		moveLeftMotor(0,80);
+	float encLmmStart = encLmm;
+	float encRmmStart = encRmm;
 
+	while (fabsf((encLmm-encLmmStart) - (encRmm-encRmmStart)) < turnTicksDiff) {
+		moveLeftMotor(rightDir, biasVoltageL + 80);
+		moveRightMotor(!rightDir, biasVoltageR + 80);
 	}
-
-	else {
-		while ((encRmm < targetR) || (encLmm > targetL)) {
-				moveLeftMotor(0, biasVoltageL + 50);
-				moveRightMotor(1, biasVoltageR + 50);
-		}
-		moveLeftMotor(1,80);
-		moveRightMotor(0,80);
-	}
-	HAL_Delay(500);
-}
-
-void corridor_correction_IR() {
-	float lnew, rnew, error, p_term, d_term, correction;
-	int max_correct, min_correct;
-	// error is high if closer to right, low if close to left
-	error = dis_SL - dis_SR;
-	// p term is proportional to error
-	p_term = KP * error * .001;
-	// d term is proportional to derivative of error
-	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD * (error - prev_error);
-	correction = p_term + d_term;
-
-	lnew = mouseSpeedL - correction;
-	rnew = mouseSpeedR + correction;
-
-	max_correct = CRUISE_SPEED + 30;
-	min_correct = CRUISE_SPEED - 30;
-
-	// clamp maximum and minimum voltages
-	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
-	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
-	prev_error = error;
-}
-
-int move_forward(){
-	do {
-		moveLeftMotor(1, mouseSpeedL);
-		moveRightMotor(1, mouseSpeedR);
-		corridor_correction_IR();
-	} while (dis_FL > 50 || dis_FR > 50);
-	moveRightMotor(1, 0);
-	moveLeftMotor(1, 0);
-
-	return 0;
+	moveLeftMotor(!rightDir, 80);
+	moveRightMotor(rightDir, 80);
+	rotating = 0;
+	HAL_Delay(200);
 }
 
 void turn180() {
