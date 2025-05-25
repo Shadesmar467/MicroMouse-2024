@@ -1,10 +1,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <math.h>
+
 #include "main.h"
 #include "motors.h"
 #include "values.h"
 #include "distance.h"
-#include <math.h>
 #include "movement.h"
 
 void moveLeftMotor(int direction, int speed) {
@@ -39,9 +40,12 @@ int move_dist(float dist) {
 	float startencR = encRmm;
 	int direction = (dist > 0) ? 1 : 0;
 	mouseSpeedL = CRUISE_SPEED;
-	mouseSpeedR = CRUISE_SPEED-30;
+	mouseSpeedR = CRUISE_SPEED;
 
 	while (encRmm < dist+startencR && encLmm < dist+startencL){
+		if (dis_FL < 2 || dis_FR < 2) {
+			break;
+		}
 		// Right motor profile
 		if (encRmm-startencR < dist * .6){
 			moveRightMotor(direction, mouseSpeedR);
@@ -57,125 +61,33 @@ int move_dist(float dist) {
 		else {
 			moveLeftMotor(direction , CRUISE_SPEED-50);
 		}
-
-		continue;
+		PID();
 	}
 
-	moveRightMotor(!direction, 120);
+	moveRightMotor(!direction, 80);
 	moveLeftMotor(!direction, 80);
 	return 0;
 }
 
 void turn(int rightDir) {
-	HAL_Delay(500);
+	HAL_Delay(200);
 	rotating = 1;
-	float targetL = (rightDir) ? encLmm + turnTicksL : encLmm - turnTicksL;
-	float targetR = (rightDir) ? encRmm - turnTicksR : encRmm + turnTicksR;
 
-	if (rightDir){
-		while ((encRmm > targetR) || (encLmm < targetL)) {
-				moveLeftMotor(1, biasVoltageL + 50);
-				moveRightMotor(0, biasVoltageR + 50);
-		}
-		moveRightMotor(1,80);
-		moveLeftMotor(0,80);
+	float encLmmStart = encLmm;
+	float encRmmStart = encRmm;
 
+	while (fabsf((encLmm-encLmmStart) - (encRmm-encRmmStart)) < turnTicksDiff) {
+		moveLeftMotor(rightDir, biasVoltageL + 80);
+		moveRightMotor(!rightDir, biasVoltageR + 80);
 	}
-
-	else {
-		while ((encRmm < targetR) || (encLmm > targetL)) {
-				moveLeftMotor(0, biasVoltageL + 50);
-				moveRightMotor(1, biasVoltageR + 50);
-		}
-		moveLeftMotor(1,80);
-		moveRightMotor(0,80);
-	}
+	moveLeftMotor(!rightDir, 80);
+	moveRightMotor(rightDir, 80);
 	rotating = 0;
-	HAL_Delay(500);
-}
-
-void corridor_correction_IR() {
-	float lnew, rnew, error, p_term, d_term, correction;
-	int max_correct, min_correct;
-	int wallState;
-
-	if (wallDetectLeft() && wallDetectRight()) {
-		wallState = 0;
-		//error is high if closer to right, low if close to left
-		error = dis_SL - dis_SR;
-	} else if (wallDetectLeft()) {
-		wallState = 1;
-		error = dis_SL - 25; //re-tune @ UCLA, currently assuming 25 the center
-	} else if (wallDetectRight()) {
-		wallState = 2;
-		error = dis_SR - 25; //re-tune @ UCLA, currently assuming 25 the center
-	}
-
-	// p term is proportional to error
-	p_term = KP_b * error * .001;
-	// d term is proportional to derivative of error
-	// d(error) = (e(t1)-e(t2))/(t2-t1), derivative expression
-	d_term = KD_b * (error - prev_error_b);
-	correction = p_term + d_term;
-
-	switch (wallState) {
-	case 0: //both walls
-		lnew = mouseSpeedL - correction;
-		rnew = mouseSpeedR + correction;
-		break;
-	case 1: //left wall only
-		lnew = mouseSpeedL - correction;
-		rnew = mouseSpeedR + correction;
-		break;
-	case 2: //right wall only
-		lnew = mouseSpeedL + correction; // TUNE POSSIBLY FLIP
-		rnew = mouseSpeedR - correction;
-		break;
-	}
-
-	max_correct = CRUISE_SPEED + 30;
-	min_correct = CRUISE_SPEED - 30;
-
-	// clamp maximum and minimum voltages
-	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
-	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
-	prev_error_b = error;
-}
-
-void encoder_cc() {
-	float lnew, rnew;
-	int max_correct, min_correct;
-	//ideally difference should be zero for the motors to both travel the same distance
-	float error = encLmm - encRmm;
-	float d = error - prev_encoder_error;
-	float correction = eKP*error + eKD*d;
-
-	lnew = mouseSpeedL - correction;
-	rnew = mouseSpeedR + correction;
-
-	max_correct = CRUISE_SPEED + 30;
-	min_correct = CRUISE_SPEED - 30;
-
-	mouseSpeedL = (lnew < max_correct && lnew > min_correct) ? lnew : mouseSpeedL;
-	mouseSpeedR = (rnew < max_correct && rnew > min_correct) ? rnew : mouseSpeedR;
-
-	prev_encoder_error = error;
-}
-
-int move_forward(){
-	do {
-		moveLeftMotor(1, mouseSpeedL);
-		moveRightMotor(1, mouseSpeedR);
-		corridor_correction_IR();
-	} while (dis_FL > 50 || dis_FR > 50);
-	moveRightMotor(1, 0);
-	moveLeftMotor(1, 0);
-
-	return 0;
+	HAL_Delay(200);
 }
 
 void turn180() {
 		turn(1);
 		turn(1);
-		backAlign();
+		//backAlign();
 }

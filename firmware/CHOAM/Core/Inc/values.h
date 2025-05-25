@@ -13,8 +13,9 @@
 #define tickConvertL 5.74125f	// every 5.74125 ticks is 1 mm
 #define tickConvertR 2.90833f	//every 2.90833 ticks is 1mm
 // encoder constants for turning
-#define turnTicksR 40 //30 for stop-turn-stop, 20 for continuous turn
-#define turnTicksL 40
+#define turnTicksR 37 //30 for stop-turn-stop, 20 for continuous turn
+#define turnTicksL 37
+#define turnTicksDiff 75
 extern float encLmm, encRmm;	// dist traveled for each enc
 
 
@@ -24,9 +25,9 @@ extern float encLmm, encRmm;	// dist traveled for each enc
 /*			IR Sensors			*/
 //re-calibrate often. center of the cell values
 #define CAL_FL 3321.0
-#define CAL_FR 3461.0
-#define CAL_SL 3600.0
-#define CAL_SR 3217.0
+#define CAL_FR 3570.0
+#define CAL_SL 3610.0
+#define CAL_SR 3284.0
 
 #define NOM_F 100.0
 #define NOM_S 100.0
@@ -54,15 +55,15 @@ extern int dis_SR;
 
 /* 			PID Values			*/
 // IR sensor PID
-#define KP_b 3.5 // calibrate, currently arbitrary
-#define KD_b 20 // calibrate, currently arbitrary
+#define KP_l 3.5 // calibrate, currently arbitrary
+#define KD_l 20 // calibrate, currently arbitrary
 #define CRUISE_SPEED 230
 #define CLK_PERIOD .001
 extern float prev_error_b;
 
 // encoder PID
 #define eKP 1.5 //currently untuned
-#define eKD 0
+#define eKD 20
 extern float prev_encoder_error;
 
 // state

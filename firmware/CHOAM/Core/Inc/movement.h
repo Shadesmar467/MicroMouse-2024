@@ -13,12 +13,6 @@ int move_dist(float dist);
 
 void turn180();
 
-void corridor_correction_IR();
-
-void encoder_cc();
-
-int move_forward();
-
 void turn(int rightDir);
 
 #endif /* INC_MOVEMENT_H_ */
